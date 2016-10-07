@@ -2,7 +2,7 @@
 ## The seed project for the team forming web application
 
 ### Pre-requisites
-
+hahaha
 Install git: [http://git-scm.com/](http://git-scm.com/).
 
 Install node.js and npm: [http://nodejs.org/](http://nodejs.org/).
