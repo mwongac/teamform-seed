@@ -11,7 +11,6 @@ describe('Admin app', function() {
        var controller;
         beforeEach(function(){
             inject(function(_$controller_, _$firebaseObject_, _$firebaseArray_){
-            // inject(function(_$controller_){
                 $firebaseObject=_$firebaseObject_;
                 $firebaseArray=_$firebaseArray_;
                 $controller=_$controller_;
@@ -67,6 +66,12 @@ describe('Admin app', function() {
                 expect(result).toBe(true);
             });
         });
+
+        it('getUserNameByID', function(){
+            $scope.getUserNameByID("rrYFaBuoY5Q4Xi5SbfsCcw1f77w1", function(result){
+                expect(result).toEqual("Cindy");
+            });
+        })
 
    });
 
