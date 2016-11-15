@@ -183,7 +183,7 @@ angular.module('leader-app', ['firebase'])
         $scope.filterName = function () {
 
             $scope.filtedUsers = [];
-            console.log('filterPre pressed');
+            console.log('filterName pressed');
             var db = firebase.database();
             var teamRef = db.ref('events/' + $scope.eventid + '/teams/' + $scope.teamid);
             var teamData = $firebaseObject(teamRef);
