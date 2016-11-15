@@ -21,27 +21,32 @@
 	   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">   
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">     
-     <link rel="stylesheet" href="css/site.css" >
-
+     <!--<link rel="stylesheet" href="css/site.css" >-->
+     <link rel="stylesheet" href="css/custom.css" >
 
       <!-- Customized libraries shared by pages -->
       <script src="js/site.js"></script>
 	  	  
    </head>
    
-   <style>
+   <!--<style>
 	h1 {
 	font-weight: bold;
 	font-size: 40px;
    }
-   </style>
+   </style>-->
    
    <body  ng-controller="EventCtrl">
    <div ng-include="'navbar.html'" id='navbarMenu'></div>
    <br>
-
+    <div>
+     <section  style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive" >
+          <br><br><br><br><br>
+          <h1 class="pull-left banner_title">Event Page</h1>
+      </section>
+    </div>
    <div class="text-center">
-      <h1><u>Event Page</u></h1>
+      
       <div id="event_description_div">
 	    <div ng-include="'description.html'"></div>
       </div>
