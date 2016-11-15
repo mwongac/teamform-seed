@@ -27,7 +27,12 @@ describe('Admin app', function() {
             
         })
 
-        it('editable',function(){
+        it('edit event info', function(){
+            $scope.edit_click();
+            expect($scope.editable).toBe(true);
+        })
+
+        it('edit new announcement',function(){
             $scope.new_announcement_click();
             expect($scope.writingAnnouncement).toBe(true);
         })
@@ -71,7 +76,9 @@ describe('Admin app', function() {
             $scope.getUserNameByID("rrYFaBuoY5Q4Xi5SbfsCcw1f77w1", function(result){
                 expect(result).toEqual("Cindy");
             });
-        })
+        });
+
+        it()
 
    });
 
