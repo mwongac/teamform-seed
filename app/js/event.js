@@ -166,7 +166,7 @@ angular.module('teamform-event-app', ['firebase'])
 			//jump to member page
 			//$window.location.href = "/member.html?eventid=" + eventid + "&teamid=" + teamid;
 		})
-		//remove from invitelist with user of all team!!!!
+		//remove from invitelist for current user of all team!!!!
 		angular.forEach($scope.teams,function(team2,team2id){
 			angular.forEach(team2.invitelist,function(invite, inviteKey){
 				if (inviteKey == $scope.uid){
@@ -181,8 +181,7 @@ angular.module('teamform-event-app', ['firebase'])
 		//del all invite of user
 		$scope.inviteTeams.$remove();
 		//change role of user
-		var currentUser = firebase.auth().currentUser;
-		var currentUsersRef = firebase.database().ref('users/'+currentUser.uid+'/teams/'+eventid);
+		var currentUsersRef = firebase.database().ref('users/'+$scope.uid+'/teams/'+eventid);
 		var userNewTeamObject = $firebaseObject(currentUsersRef);
 		userNewTeamObject.role = 'member';
 		userNewTeamObject.team = teamid;
@@ -191,6 +190,20 @@ angular.module('teamform-event-app', ['firebase'])
 
 		var url = "member.html?eventid=" + eventid + "$teamid=" + teamid;
 		window.location.href = url;
+	}
+
+	$scope.rejectInvite=function(teamid){
+		console.log("******/nReject invite")
+		//remove invite in team
+		refPath = "events/"+ eventid + "/teams/"+teamid+"/invitelist/"+$scope.uid;
+		inviteOfTeam = $firebaseObject(firebase.database().ref(refPath));
+		console.log("remove invites: "+inviteOfTeam.name)
+		inviteOfTeam.$remove();
+		//remove invite in user
+		refPath = "users/"+ $scope.uid + "/invitelist/"+eventid+"/"+teamid;
+		inviteInUser = $firebaseObject(firebase.database().ref(refPath));
+		console.log("remove invites: "+inviteInUser.teamName)
+		inviteInUser.$remove();
 	}
 
 	$scope.getUserNameInTeam = function(team){
