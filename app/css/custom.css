@@ -206,3 +206,7 @@ height: 150px;
 padding: 0px 5px;
 box-shadow: 2px 2px 2px #ccc;
 }
+
+.announcement_div{
+    background-color: rgb(240, 240, 245);
+}

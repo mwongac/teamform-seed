@@ -86,7 +86,6 @@
 			   ng-hide="(deadline-today)>0" ng-disabled="editable">Generate Teams</button></div>
           <!--show if achieve deadline-->
 	  </div>
-	  <br>
 	  
     <div class="col-md-12">
 	  <button id="btn_event_edit" class="btn btn-primary" ng-click="edit_click()" ng-hide="editable">Edit Event</button>
@@ -97,43 +96,46 @@
          <div class="row">
 		    <div class="col-md-3 col-xs-3"></div>
             <div class="col-md-6 col-xs-6 text-left panel" ng-show="editable">
-              <!--description for event-->
-				
+
+				<form name="eventForm" class="css-form "  novalidate>
 				<table align ="center">
 				  <th class="editor" colspan="2">This is the real-time editor. You can see the results above instantly.</th>
-		          <tr align ="left"><td class="edit"><strong>Event Name: </strong></td>
-				      <td class="edit"><input ng-model="param.eventName"></td></tr>
+		          <tr align ="left"><td class="edit "><strong>Event Name: </strong></td>
+				      <td class="edit"><input class="form-control ng-dirty ng-invalid ng-valid" ng-model="param.eventName" required></td></tr>
 					  
 	              <tr align ="left"><td class="edit"><strong>Description: </strong></td>
-				      <td class="edit"><input ng-model="param.description" type="textarea"></td></tr>
+				      <td class="edit"><textarea class="form-control ng-dirty ng-invalid ng-valid" ng-model="param.description" type="textarea"></textarea></td></tr>
 					  
 		          <tr align ="left"><td class="edit"><strong>Admin: </strong></td>
 				      <td class="edit"><a href="profile.html?q={{param.admin}}">{{adminName}}</a></td></tr>
 					  
 		          <tr align ="left"><td class="edit"><strong>Min. Team Size: </strong></td>
 					  <td class="edit"><span class="badge">{{param.minTeamSize}}</span>
-                      <button><span class="glyphicon glyphicon-plus" ng-click="changeMinTeamSize(1);"></span></button>
-                      <button><span class="glyphicon glyphicon-minus" ng-click="changeMinTeamSize(-1);"></span></button></td></tr>
+                      <button ng-click="changeMinTeamSize(-1);"><span class="glyphicon glyphicon-minus" ></span></button>
+                      <button ng-click="changeMinTeamSize(1);"><span class="glyphicon glyphicon-plus" ></span></button>
+                      </td></tr>
 					  
 		          <tr align ="left"><td class="edit"><strong>Max. Team Size: </strong></td>
 				      <td class="edit"><span class="badge">{{param.maxTeamSize}}</span>
-                      <button><span class="glyphicon glyphicon-plus" ng-click="changeMaxTeamSize(1);"></span></button>
-                      <button><span class="glyphicon glyphicon-minus" ng-click="changeMaxTeamSize(-1);"></span></button></td></tr>
+                      <button ng-click="changeMaxTeamSize(-1);"><span class="glyphicon glyphicon-minus" ></span></button>
+                      <button ng-click="changeMaxTeamSize(1);"><span class="glyphicon glyphicon-plus" ></span></button>
+                      </td></tr>
 					  
 		          <tr align ="left"><td class="edit"><strong>Event Deadline: </strong></td>
-				      <td class="edit"><input type="date" ng-model="deadline" min="{{today | date:'yyyy-MM-dd'}}"/>
+				      <td class="edit"><input class="form-control" type="date" ng-model="deadline" min="{{today | date:'yyyy-MM-dd'}}"/>
 				      <span ng-hide="(deadline-today)<0">(Days left: {{(deadline - today)/(1000*60*60*24) | number:0}})</span></td></tr>
 					  
-				  <tr><th colspan="2"><center><button type="button" class="btn btn-success" ng-click="saveFunc();" >Save</button></center></th></tr>
+				  <tr><th colspan="2"><center><button type="button" class="btn btn-success" ng-click="saveFunc();" >Save Changes</button></center></th></tr>
 		        </table>
+				</form>
             </div>
 			<div class="col-md-3 col-xs-3"></div>
          </div> 
         <!--end of edit panel-->
-        <br><hr>
+        <br>
 
         <!--announcement div-->
-        <div id="announcement_div">
+        <div class="announcement_div">
 		    <div ng-include="'editAnn.html'"></div>
 		</div>     
         <!--end of announcement div-->
