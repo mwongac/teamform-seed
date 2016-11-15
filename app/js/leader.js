@@ -38,8 +38,10 @@ angular.module('leader-app', ['firebase'])
     }
 
     //inviteUser
-    $scope.inviteUser = function(uid){
+    $scope.inviteUser = function(uid,u){
         console.log('invite clicked uid: '+uid);
+        console.log($scope.filtedUsers.indexOf(u));
+        $scope.filtedUsers.splice($scope.filtedUsers.indexOf(u),1);
         var db = firebase.database();
         var teamRef  = db.ref('events/'+$scope.eventid+'/teams/'+$scope.teamid+'/invitelist/'+uid);
         var teamData = $firebaseObject(teamRef);
@@ -52,6 +54,14 @@ angular.module('leader-app', ['firebase'])
                         teamData.name = userO.name;
                         teamData.language = userO.language;
                         teamData.$save();
+                    });
+                var userInviteListRef = db.ref('users/'+uid+'/invitelist/'+$scope.eventid+'/'+$scope.teamid);
+                var userInviteList = $firebaseObject(userInviteListRef);
+                userInviteList.$loaded()
+                    .then(function(data){
+                        console.log(data);
+                        userInviteList.teamName = $scope.displayName;
+                        userInviteList.$save();
                     });
                 
             })  

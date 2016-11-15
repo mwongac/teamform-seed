@@ -59,14 +59,14 @@
                <li>Team:{{u.teams}}</li>
                <li>Description:{{u.description}}</li>
                <li>User Id: {{u.$id}}</li>
-               <li><a ng-click='inviteUser(u.$id)'>invite</a></li>
+               <li><a ng-click='inviteUser(u.$id,u)'>invite</a></li>
             </ul>
         </div>  
       <p>InviteList:</p>
       <div ng-repeat='user in invitelist'>  
         <ul>
           <li>Name:{{user.name}}</li>
-          <li>Uid:{{user.uid}}</li>    
+          <li>Uid:{{user.$id}}</li>    
         </ul>
       </div>     
 
