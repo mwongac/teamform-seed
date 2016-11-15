@@ -81,6 +81,17 @@ input[type=email],input[type=password], select {
     box-sizing: border-box;
 }
 
+/*#event_list{
+    line-height: 0;
+   
+  -webkit-column-count: 5;
+  -webkit-column-gap:   0px;
+  -moz-column-count:    5;
+  -moz-column-gap:      0px;
+  column-count:         5;
+  column-gap:           0px;  
+}*/
+
 .event_item{
     background-color: white;
     border: 3px solid #f1f1f1;
@@ -122,11 +133,15 @@ event_item_month{
     color: #777;
 }
 
-.profile_box{
+.custom_center_box{
     border: 3px solid #f1f1f1;
     box-shadow: 3px 3px 5px #ccc;
-    padding: 50px 40px;
+    padding: 40px 40px;
     margin: 40px 0px;
+}
+
+.custom_center_box_title{
+    font-size: 26px;
 }
 
 body{
@@ -152,32 +167,42 @@ body{
 }
 
 .banner_title{
-    
+    font-size: 30px;
     padding :0px 55px;
 }
 
-      .ng-invalid.ng-dirty {
-      border-color: #FA787E;
-      }
-        
-      .ng-valid.ng-dirty {
-      border-color: #78FA89;
-      }
+.ng-invalid.ng-dirty {
+border-color: #FA787E;
+}
 
-        .rotate{
-	   -webkit-transition-duration:0.8s;
-	   -moz-transition-duration:0.8s;
-	   -o-transition-duration:0.8s;
-	   transition-duration:0.8s;
-	   -webkit-transition-property:-webkit-transform;
-	   -moz-transition-property:-moz-transform;
-	   -o-transition-property:-o-transform;
-	   transition-property:transform;
-	   overflow:hidden;
-	   }
-	   
-	   .rotate:hover{
-	   -webkit-transform:rotate(360deg);
-	   -moz-transform:rotate(360deg);
-	   -o-transform:rotate(360deg);
-	   }
+.ng-valid.ng-dirty {
+border-color: #78FA89;
+}
+
+.rotate{
+-webkit-transition-duration:0.8s;
+-moz-transition-duration:0.8s;
+-o-transition-duration:0.8s;
+transition-duration:0.8s;
+-webkit-transition-property:-webkit-transform;
+-moz-transition-property:-moz-transform;
+-o-transition-property:-o-transform;
+transition-property:transform;
+overflow:hidden;
+}
+
+.rotate:hover{
+-webkit-transform:rotate(360deg);
+-moz-transform:rotate(360deg);
+-o-transform:rotate(360deg);
+}
+
+.event_info_box{
+color:white;
+background-color: #337ab7;
+border: 2px solid #2573a9;
+width: 150px;
+height: 150px;
+padding: 0px 5px;
+box-shadow: 2px 2px 2px #ccc;
+}
