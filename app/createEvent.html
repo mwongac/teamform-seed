@@ -21,8 +21,8 @@
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">   
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">     
-      <link rel="stylesheet" href="css/site.css" >
-
+      <!--<link rel="stylesheet" href="css/site.css" >-->
+      <link rel="stylesheet" href="css/custom.css" >
 
       <!-- Customized libraries shared by pages -->
       <script src="js/site.js"></script>
@@ -31,17 +31,74 @@
    <body ng-controller="newEventCtrl">
      <div ng-include="'navbar.html'" id='navbarMenu'></div>
    <br>
-
-   <div class="text-center">
-      <h1>Create New Event</h1>
-      <h2 id="text_event_name"></h2>
+    <div>
+     <section  style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive" >
+          <br><br><br><br><br>
+          <h1 class="pull-left banner_title">Create New Event</h1>
+      </section>
+    </div>
+   <div >
+     <div class="container">
+      <!--<h2 id="text_event_name"></h2>-->
       <div id="admin_page_controller">
          <div class="row">
-            <div class="col-md-2 col-xs-2"></div>
-            <div class="col-md-8 col-xs-8 text-left panel">
-              <!--description for event-->
+            <div class="col-md-3 col-xs-2"></div>
+
+
+        <div class="profile_box row col-md-6">
+                <form name="ProfileForm" class="css-form "  novalidate>
+                <div class="form-group">
+                  <div class="col-md-12"><strong>Admin: </strong><a href="profile.html?q={{param.admin}}">{{adminName}}</a><br><div>
+                    <label>Event Name*:</label>
+                    <div class="col-md-12"><input class="form-control ng-dirty ng-invalid ng-valid" type="text" name="userName" placeholder="Please enter event name" ng-model="param.eventName" ng-change="changeEventName()" required>
+                    <br>
+                    </div>
+                    
+                </div>
+
+                <div class="form-group">
+                    <label>Deadline:</label><br>
+                    <div class="col-md-6"> <input class="form-control" type="date" ng-model="deadline" min="{{today | date:'yyyy-MM-dd'}}" required/></div>
+                    <div class="col-md-6">Days left: {{(deadline - today)/(1000*60*60*24) | number:0}}</div>
+                    <br>
+                    
+                </div>
+
+                <div class="form-group">
+                  <br>
+                    <label>Description:</label>
+                    <div class="col-md-12"> <textarea class="form-control" ng-model="param.description" type="textarea" ng-change="changeDescription()"></textarea>
+                    <br>
+                    </div>
+                </div>
+
+
+                <strong>Minimum Team Size:</strong>  
+                <span class="badge">{{param.minTeamSize}}</span>
+                <button><span class="glyphicon glyphicon-minus" ng-click="changeMinTeamSize(-1);"></span></button>
+                <button><span class="glyphicon glyphicon-plus" ng-click="changeMinTeamSize(1);"></span></button>
+                <br><br>
+                <strong >Maximum Team Size: </strong>  
+               <span class="badge">{{param.maxTeamSize}}</span>
+               <button><span class="glyphicon glyphicon-minus" ng-click="changeMaxTeamSize(-1);"></span></button>
+               <button><span class="glyphicon glyphicon-plus" ng-click="changeMaxTeamSize(1);"></span></button>
+
+            
+     
+                
+                <div class="col-md-12 text-center"><br><button type="button" class="btn btn-primary" ng-click="saveFunc();" >Create Event</button></div>
+      
+
+            </form>
+        </div>
+
+
+
+
+            <!--<div class="profile_box col-md-6 col-xs-8 text-left panel">
+              
                 <strong>Event Name: </Strong>
-                <input ng-model="param.eventName" ng-change="changeEventName()"><br>
+                <input ng-model="param.eventName" ng-change="changeEventName()" ng-dirty ng-invalid ng-valid><br>
 
                 <strong>Description: </strong>
                 <input ng-model="param.description" type="textarea" ng-change="changeDescription()"><br>
@@ -61,22 +118,30 @@
             <br><br>
                 <strong>Deadline: </strong>
                 <input type="date" ng-model="deadline" min="{{today | date:'yyyy-MM-dd'}}"/>
-                Date left: {{(deadline - today)/(1000*60*60*24) | number:0}}
+                Days left: {{(deadline - today)/(1000*60*60*24) | number:0}}
             <br><br>
 
              <button type="button" class="btn btn-primary" ng-click="saveFunc();" >Create Event</button>
 
-            </div>
+            </div>-->
             
              <div class="col-md-2 col-xs-2"></div>
 
          </div>
 
-         <hr>
+         
 
-   </div>
-
-
+     </div>
+        <div class="col-md-12">   
+        <hr>
+         <footer>
+            <p class="pull-right"><a style="cursor: pointer" href="#top">Back to top</a></p>
+            <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
+            <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+         </footer>
+        </div>
+     </div>
+     <!--end of container-->
    <!-- JavaScript of this page -->
 
    <!-- Angular and Angular-route libraries (v1.5.7) -->

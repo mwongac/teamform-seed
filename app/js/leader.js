@@ -16,6 +16,57 @@ angular.module('leader-app', ['firebase'])
     $scope.preference = [];
     $scope.addpreference = '';
     $scope.filtedUsers = [];
+    $scope.displayName = '';
+    $scope.invitelist = $firebaseArray(firebase.database().ref('events/'+$scope.eventid+'/teams/'+$scope.teamid+'/invitelist'))
+
+    //change teamName
+    $scope.changeTeamName = function(){
+        console.log('clicked changeTeamName');
+        var db = firebase.database();
+        var teamRef  = db.ref('events/'+$scope.eventid+'/teams/'+$scope.teamid);
+        var teamData = $firebaseObject(teamRef);
+        teamData.$loaded()
+            .then(function(data){
+                teamData.teamName = $scope.displayName;
+                teamData.$save()
+                    .then(function(s){
+                        console.log('saved');
+                    })
+                    .catch(e=>console.log(e));
+            })
+            .catch(e=>console.log(e));
+    }
+
+    //inviteUser
+    $scope.inviteUser = function(uid,u){
+        console.log('invite clicked uid: '+uid);
+        console.log($scope.filtedUsers.indexOf(u));
+        $scope.filtedUsers.splice($scope.filtedUsers.indexOf(u),1);
+        var db = firebase.database();
+        var teamRef  = db.ref('events/'+$scope.eventid+'/teams/'+$scope.teamid+'/invitelist/'+uid);
+        var teamData = $firebaseObject(teamRef);
+        teamData.$loaded()
+            .then(function(data){
+                var userRef = db.ref('users/'+uid);
+                var userO = $firebaseObject(userRef);
+                userO.$loaded()
+                    .then(function(){
+                        teamData.name = userO.name;
+                        teamData.language = userO.language;
+                        teamData.$save();
+                    });
+                var userInviteListRef = db.ref('users/'+uid+'/invitelist/'+$scope.eventid+'/'+$scope.teamid);
+                var userInviteList = $firebaseObject(userInviteListRef);
+                userInviteList.$loaded()
+                    .then(function(data){
+                        console.log(data);
+                        userInviteList.teamName = $scope.displayName;
+                        userInviteList.$save();
+                    });
+                
+            })  
+            .catch(e=>console.log(e));
+    }
 
     //change description
     $scope.changeDescription = function(){
@@ -112,7 +163,13 @@ angular.module('leader-app', ['firebase'])
                         .then(function(data){
                             console.log(uEvent.role);
                             if(uEvent.role == null || uEvent.role == "null"){
-                               $scope.filtedUsers.push(user);
+                                console.log($scope.invitelist);
+                                console.log($scope.invitelist.$getRecord(user.$id));
+                                if($scope.invitelist.$getRecord(user.$id)==null){
+                                    $scope.filtedUsers.push(user);
+                                }
+                                     
+                               
 
                           }
                         })
@@ -190,6 +247,7 @@ angular.module('leader-app', ['firebase'])
                     }else{
                         $scope.teamDescription = teamData.description;
                     }
+                    $scope.displayName = teamData.teamName;
                 });
             }else{
 			console.log('not log in');
