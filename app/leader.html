@@ -46,16 +46,15 @@
       <p>teamName: <input ng-model='displayName'></input></p>
       <button type='button' class="btn btn-primary" ng-click='changeTeamName()'>Change</button>
       <!--button type="button" class="btn btn-primary" ng-click="createTeam();" >Create Team</button-->
+      <p>Preference:<input ng-model='addpreference'></input></p>
+      <button class='btn btn-primary' ng-click='addPre()'>Add</button>
       <p>Description:</p>
       <textarea ng-model='teamDescription'></textarea>
       <button class='btn btn-primary' ng-click='changeDescription()'>Change</button>
-      <p>Preference:<input ng-model='addpreference'></input></p>
-      <button class='btn btn-primary' ng-click='addPre()'>Add</button>
       <p>Preference list:</p>
       <ol>
         <li ng-repeat='pre in preference'>{{pre}}<a  ng-click="removePre(pre)">Remove</a></li>
       </ol>
-      <p>Name To Invite: <input ng-model='nameToInvite'></input></p>
       <button class='btn btn-primary' ng-click='filterPre()'>Filter</button>
       <p>Filtered list:</p> 
       <div ng-repeat="u in filtedUsers">
