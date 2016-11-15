@@ -6,7 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="keywords" content="teamform, team">
       <!-- The meta tags *must* come first in the head; any other head content must come *after* these tags -->
-      <title>teamform - admin page</title>
+      <title>teamform - team page</title>
 	  
       <!-- libraries and CSS 	  
 		JQuery: Necessary for some bootstrap interactions (v1.12.4 is used)		
@@ -42,11 +42,11 @@
     <div>
      <section  style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive" >
           <br><br><br><br><br>
-          <h1 class="pull-left banner_title">Event Page</h1>
+          <h1 class="pull-left banner_title">Team Page</h1>
       </section>
     </div>
    <div class="text-center">
-      
+            
       <div id="event_description_div">
 	    <div ng-include="'description.html'"></div>
       </div>
@@ -54,32 +54,44 @@
 	  <hr>
 	  
       <div id="event_page_controller">
-      <div class=" col-md-12"><u><font size="6px" align="middle"><b>Announcements</b></font></u>&nbsp;&nbsp;
+      <!--<div class=" col-md-12"><u><font size="6px" align="middle"><b>Announcements</b></font></u>&nbsp;&nbsp;
 		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#announcement_div">
             <span class="glyphicon glyphicon-collapse-up"></span>
         </button></div>
-		<br><br>
-        <!--announcement div-->
+		<br><br>-->
+        <!--announcement div
         <div id="announcement_div">
 		      <div ng-include="'readAnn.html'"></div>
 		    </div>     
-        <!--end of announcement div-->
+        end of announcement div-->
         <br><hr>
 		<br>
-        
+      <div class= "row">
+          <div class="col-md-3">
+            </div>
+          <div class="text-left custom_center_box row col-md-6" style="font-size:16px;">
+                  
+                  <p  class="imp text-center custom_center_box_title"> {{teamName}}</p>
+                  <p class="text-center"><span class="glyphicon glyphicon-user "></span>&nbsp;{{leaderName}}<br><br></p>
+                  <p >{{teamDescription}}</p>
+                  <br>
+                  <div style="vertical-align: middle;"class="event_info_box col-md-3 text-center"> <strong>Team Size: </strong><div style="font-size:30px;padding:30px;" >{{param.minTeamSize}}-{{param.maxTeamSize}}</div></div>
+                  <div class="col-md-1"></div>
+                  <div class="event_info_box col-md-3 text-center"><strong>Deadline: </strong><div style="font-size:30px;padding:15px;" >{{ deadline | date:'dd' }}&nbsp;{{ deadline | date:'MMM' }}<br>{{ deadline | date:'yyyy' }}</div></div>
+                  <div class="col-md-1"></div>
+                  <div class="event_info_box col-md-3 text-center"><strong>Days Left: </strong><span ng-hide="(deadline-today)<0"><div style="font-size:30px;padding:30px;" >{{(deadline - today)/(1000*60*60*24) | number:0}}</div></span></div>
+                  <div class="text-center"><span  ng-show="(deadline-today)<0"><strong><font color="red">Passed the deadline!</font><strong></span></div>   
+          </div>      
+      </div>
       <!--join event: You will be on the waiting list of member. If cannot join a team before deadline, admin will assign you to a team according your preference.-->
       <button id="btn_join" type="button" class="btn btn-primary" ng-click="createTeam())">Join(for smart generator, not done)</button>
 
-      <!-- create team button -->
-      <button id="create_team_page_btn_visibility" type="button" class="btn btn-primary" ng-click="showTeamForm()">Create teams</button>
- 
-      <div id="create_team_page_visibility">
+      
               <div class="row">
                   <div class="col-md-3 col-xs-2"></div>
                   <div class="custom_center_box row col-md-6">
                           <form name="teamForm" class="css-form "  novalidate>
                           <div class="form-group">
-                            <div class="col-md-12"><strong>Admin: </strong><a href="profile.html?q={{param.admin}}">{{adminName}}</a><br></div>
                               <label>Team Name*:</label>
                               <div class="col-md-12"><input class="form-control ng-dirty ng-invalid ng-valid" type="text" name="userName" placeholder="Please enter team name:" ng-model="teamName" required>
                               <br>
@@ -99,8 +111,6 @@
                             <br>
                               <label>Preferred Team Size:</label>
                               <span class="badge">{{preferredTeamSize}}</span>
-                              <button ng-click="changePreferredTeamSize(-1);"><span class="glyphicon glyphicon-minus" ></span></button>
-                              <button ng-click="changePreferredTeamSize(1);"><span class="glyphicon glyphicon-plus" ></span></button>
                               <br>
                               
                           </div>
@@ -121,7 +131,6 @@
                             </div>
                           </div>
                       
-                      <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam()">Create teams</button>
                       </form>
                   </div>
                       
@@ -129,7 +138,7 @@
 
               </div>
               
-        </div>
+        
     <br><hr>
     <h2>Invite List</h2>
     <div>
@@ -166,32 +175,23 @@
         <!--teams & member list-->
         <div class="row">
             <div class="col-md-6 col-xs-6 text-right" >
-              <h3>All teams:</h3>
+              <h3>Leader:</h3>
               <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
               <table id="teamsList" class="table table-hover">
                     <thead>
                       <tr>
-                        <th>Team Name</th>
                         <th>Team Leader</th>
-                        <th>Team members</th>
-                        <th>Preference</th>
-                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
                       <tr>
-                        <td>{{t.teamName}}</td>
                         <td>{{t.teamLeaderName}}</td>
                         <td>
                           <span ng-repeat="member in t.members">
                             <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
                           </span>
                         </td>
-                        <td>{{t.preference}}</td>
-                        <td><button>(to be done)</button></td>
-                         <!-- enter the team button -->
-                        <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Enter a team</button></td>
-                      </tr>
+                     </tr>
                     </tbody>
                 </table>
             </div>

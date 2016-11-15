@@ -6,8 +6,7 @@ $(document).ready(function () {
 	if (eventid != null && eventid !== '') {
 		$('#text_event_name').text("Event ID: " + eventid);
 	}
-	$('#create_team_page_visibility').hide();
-	$('#create_team_page_btn_visibility').show();
+
 });
 
 //TODO:
@@ -28,8 +27,8 @@ angular.module('teamform-event-app', ['firebase'])
 		initalizeFirebase();
 
 		var refPath, ref, eventid; //ref for sqecified event
-		$scope.eventid = getURLParameter("q");
-		eventid = getURLParameter("q");
+		$scope.eventid = getURLParameter("eventid");
+		eventid = getURLParameter("eventid");
 		console.log("event id : " + eventid)
 		refPath = "events/" + eventid + "/admin/param";
 		ref = firebase.database().ref(refPath);
@@ -70,6 +69,8 @@ angular.module('teamform-event-app', ['firebase'])
 					.then(function (data) {
 						$scope.adminName = adminData.name;
 					})
+
+				
 				// Enable the UI when the data is successfully loaded and synchornized
 				$('#text_event_name').text("Event Name: " + $scope.param.eventName);
 				$('#admin_page_controller').show();

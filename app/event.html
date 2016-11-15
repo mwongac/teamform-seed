@@ -68,7 +68,7 @@
 		<br>
         
       <!--join event: You will be on the waiting list of member. If cannot join a team before deadline, admin will assign you to a team according your preference.-->
-      <button id="btn_join" type="button" class="btn btn-primary" ng-click="createTeam())">Join(for smart generator, not done)</button>
+      <button id="btn_join" type="button" class="btn btn-primary" ng-click="createTeam()">Join(for smart generator, not done)</button>
 
       <!-- create team button -->
       <button id="create_team_page_btn_visibility" type="button" class="btn btn-primary" ng-click="showTeamForm()">Create teams</button>
@@ -191,6 +191,7 @@
                         <td><button>(to be done)</button></td>
                          <!-- enter the team button -->
                         <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Enter a team</button></td>
+                        <td><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team</button></td>
                       </tr>
                     </tbody>
                 </table>
