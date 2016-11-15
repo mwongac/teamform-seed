@@ -16,21 +16,6 @@ $(document).ready(function(){
 //to generate
 
 angular.module('teamform-admin-app', ['firebase'])
-// .config(['$routeProvider', function($routeProvider){
-// 	$routeProvider.when('',{
-// 		templateUrl: 'admin.html',
-// 		controller: 'AdminCtrl',
-// 		// resolve: {
-// 		// 	// forces the page to wait for this promise to resolve before controller is loaded
-// 		// 	// the controller can then inject `user` as a dependency. This could also be done
-// 		// 	// in the controller, but this makes things cleaner (controller doesn't need to worry
-// 		// 	// about auth status or timing of accessing data or displaying elements)
-// 		// 	user: ['Auth', function (Auth) {
-// 		// 		return Auth.$waitForAuth();
-// 		// 	}]
-// 		// }
-// 	})
-// }])
 .controller('AdminCtrl', ['$scope', '$firebaseObject', '$firebaseArray', '$window', function($scope, $firebaseObject, $firebaseArray, $window) {
 	
 	// TODO: implementation of AdminCtrl
@@ -226,7 +211,7 @@ angular.module('teamform-admin-app', ['firebase'])
                 var currentUsersRef = firebase.database().ref('users/'+currentUser.uid+'/teams/'+teamkey);
                 var userNewTeamObject = $firebaseObject(currentUsersRef);
                if(userNewTeamObject.role != 'admin'){
-				userNewTeamObject.role = 'leader';
+					userNewTeamObject.role = 'leader';
 			   }
 			   userNewTeamObject.teamid = teamkey;
                 userNewTeamObject.$save();

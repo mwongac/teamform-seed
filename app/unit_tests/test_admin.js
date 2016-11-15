@@ -32,11 +32,6 @@ describe('Admin app', function() {
             expect($scope.editable).toBe(true);
         })
 
-        it('edit new announcement',function(){
-            $scope.new_announcement_click();
-            expect($scope.writingAnnouncement).toBe(true);
-        })
-
         it('maxTeamSize', function(){
             $scope.param.maxTeamSize = 10;
             $scope.param.minTeamSize = 3;
@@ -78,8 +73,50 @@ describe('Admin app', function() {
             });
         });
 
-        it()
+        
+      it('getUserNameInTeam',function(){
+            team = {
+                "description" : "need tester",
+                "preference" : [ "C++", "GPA 4" ],
+                "teamLeader" : "85IKQcnbhxaGjCCn31olRVFggpo1",
+                "teamName" : "default",
+                "members" : [{"memberID": "rrYFaBuoY5Q4Xi5SbfsCcw1f77w1"},{"memberID": "v9BGpOLzbRbGaahzUvzdODq9cB72"}]
+            }
+          teamResult = {
+                "description" : "need tester",
+                "preference" : [ "C++", "GPA 4" ],
+                "teamLeader" : "85IKQcnbhxaGjCCn31olRVFggpo1",
+                "teamName" : "default",
+                "members" : [
+                    {
+                        "memberID": "rrYFaBuoY5Q4Xi5SbfsCcw1f77w1", 
+                        "memberName": "Cindy"
+                    },{
+                        "memberID": "v9BGpOLzbRbGaahzUvzdODq9cB72",
+                        "memberName": "member"
+                    }
+                ]
+            }
+          $scope.getUserNameInTeam(team, function(){
+                expect(team).toEqual(teamResult);
+          });
+      })
 
+      describe("announcement",function(){
+        it('edit new announcement',function(){
+            $scope.new_announcement_click();
+            expect($scope.writingAnnouncement).toBe(true);
+        })
+
+        it('make_announcement',function(){
+                // consoleLog = jasmine.createSpy("log");
+                // $scope.make_announcement("");
+                // expect(consoleLog).toHaveBeenCalled();
+                //mock data needed
+        })
+
+
+      })
    });
 
 
