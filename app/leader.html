@@ -46,16 +46,20 @@
       <p>teamName: <input ng-model='displayName'></input></p>
       <button type='button' class="btn btn-primary" ng-click='changeTeamName()'>Change</button>
       <!--button type="button" class="btn btn-primary" ng-click="createTeam();" >Create Team</button-->
-      <p>Preference:<input ng-model='addpreference'></input></p>
-      <button class='btn btn-primary' ng-click='addPre()'>Add</button>
       <p>Description:</p>
       <textarea ng-model='teamDescription'></textarea>
       <button class='btn btn-primary' ng-click='changeDescription()'>Change</button>
+      <p>Preference:<input ng-model='addpreference'></input></p>
+      <button class='btn btn-primary' ng-click='addPre()'>Add</button>
       <p>Preference list:</p>
       <ol>
         <li ng-repeat='pre in preference'>{{pre}}<a  ng-click="removePre(pre)">Remove</a></li>
       </ol>
-      <button class='btn btn-primary' ng-click='filterPre()'>Filter</button>
+      <p>Person you want to invite: <input ng-model='nameToInvite'></input></p>
+      <button type='button' class="btn btn-primary" ng-click='changeNameToInvite()'>Change</button>
+      <p id = "haha"></p>
+      <br><button class='btn btn-primary' ng-click='filterPre()'>Filter by Preference</button>
+      <button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button></br>
       <p>Filtered list:</p> 
       <div ng-repeat="u in filtedUsers">
            <ul>

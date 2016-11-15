@@ -17,6 +17,7 @@ angular.module('leader-app', ['firebase'])
     $scope.addpreference = '';
     $scope.filtedUsers = [];
     $scope.displayName = '';
+    $scope.nameToInvite = '';
     $scope.invitelist = $firebaseArray(firebase.database().ref('events/'+$scope.eventid+'/teams/'+$scope.teamid+'/invitelist'))
 
     //change teamName
@@ -35,6 +36,10 @@ angular.module('leader-app', ['firebase'])
                     .catch(e=>console.log(e));
             })
             .catch(e=>console.log(e));
+    }
+
+    $scope.changeNameToInvite = function(){
+        
     }
 
     //inviteUser
@@ -129,7 +134,7 @@ angular.module('leader-app', ['firebase'])
             })
             .catch(e=>console.log(e));
     }
-    //filter
+    //filter by preference
         $scope.filterPre = function(){
             $scope.filtedUsers = [];
         console.log('filterPre pressed');
@@ -181,7 +186,10 @@ angular.module('leader-app', ['firebase'])
         
     }
 
-      
+    // filter by name
+    $scope.filterName = function(){
+
+    }
 
         
 
