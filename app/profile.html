@@ -52,7 +52,7 @@
 		<!--</div>-->
         <div class="col-md-3">
         </div>
-        <div class="profile_box row col-md-6">
+        <div class="custom_center_box row col-md-6">
             <form name="ProfileForm" class="css-form "  novalidate>
                 <div class="form-group">
                     <label>Name*:</label>
@@ -66,7 +66,7 @@
                     <label>Language:</label>
                         <ol>
                             <li style="cursor: pointer" ng-repeat="lan in userData.language">{{lan}}
-                                <a class="" ng-click="removeLanguage(lan)">Remove</a></li>
+                                &nbsp;<a class="" ng-click="removeLanguage(lan)">Remove</a></li>
                         </ol>
                         <div class="col-md-10">
                     <input class="form-control" type="text" name="lan" ng-model="txtLanguage"></div>
@@ -88,7 +88,7 @@
                     <br></div>
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group text-center">
                     <input class="btn btn-primary" type="submit" value="Submit" ng-click='submitUserData()'>
                 </div>
             
