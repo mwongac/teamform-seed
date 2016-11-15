@@ -27,20 +27,12 @@
       <script src="js/site.js"></script>
 	  	  
 
-      <style>
-      .ng-invalid.ng-dirty {
-      border-color: #FA787E;
-      }
-        
-      .ng-valid.ng-dirty {
-      border-color: #78FA89;
-      }
-      </style>
+
 
     
    </head>
    <body>
-       
+       <div id="top"></div>
       <!--navbar-->
       <div ng-include="'navbar.html'" id='navbarMenu'></div>
        <!--<img src="img/img1_thin.jpg" alt="teamform_banner" style="width:100%;">-->
@@ -109,7 +101,9 @@
 
             </form>
         </div>
-        <div class="col-md-3">
+
+          <div class="col-md-3">
+             
         </div>
         
        <h2>list of all users</h2>
@@ -122,8 +116,15 @@
                <li>Description:{{u.description}}</li>
                <li>User Id: {{u.$id}}</li>
             </ul>
-        </div>           
-
+        </div>    
+        <div class="col-md-12">   
+        <hr>
+         <footer>
+            <p class="pull-right"><a style="cursor: pointer" href="#top">Back to top</a></p>
+            <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
+            <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+         </footer>
+        </div>
        </div> <!--container /div-->
 
 
