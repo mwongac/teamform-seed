@@ -34,9 +34,11 @@
 
       <!--Menu bar-->
       <div ng-include="'navbar.html'" id='navbarMenu'></div>
-
+      <h1>{{displayName}}</h1>
       <p>eventid: {{eventid}}</p>
       <p>teamid: {{teamid}}</p>
+      <p>teamName: <input ng-model='displayName'></input></p>
+      <button type='button' class="btn btn-primary" ng-click='changeTeamName()'>Change</button>
       <!--button type="button" class="btn btn-primary" ng-click="createTeam();" >Create Team</button-->
       <p>Preference:<input ng-model='addpreference'></input></p>
       <button class='btn btn-primary' ng-click='addPre()'>Add</button>
@@ -57,8 +59,16 @@
                <li>Team:{{u.teams}}</li>
                <li>Description:{{u.description}}</li>
                <li>User Id: {{u.$id}}</li>
+               <li><a ng-click='inviteUser(u.$id,u)'>invite</a></li>
             </ul>
-        </div>                 
+        </div>  
+      <p>InviteList:</p>
+      <div ng-repeat='user in invitelist'>  
+        <ul>
+          <li>Name:{{user.name}}</li>
+          <li>Uid:{{user.$id}}</li>    
+        </ul>
+      </div>     
 
       
 
