@@ -136,8 +136,6 @@ angular.module('teamform-event-app', ['firebase'])
 		}
     }
 
-
-
 	refPath = "events/"+ eventid + "/teams";	
 	$scope.teams = [];
 	$scope.teams = $firebaseArray(firebase.database().ref(refPath));
@@ -149,14 +147,68 @@ angular.module('teamform-event-app', ['firebase'])
 	refPath = "events/"+ eventid + "/announcements";
 	$scope.announcements = [];
 	$scope.announcements = $firebaseArray(firebase.database().ref(refPath));
-	
+
 	//$scope.users is an array of users in firebase
     var usersRef = firebase.database().ref('users');
     $scope.users = $firebaseArray(usersRef);
 
+	$scope.acceptInvite=function(teamid){
+		console.log("******/nAccept invite")
+		refPath = "events/"+ eventid + "/teams/"+teamid;
+		team = $firebaseObject(firebase.database().ref(refPath));
+		team.$loaded().then(function(){
+			//console.log("team info: callback "+team.description);
+			if (typeof team.members == "undefined"){
+				team.members = [];
+			}
+			//add to member list of team
+			team.members.push({"memberID": $scope.uid});
+			//jump to member page
+			//$window.location.href = "/member.html?eventid=" + eventid + "&teamid=" + teamid;
+		})
+		//remove from invitelist for current user of all team!!!!
+		angular.forEach($scope.teams,function(team2,team2id){
+			angular.forEach(team2.invitelist,function(invite, inviteKey){
+				if (inviteKey == $scope.uid){
+					refPath = "events/"+ eventid + "/teams/"+team2.$id+"/invitelist/"+inviteKey;
+					inviteObject = $firebaseObject(firebase.database().ref(refPath));
+					console.log("remove invite of team: "+team2.$id+"\ninviteObject: "+ inviteObject+"\n"+inviteObject.name);
+					inviteObject.$remove();
+				}
+			})
+		})
+
+		//del all invite of user
+		$scope.inviteTeams.$remove();
+		//change role of user
+		var currentUsersRef = firebase.database().ref('users/'+$scope.uid+'/teams/'+eventid);
+		var userNewTeamObject = $firebaseObject(currentUsersRef);
+		userNewTeamObject.role = 'member';
+		userNewTeamObject.team = teamid;
+		userNewTeamObject.$save();
+		//TODO: del all request
+
+		var url = "member.html?eventid=" + eventid + "$teamid=" + teamid;
+		window.location.href = url;
+	}
+
+	$scope.rejectInvite=function(teamid){
+		console.log("******/nReject invite")
+		//remove invite in team
+		refPath = "events/"+ eventid + "/teams/"+teamid+"/invitelist/"+$scope.uid;
+		inviteOfTeam = $firebaseObject(firebase.database().ref(refPath));
+		console.log("remove invites: "+inviteOfTeam.name)
+		inviteOfTeam.$remove();
+		//remove invite in user
+		refPath = "users/"+ $scope.uid + "/invitelist/"+eventid+"/"+teamid;
+		inviteInUser = $firebaseObject(firebase.database().ref(refPath));
+		console.log("remove invites: "+inviteInUser.teamName)
+		inviteInUser.$remove();
+	}
+
 	$scope.getUserNameInTeam = function(team){
 		var resultName;
-		console.log("getUserNameInTeam for team"+team);
+		console.log("getUserNameInTeam for team"+team.teamName);
 		$scope.getUserNameByID(team.teamLeader,function(resultFromCallback){
 			resultName = resultFromCallback;
 			console.log("Leader: getMemberNameByID: "+ resultName);
@@ -171,9 +223,28 @@ angular.module('teamform-event-app', ['firebase'])
 				team.memberNames=[];
 				team.memberNames.push(resultName);
 			})
-			console.log("team.members: "+team.members);
-			console.log("team.memberNames: "+team.memberNames);
+			console.log("team.members: "+team.members+"\nteam.memberNames: "+team.memberNames);
 		})
+	}
+
+	$scope.getTeamInfoByTeamID = function(teamid, TeamObject){
+		//for inviteTeams in user data
+		//input teamIDwithteamName= {teamName:teamName, ...}
+			// refPath = "events/"+ eventid + "/teams";	
+			// $scope.teams = [];
+			// $scope.teams = $firebaseArray(firebase.database().ref(refPath));
+			// $scope.teams.$loaded().then(function(){
+				console.log("******start**********\ngetTeamInfoByTeamID\n\nteam id: "+teamid+"\n"+ $scope.teams.$getRecord(teamid).teamName);
+				TeamObject = $scope.teams.$getRecord(teamid);
+				console.log("TeamObject: "+TeamObject.teamName+"\nleader uid : "+ TeamObject.teamLeader);
+				
+				// 	console.log("TeamObject leader name: "+ TeamObject.teamLeaderName);
+				// });
+				{//getUserNameInTeam callback and timeout -> cannot return, so I just copy this code to here
+					$scope.getUserNameInTeam(TeamObject);
+				};
+				console.log("leader name: "+ TeamObject.teamLeaderName+"\ndone get team info by ID \n*************end************\n\n");
+			// });
 	}
 
 	$scope.getUserNameByID = function(userid,callback){
@@ -213,5 +284,48 @@ angular.module('teamform-event-app', ['firebase'])
 			console.log('not log in');
             $window.location.href = '/index.html';
 		}
+		//need uid so need to run after onAuthStateChanged
+
+		refPath = "events/"+ eventid + "/teams";	
+		$scope.teams = [];
+		$scope.teams = $firebaseArray(firebase.database().ref(refPath));
+
+		$scope.inviteTeams = [];
+		refPath = "users/"+ user.uid +"/invitelist/"+eventid;
+		console.log("refPath: "+refPath);
+				
+		$scope.inviteTeams = $firebaseObject(firebase.database().ref(refPath));
+		$scope.teams.$loaded().then(function(){
+			$scope.inviteTeams.$loaded().then(function(){
+				angular.forEach($scope.inviteTeams,function(team, teamid){//team=invite team
+					console.log("******start**********\ngetTeamInfoByTeamID\n\nteam id: "+teamid+"\n"+ $scope.teams.$getRecord(teamid).teamName);
+					team = $scope.teams.$getRecord(teamid);
+					console.log("TeamObject: "+team.teamName+"\nleader uid : "+ team.teamLeader);
+					// $scope.getUserNameInTeam(team);
+					
+					var resultName;
+					console.log("getUserNameInTeam for team "+team.teamName);
+					$scope.getUserNameByID(team.teamLeader,function(resultFromCallback){
+						resultName = resultFromCallback;
+						// console.log("callback\nLeader: getMemberNameByID: "+ resultName);
+						$scope.inviteTeams[teamid].teamLeaderName=resultName;
+						console.log("callback\nleader name: "+ team.teamLeaderName+"\ndone get team info by ID \n*************end************\n\n");
+					})
+					angular.forEach(team.members,function(member,key){
+						$scope.getUserNameByID(member.memberID,function(resultFromCallback){
+							resultName = resultFromCallback;
+							//console.log("Member: getMemberNameByID: "+ resultName);
+							member.memberName = resultName;
+							console.log("member: "+member.memberID+"\nmember: "+member.memberName);
+							$scope.inviteTeams[teamid].memberNames=[];
+							$scope.inviteTeams[teamid].memberNames.push(resultName);
+						})
+						console.log("team.members: "+team.members+"\nteam.memberNames: "+team.memberNames);
+					})
+					console.log("leader name: "+ team.teamLeaderName+"\ndone get team info by ID \n*************end************\n\n");
+				})
+			});
+		});
+
 	})
 }]);

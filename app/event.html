@@ -61,14 +61,50 @@
 		<br><br>
         <!--announcement div-->
         <div id="announcement_div">
-		    <div ng-include="'readAnn.html'"></div>
-		</div>     
+		      <div ng-include="'readAnn.html'"></div>
+		    </div>     
         <!--end of announcement div-->
         <br><hr>
 		<br>
-        <!-- create team button -->
-        <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam('default')">Create teams</button>
+        
+      <!--join event: You will be on the waiting list of member. If cannot join a team before deadline, admin will assign you to a team according your preference.-->
+      <button id="btn_join" type="button" class="btn btn-primary" ng-click="createTeam('default')">Join(for smart generator, not done)</button>
 
+      <!-- create team button -->
+      <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam('default')">Create teams</button>
+
+    <br><hr>
+    <h2>Invite List</h2>
+    <div>
+        <table id="inviteList" class="table table-hover">
+            <thead>
+              <tr>
+                <th>Team Name</th>
+                <th>Team Leader</th>
+                <th>Team members</th>
+                <th>Preference</th>
+                <th>Action(not done)</th>
+              </tr>
+            </thead>
+            <!--<tbody ng-repeat="iT in inviteTeams">-->
+            <tbody ng-repeat="(teamid, iT) in inviteTeams">
+              <tr>
+                <td>{{iT.teamName}}</td>
+                <td>{{iT.teamLeaderName}}</td>
+                <td>
+                  <span ng-repeat="member in iT.members">
+                    <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                  </span>
+                </td>
+                <td>{{iT.preference}}</td>
+                <td>
+                  <button id="btn_acceptInvite" ng-click="acceptInvite(teamid)">Accept</button>
+                  <button id="btn_rejectInvite" ng-click="rejectInvite(teamid)">Reject</button>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
 
         <!--teams & member list-->
         <div class="row">

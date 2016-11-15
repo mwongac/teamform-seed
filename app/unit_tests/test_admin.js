@@ -11,7 +11,6 @@ describe('Admin app', function() {
        var controller;
         beforeEach(function(){
             inject(function(_$controller_, _$firebaseObject_, _$firebaseArray_){
-            // inject(function(_$controller_){
                 $firebaseObject=_$firebaseObject_;
                 $firebaseArray=_$firebaseArray_;
                 $controller=_$controller_;
@@ -28,9 +27,9 @@ describe('Admin app', function() {
             
         })
 
-        it('editable',function(){
-            $scope.new_announcement_click();
-            expect($scope.writingAnnouncement).toBe(true);
+        it('edit event info', function(){
+            $scope.edit_click();
+            expect($scope.editable).toBe(true);
         })
 
         it('maxTeamSize', function(){
@@ -68,6 +67,56 @@ describe('Admin app', function() {
             });
         });
 
+        it('getUserNameByID', function(){
+            $scope.getUserNameByID("rrYFaBuoY5Q4Xi5SbfsCcw1f77w1", function(result){
+                expect(result).toEqual("Cindy");
+            });
+        });
+
+        
+      it('getUserNameInTeam',function(){
+            team = {
+                "description" : "need tester",
+                "preference" : [ "C++", "GPA 4" ],
+                "teamLeader" : "85IKQcnbhxaGjCCn31olRVFggpo1",
+                "teamName" : "default",
+                "members" : [{"memberID": "rrYFaBuoY5Q4Xi5SbfsCcw1f77w1"},{"memberID": "v9BGpOLzbRbGaahzUvzdODq9cB72"}]
+            }
+          teamResult = {
+                "description" : "need tester",
+                "preference" : [ "C++", "GPA 4" ],
+                "teamLeader" : "85IKQcnbhxaGjCCn31olRVFggpo1",
+                "teamName" : "default",
+                "members" : [
+                    {
+                        "memberID": "rrYFaBuoY5Q4Xi5SbfsCcw1f77w1", 
+                        "memberName": "Cindy"
+                    },{
+                        "memberID": "v9BGpOLzbRbGaahzUvzdODq9cB72",
+                        "memberName": "member"
+                    }
+                ]
+            }
+          $scope.getUserNameInTeam(team, function(){
+                expect(team).toEqual(teamResult);
+          });
+      })
+
+      describe("announcement",function(){
+        it('edit new announcement',function(){
+            $scope.new_announcement_click();
+            expect($scope.writingAnnouncement).toBe(true);
+        })
+
+        it('make_announcement',function(){
+                // consoleLog = jasmine.createSpy("log");
+                // $scope.make_announcement("");
+                // expect(consoleLog).toHaveBeenCalled();
+                //mock data needed
+        })
+
+
+      })
    });
 
 
