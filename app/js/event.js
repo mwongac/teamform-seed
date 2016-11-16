@@ -188,7 +188,7 @@ angular.module('teamform-event-app', ['firebase'])
 		userNewTeamObject.$save();
 		//TODO: del all request
 
-		var url = "member.html?eventid=" + eventid + "$teamid=" + teamid;
+		var url = "member.html?eventid=" + eventid + "&teamid=" + teamid;
 		window.location.href = url;
 	}
 
