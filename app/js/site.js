@@ -26,7 +26,7 @@ function getRandomIntInclusive(min, max) {
 //
 
 function initalizeFirebase() {
-	
+
   // Initialize Firebase
   // var config = {
   //   apiKey: "AIzaSyDTXQFSuriwxpvJd0mZHElmLmhL8AIYmWE",
@@ -34,7 +34,7 @@ function initalizeFirebase() {
   //   databaseURL: "https://teamform-15bcb.firebaseio.com",
   //   storageBucket: "teamform-15bcb.appspot.com",
   // };
-  
+
   //the config above is peter's firebase'
   //our own firebase (owned under team account)
   var config = {
@@ -46,7 +46,7 @@ function initalizeFirebase() {
   };
   firebase.initializeApp(config);
 
-}    
+}
 
 //
 // User-defined function - Useful for retrieving an object once, without 3-way sync 
@@ -54,5 +54,5 @@ function initalizeFirebase() {
 //
 
 function retrieveOnceFirebase(firebase, refPath, callbackFunc) {
-	firebase.database().ref(refPath).once("value").then(callbackFunc);
+  firebase.database().ref(refPath).once("value").then(callbackFunc);
 }
