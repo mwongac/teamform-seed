@@ -183,6 +183,15 @@ angular.module('teamform-admin-app', ['firebase'])
 			}
 		}
 
+		$scope.dismissTeam(team) = function (team) {
+			//first, remove role of user that inside the team
+			//leader
+			
+			//members
+
+			//second, del all data of this team
+		}
+
 		// //create team function 
 		// $scope.eventid = eventid;
 		// $scope.createTeam = function (teamName) {
@@ -290,6 +299,8 @@ angular.module('teamform-admin-app', ['firebase'])
 		$scope.logout = function () {
 			firebase.auth().signOut();
 		}
+
+
 
 		//monitor if the user is logged in or not
 		firebase.auth().onAuthStateChanged(user => {
