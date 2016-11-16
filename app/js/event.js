@@ -163,33 +163,37 @@ angular.module('teamform-event-app', ['firebase'])
 			}
 			//add to member list of team
 			team.members.push({"memberID": $scope.uid});
-			//jump to member page
-			//$window.location.href = "/member.html?eventid=" + eventid + "&teamid=" + teamid;
-		})
-		//remove from invitelist for current user of all team!!!!
-		angular.forEach($scope.teams,function(team2,team2id){
-			angular.forEach(team2.invitelist,function(invite, inviteKey){
-				if (inviteKey == $scope.uid){
-					refPath = "events/"+ eventid + "/teams/"+team2.$id+"/invitelist/"+inviteKey;
-					inviteObject = $firebaseObject(firebase.database().ref(refPath));
-					console.log("remove invite of team: "+team2.$id+"\ninviteObject: "+ inviteObject+"\n"+inviteObject.name);
-					inviteObject.$remove();
-				}
+
+			team.$save();
+			console.log("1");
+
+			//remove from invitelist for current user of all team!!!!
+			angular.forEach($scope.teams,function(team2,team2id){
+				angular.forEach(team2.invitelist,function(invite, inviteKey){
+					if (inviteKey == $scope.uid){
+						refPath = "events/"+ eventid + "/teams/"+team2.$id+"/invitelist/"+inviteKey;
+						inviteObject = $firebaseObject(firebase.database().ref(refPath));
+						console.log("remove invite of team: "+team2.$id+"\ninviteObject: "+ inviteObject+"\n"+inviteObject.name);
+						inviteObject.$remove();
+					}
+				})
 			})
+
+			//del all invite of user
+			$scope.inviteTeams.$remove();
+			//change role of user
+			var currentUsersRef = firebase.database().ref('users/'+$scope.uid+'/teams/'+eventid);
+			var userNewTeamObject = $firebaseObject(currentUsersRef);
+			userNewTeamObject.role = 'member';
+			userNewTeamObject.team = teamid;
+			userNewTeamObject.$save();
+
+			console.log("2");
+			//TODO: del all request
+
+			//jump to member page
+			$window.location.href = "/member.html?eventid=" + eventid + "&teamid=" + teamid;
 		})
-
-		//del all invite of user
-		$scope.inviteTeams.$remove();
-		//change role of user
-		var currentUsersRef = firebase.database().ref('users/'+$scope.uid+'/teams/'+eventid);
-		var userNewTeamObject = $firebaseObject(currentUsersRef);
-		userNewTeamObject.role = 'member';
-		userNewTeamObject.team = teamid;
-		userNewTeamObject.$save();
-		//TODO: del all request
-
-		var url = "member.html?eventid=" + eventid + "$teamid=" + teamid;
-		window.location.href = url;
 	}
 
 	$scope.rejectInvite=function(teamid){
