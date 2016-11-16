@@ -98,7 +98,7 @@ angular.module('teamform-event-app', ['firebase'])
 				//user will enter team page which is created by user who become leader
 			} else {
 				console.log(currentTeamid);
-					
+
 					var newteamRef = firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid);
 					var teamobject = $firebaseObject(newteamRef);
 					$scope.teamMemberList = teamobject.teamMemberList;
@@ -190,17 +190,21 @@ angular.module('teamform-event-app', ['firebase'])
 				teamobject.teamMemberList = $scope.teamMemberList;
                 teamobject.$save();
                 console.log(teamobject);
-
+            });
                 var currentUser = firebase.auth().currentUser;
-                var currentUsersRef = firebase.database().ref('users/'+currentUser.uid+'/teams/'+teamkey);
+                var currentUsersRef = firebase.database().ref('users/'+currentUser.uid+'/teams/'+$scope.eventid);
                 var userNewTeamObject = $firebaseObject(currentUsersRef);
-               if(userNewTeamObject.role != 'admin'){
+		userNewTeamObject.$loaded()
+			.then(function(data){
+			   if(userNewTeamObject.role != 'admin'){
 				userNewTeamObject.role = 'leader';
 			   }
-			   userNewTeamObject.teamid = teamkey;
-                userNewTeamObject.$save();
+			    userNewTeamObject.teamid = teamkey;
+                userNewTeamObject.$save()
+					.catch(e=>console.log(e));
 				console.log(userNewTeamObject);
-            });
+            })
+			.catch(e=>console.log(e));
 		if (teamNameVal == '' ){
  			//var url = "team.html?teamid=" + teamkey+ "&eventid="+$scope.eventid;
 	    	//	window.location.href = url;
