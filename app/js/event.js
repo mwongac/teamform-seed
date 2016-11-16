@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	
+
 	$('#admin_page_controller').hide();
 	$('#text_event_name').text("Error: Invalid event id ");
 	var eventid = getURLParameter("q");
@@ -15,23 +15,23 @@ $(document).ready(function(){
 
 angular.module('teamform-event-app', ['firebase'])
 .controller('EventCtrl', ['$scope', '$firebaseObject', '$firebaseArray', '$window', function($scope, $firebaseObject, $firebaseArray, $window) {
-	
+
 	// TODO: implementation of AdminCtrl
-	
+
 	// Initialize $scope.param as an empty JSON object
 	$scope.param = {}; //event.{eventid}.admin.param
 	$scope.loggedIn = true;
-			
+
 	// Call Firebase initialization code defined in site.js
-	initalizeFirebase();	
-	
+	initalizeFirebase();
+
 	var refPath, ref, eventid; //ref for sqecified event
     $scope.eventid = getURLParameter("q");
 	eventid = getURLParameter("q");
 	console.log("event id : " + eventid)
 	refPath = "events/"+ eventid + "/admin/param";
 	ref = firebase.database().ref(refPath);
-		
+
 	// Link and sync a firebase object
 	$scope.param = $firebaseObject(ref);
 	$scope.param.$loaded()
@@ -48,12 +48,12 @@ angular.module('teamform-event-app', ['firebase'])
 			if (typeof $scope.param.description == "undefined"){
 				$scope.param.description = "This is team form for " + $scope.param.eventName + ".";
 			}
-			if(typeof $scope.param.maxTeamSize == "undefined"){				
+			if(typeof $scope.param.maxTeamSize == "undefined"){
 				$scope.param.maxTeamSize = 10;
-			}			
-			if(typeof $scope.param.minTeamSize == "undefined"){				
+			}
+			if(typeof $scope.param.minTeamSize == "undefined"){
 				$scope.param.minTeamSize = 1;
-			}			
+			}
 			if (typeof $scope.param.deadline =="undefined"){
 				$scope.deadline = new Date(new Date().setDate(new Date().getDate()+30));//outside new Date: change string to date object, 2nd Date: create date, 3 rd Date: get today day
 			}else{
@@ -70,14 +70,14 @@ angular.module('teamform-event-app', ['firebase'])
                 })
 			// Enable the UI when the data is successfully loaded and synchornized
 			$('#text_event_name').text("Event Name: " + $scope.param.eventName);
-			$('#admin_page_controller').show();			
-		}) 
+			$('#admin_page_controller').show();
+		})
 		.catch(function(error) {
 			// Database connection error handling...
 			//console.error("Error:", error);
 		});
-	
-	//enter the team page 
+
+	//enter the team page
  	$scope.enterTeam = function(currentTeamid){
 		if (currentTeamid == '' ){
     		return false;
@@ -90,7 +90,7 @@ angular.module('teamform-event-app', ['firebase'])
 		}
 	 }
 
-    //create team function 
+    //create team function
     $scope.createTeam = function(teamName){
 
         var teamNameVal = $('#teamName').val();
@@ -109,7 +109,7 @@ angular.module('teamform-event-app', ['firebase'])
                 //console.log(data);
                 var newteamRef = firebase.database().ref('events/'+$scope.eventid+'/teams/'+ teamkey);
                 var teamobject = $firebaseObject(newteamRef);
-                teamobject.teamName = teamNameVal; 
+                teamobject.teamName = teamNameVal;
 				teamobject.teamLeader = $scope.uid;
                 teamobject.$save();
                 console.log(teamobject);
@@ -136,10 +136,10 @@ angular.module('teamform-event-app', ['firebase'])
 		}
     }
 
-	refPath = "events/"+ eventid + "/teams";	
+	refPath = "events/"+ eventid + "/teams";
 	$scope.teams = [];
 	$scope.teams = $firebaseArray(firebase.database().ref(refPath));
-	
+
 	refPath = "events/"+ eventid + "/member";
 	$scope.member = [];
 	$scope.member = $firebaseArray(firebase.database().ref(refPath));
@@ -234,14 +234,14 @@ angular.module('teamform-event-app', ['firebase'])
 	$scope.getTeamInfoByTeamID = function(teamid, TeamObject){
 		//for inviteTeams in user data
 		//input teamIDwithteamName= {teamName:teamName, ...}
-			// refPath = "events/"+ eventid + "/teams";	
+			// refPath = "events/"+ eventid + "/teams";
 			// $scope.teams = [];
 			// $scope.teams = $firebaseArray(firebase.database().ref(refPath));
 			// $scope.teams.$loaded().then(function(){
 				console.log("******start**********\ngetTeamInfoByTeamID\n\nteam id: "+teamid+"\n"+ $scope.teams.$getRecord(teamid).teamName);
 				TeamObject = $scope.teams.$getRecord(teamid);
 				console.log("TeamObject: "+TeamObject.teamName+"\nleader uid : "+ TeamObject.teamLeader);
-				
+
 				// 	console.log("TeamObject leader name: "+ TeamObject.teamLeaderName);
 				// });
 				{//getUserNameInTeam callback and timeout -> cannot return, so I just copy this code to here
@@ -283,30 +283,32 @@ angular.module('teamform-event-app', ['firebase'])
                     console.error("Error: "+error);
                 });
             $scope.loggedIn = true;
-			$scope.uid = user.uid;
+						$scope.uid = user.uid;
         }else{
 			console.log('not log in');
             $window.location.href = '/index.html';
 		}
 		//need uid so need to run after onAuthStateChanged
 
-		refPath = "events/"+ eventid + "/teams";	
+		refPath = "events/"+ eventid + "/teams";
 		$scope.teams = [];
 		$scope.teams = $firebaseArray(firebase.database().ref(refPath));
 
 		$scope.inviteTeams = [];
 		refPath = "users/"+ user.uid +"/invitelist/"+eventid;
 		console.log("refPath: "+refPath);
-				
+
 		$scope.inviteTeams = $firebaseObject(firebase.database().ref(refPath));
 		$scope.teams.$loaded().then(function(){
 			$scope.inviteTeams.$loaded().then(function(){
 				angular.forEach($scope.inviteTeams,function(team, teamid){//team=invite team
 					console.log("******start**********\ngetTeamInfoByTeamID\n\nteam id: "+teamid+"\n"+ $scope.teams.$getRecord(teamid).teamName);
 					team = $scope.teams.$getRecord(teamid);
+					$scope.inviteTeams[teamid].teamLeader=team.teamLeader;
+					$scope.inviteTeams[teamid].members=team.members;
 					console.log("TeamObject: "+team.teamName+"\nleader uid : "+ team.teamLeader);
 					// $scope.getUserNameInTeam(team);
-					
+
 					var resultName;
 					console.log("getUserNameInTeam for team "+team.teamName);
 					$scope.getUserNameByID(team.teamLeader,function(resultFromCallback){

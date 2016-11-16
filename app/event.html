@@ -85,7 +85,7 @@
             <tbody ng-repeat="(teamid, iT) in inviteTeams">
               <tr>
                 <td>{{iT.teamName}}</td>
-                <td>{{iT.teamLeaderName}}</td>
+                <td><a href="profile.html?q={{iT.teamLeader}}">{{iT.teamLeaderName}}</a></td>
                 <td>
                   <span ng-repeat="member in iT.members">
                     <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
