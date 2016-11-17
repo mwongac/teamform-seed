@@ -66,3 +66,7 @@ function initalizeFirebase() {
 function retrieveOnceFirebase(firebase, refPath, callbackFunc) {
   firebase.database().ref(refPath).once("value").then(callbackFunc);
 }
+
+function scrollToTop() {
+			$window.scrollTo(0, 0);
+}
