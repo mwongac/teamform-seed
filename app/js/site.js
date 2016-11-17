@@ -46,6 +46,16 @@ function initalizeFirebase() {
   };
   firebase.initializeApp(config);
 
+  //Vivian own firebase for testing
+      // var config = {
+      //   apiKey: "AIzaSyBZLwdkcSVTj5wU81C5lmztCYk7jcBsLfs",
+      //   authDomain: "comp3111-418-teapot.firebaseapp.com",
+      //   databaseURL: "https://comp3111-418-teapot.firebaseio.com",
+      //   storageBucket: "comp3111-418-teapot.appspot.com",
+      //   messagingSenderId: "144499913129"
+      // };
+      // firebase.initializeApp(config);
+
 }
 
 //
@@ -55,4 +65,8 @@ function initalizeFirebase() {
 
 function retrieveOnceFirebase(firebase, refPath, callbackFunc) {
   firebase.database().ref(refPath).once("value").then(callbackFunc);
+}
+
+function scrollToTop() {
+			$window.scrollTo(0, 0);
 }

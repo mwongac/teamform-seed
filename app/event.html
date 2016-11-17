@@ -72,8 +72,8 @@
       <br>
 
       <!--join event: You will be on the waiting list of member. If cannot join a team before deadline, admin will assign you to a team according your preference.-->
-      <button id="btn_join" type="button" class="btn btn-primary" ng-click="createTeam('default')">Join(for smart generator, not done)</button>
-
+      <button id="btn_join" type="button" class="btn btn-primary" ng-click="joinEvent()" ng-hide="isJoin">Join Event</button>
+      <button id="btn_join" type="button" class="btn btn-default" ng-click="quitEvent()" ng-show="isJoin">Quit Event</button>
       <!-- create team button -->
     <!--  <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam('default')">Create teams</button>
     -->
@@ -188,11 +188,11 @@
             <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
               <tr>
                 <td>{{t.teamName}}</td>
-                <td>{{t.teamLeaderName}}</td>
+                <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
                 <td>
                   <span ng-repeat="member in t.members">
                             <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
-                          </span>
+                  </span>
                 </td>
                 <td>{{t.preference}}</td>
                 <td><button>(to be done)</button></td>
