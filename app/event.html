@@ -27,6 +27,7 @@
 
   <!-- Customized libraries shared by pages -->
   <script src="js/site.js"></script>
+  <link rel="stylesheet" href="css/custom.css" >
 
 </head>
 
@@ -52,12 +53,14 @@
     <hr>
 
     <div id="event_page_controller">
+      <div class=" col-md-12">
       <u>
         <font size="6px" align="middle"><b>Announcements</b></font>
       </u>&nbsp;&nbsp;
       <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#announcement_div">
             <span class="glyphicon glyphicon-collapse-up"></span>
         </button>
+      </div>
       <br><br>
       <!--announcement div-->
       <div id="announcement_div">
@@ -72,7 +75,66 @@
       <button id="btn_join" type="button" class="btn btn-primary" ng-click="joinEvent()" ng-hide="isJoin">Join Event</button>
       <button id="btn_join" type="button" class="btn btn-default" ng-click="quitEvent()" ng-show="isJoin">Quit Event</button>
       <!-- create team button -->
-      <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam('default')">Create teams</button>
+    <!--  <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam('default')">Create teams</button>
+    -->
+      <button id="create_team_page_btn_visibility" type="button" class="btn btn-primary" ng-click="showTeamForm()">Create teams</button>
+ 
+      <div id="create_team_page_visibility">
+        <div class="row">
+          <div class="col-md-3 col-xs-2"></div>
+          <div class="custom_center_box row col-md-6">
+            <form name="teamForm" class="css-form " novalidate>
+              <div class="form-group">
+                <div class="col-md-12"><strong>Admin: </strong><a href="profile.html?q={{param.admin}}">{{adminName}}</a><br></div>
+                <label>Team Name*:</label>
+                <div class="col-md-12"><input class="form-control ng-dirty ng-invalid ng-valid" type="text" name="userName" placeholder="Please enter team name:"
+                    ng-model="nextTeamName" required>
+                  <br>
+                </div>
+
+              </div>
+
+              <div class="form-group">
+                <br>
+                <label>Team Description:</label>
+                <div class="col-md-12"> <textarea class="form-control ng-dirty ng-invalid ng-valid" type="textarea" placeholder="Please enter team Description:"
+                    ng-model="teamDescription" required></textarea>
+                  <br>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <br>
+                <label>Preferred Team Size:</label>
+                <span class="badge">{{preferredTeamSize}}</span>
+                <button ng-click="changePreferredTeamSize(-1);"><span class="glyphicon glyphicon-minus" ></span></button>
+                <button ng-click="changePreferredTeamSize(1);"><span class="glyphicon glyphicon-plus" ></span></button>
+                <br>
+
+              </div>
+
+              <div class="form-group">
+                <br>
+                <label>Lauguage Preference:</label>
+                <div class="row">
+                  <span class="col-md-3">
+                                      </span>
+                  <span class="col-md-6"> <input class="form-control" type="text" ng-model='addpreference'></input>
+                                      <ol>
+                                          <li ng-repeat='pre in preference'>{{pre}}<a ng-click="removePre(pre)"> Remove</a></li>
+                                      </ol>
+                                      </span>
+                  <span class="col-md-3"><button type="button" class="btn btn-primary" ng-click="addPre()">Add</button>
+                                      </span>
+                </div>
+              </div>
+
+              <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam()">Create teams</button>
+            </form>
+          </div>
+          <div class="col-md-2 col-xs-2"></div>
+        </div>
+      </div>
 
       <br>
       <hr>
@@ -136,6 +198,8 @@
                 <td><button>(to be done)</button></td>
                 <!-- enter the team button -->
                 <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Enter a team</button></td>
+                <td><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team</button></td>
+
               </tr>
             </tbody>
           </table>
