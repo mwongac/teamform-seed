@@ -1,0 +1,161 @@
+{
+  "events" : {
+    "-KWi6D8pUGpA2YbXZWWW" : {
+      "admin" : {
+        "param" : {
+          "admin" : "e0M0JfTmVWeHY1HKjyMqqysflAF3",
+          "deadline" : "2016-12-16T17:08:57.796Z",
+          "description" : "This is team form for First.",
+          "eventName" : "First",
+          "maxTeamSize" : 8,
+          "minTeamSize" : 3
+        }
+      },
+      "teams" : {
+        "-KWmUDkd-9nOSCjXAaAm" : {
+          "preference" : [ "" ],
+          "teamLeader" : "OUfseWANkMff29JwG6lHhU5wNSi2",
+          "teamName" : "default"
+        },
+        "-KWmqe9U2weJzgZt6SHR" : {
+          "teamLeader" : "N1wjlh3AslWmAl0PVdfwKGJh1gV2",
+          "teamName" : "won't be del"
+        }
+      }
+    },
+    "-KWi6NBl87_jFJKa4rbU" : {
+      "admin" : {
+        "param" : {
+          "admin" : "OUfseWANkMff29JwG6lHhU5wNSi2",
+          "deadline" : "2016-12-16T17:09:38.864Z",
+          "description" : "This is team form for Second.",
+          "eventName" : "Second",
+          "maxTeamSize" : 9,
+          "minTeamSize" : 3
+        }
+      },
+      "announcements" : {
+        "-KWmglHZvs2ms_tojvBc" : {
+          "date" : "2016-11-17T14:31:26.625Z",
+          "text" : "arawre"
+        },
+        "-KWmnRSj8eGwMJkDMS-L" : {
+          "date" : "2016-11-17T15:00:36.356Z",
+          "text" : "testing dismiss id"
+        }
+      },
+      "teams" : {
+        "-KWmn_bYS-a7Tjl8LrI0" : {
+          "members" : [ {
+            "memberID" : "e0M0JfTmVWeHY1HKjyMqqysflAF3"
+          }, {
+            "memberID" : "b17Pk7I29HMiOBfBDHXdwxCkKtk2"
+          } ],
+          "preference" : [ "C++" ],
+          "teamLeader" : "sOu3RCUPhDONpBAW1sOwV9xxOT13",
+          "teamName" : "team1"
+        },
+        "-KWmnjsBH0q-5PPgHtF3" : {
+          "members" : [ {
+            "memberID" : "N1wjlh3AslWmAl0PVdfwKGJh1gV2"
+          } ],
+          "preference" : [ "C++" ],
+          "teamLeader" : "k4QfwQh7wlTOYQwbvtOvz0Vkfpc2",
+          "teamName" : "team2"
+        }
+      }
+    }
+  },
+  "users" : {
+    "N1wjlh3AslWmAl0PVdfwKGJh1gV2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "freerider@connect.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6D8pUGpA2YbXZWWW" : {
+          "role" : "leader",
+          "teamid" : "-KWmqe9U2weJzgZt6SHR"
+        },
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "member",
+          "team" : "-KWmnjsBH0q-5PPgHtF3"
+        }
+      },
+      "test" : "never change"
+    },
+    "OUfseWANkMff29JwG6lHhU5wNSi2" : {
+      "description" : "",
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "Admin",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6D8pUGpA2YbXZWWW" : {
+          "role" : "leader",
+          "teamid" : "-KWmUDkd-9nOSCjXAaAm"
+        },
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "admin"
+        }
+      },
+      "test" : "never change"
+    },
+    "b17Pk7I29HMiOBfBDHXdwxCkKtk2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "popular@connect.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "member",
+          "team" : "-KWmn_bYS-a7Tjl8LrI0"
+        }
+      },
+      "test" : "never change"
+    },
+    "e0M0JfTmVWeHY1HKjyMqqysflAF3" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "member@connect.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6D8pUGpA2YbXZWWW" : {
+          "role" : "admin"
+        },
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "member",
+          "team" : "-KWmn_bYS-a7Tjl8LrI0"
+        }
+      },
+      "test" : "never change"
+    },
+    "k4QfwQh7wlTOYQwbvtOvz0Vkfpc2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "leader2@connect.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "leader",
+          "teamid" : "-KWmnjsBH0q-5PPgHtF3"
+        }
+      },
+      "test" : "never change"
+    },
+    "sOu3RCUPhDONpBAW1sOwV9xxOT13" : {
+      "description" : "",
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "first leader",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "leader",
+          "teamid" : "-KWmn_bYS-a7Tjl8LrI0"
+        }
+      },
+      "test" : "never change"
+    }
+  }
+}

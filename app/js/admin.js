@@ -8,8 +8,6 @@ $(document).ready(function () {
 	}
 });
 
-
-
 //TODO:
 //join button in event?q=
 //then there will look for user that want to join but without team
@@ -183,13 +181,34 @@ angular.module('teamform-admin-app', ['firebase'])
 			}
 		}
 
-		$scope.dismissTeam(team) = function (team) {
-			//first, remove role of user that inside the team
+		$scope.dismissTeam = function (team, moveToWaitList) {
+			var teamName = team.teamName; 
+			var teamid = team.$id;
+			console.log("teamid: "+teamid);
+			//first, remove role of user that inside the team		
 			//leader
-			
+			$firebaseObject(firebase.database().ref("users/" + team.teamLeader + "/teams/" + eventid)).$remove();
 			//members
-
+			angular.forEach(team.members, function (member, index) {
+				$firebaseObject(firebase.database().ref("users/" + member.memberID + "/teams/" + eventid)).$remove();
+			})
+			//if moveToWaitList is true, save to events/eventid/waitList
+			if (moveToWaitList) {
+				refPath = "events/" + eventid + "/waitList";
+				waitList = [];
+				waitList = $firebaseArray(firebase.database().ref(refPath));
+				waitList.$loaded().them(function () {
+					waitList.$add(team.teamLeader);
+					angular.forEach(team.members, function (member, index) {
+						waitList.$add(member.memberID);
+					})
+				})
+				waitList.$save();
+			}
 			//second, del all data of this team
+			$firebaseObject(firebase.database().ref("events/" + eventid + "/teams/" + teamid)).$remove();
+			console.log("ref: "+"events/" + eventid + "/teams/" + teamid);
+			console.log("team "+teamName+" is deleted. ")
 		}
 
 		// //create team function 
