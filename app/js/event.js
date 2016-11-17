@@ -8,11 +8,6 @@ $(document).ready(function () {
 	}
 });
 
-//TODO:
-//join button in event?q=
-//then there will look for user that want to join but without team
-//to generate
-
 angular.module('teamform-event-app', ['firebase'])
 	.controller('EventCtrl', ['$scope', '$firebaseObject', '$firebaseArray', '$window', function ($scope, $firebaseObject, $firebaseArray, $window) {
 
@@ -153,6 +148,10 @@ angular.module('teamform-event-app', ['firebase'])
 
 		$scope.acceptInvite = function (teamid) {
 			console.log("******/nAccept invite")
+			//remove from wait list 
+			if ($scope.isJoin) {
+				$scope.quitEvent();
+			}
 			refPath = "events/" + eventid + "/teams/" + teamid;
 			team = $firebaseObject(firebase.database().ref(refPath));
 			team.$loaded().then(function () {
@@ -186,7 +185,6 @@ angular.module('teamform-event-app', ['firebase'])
 				userNewTeamObject.team = teamid;
 				userNewTeamObject.$save();
 
-				console.log("2");
 				//TODO: del all request
 
 				//jump to member page
@@ -267,7 +265,7 @@ angular.module('teamform-event-app', ['firebase'])
 			firebase.auth().signOut();
 		}
 
-		$scope.getInviteTeam=function(uid){
+		$scope.getInviteTeam = function (uid) {
 			refPath = "events/" + eventid + "/teams";
 			$scope.teams = [];
 			$scope.teams = $firebaseArray(firebase.database().ref(refPath));
@@ -313,6 +311,51 @@ angular.module('teamform-event-app', ['firebase'])
 			});
 		}
 
+		$scope.joinEvent = function () {
+			if (confirm("If you cannot find a team after deadline, admin will assign you to a team according your preference.")) {
+				//add to waitlist
+				waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
+				waitListArray.$loaded().then(function () {
+					if (typeof waitListArray == "undefined") { waitListArray = []; }
+					waitListArray.$add( $scope.uid);
+				})
+				//change variable saved in user
+				userNewTeamObject.isJoin = true;
+				$scope.isJoin = true;
+				userNewTeamObject.$save();
+			}
+		}
+
+		$scope.quitEvent = function () {
+			if (confirm("After you quiteEvent, you cannot request/accept invite to join team after deadline if you cannot find a team.")) {
+				console.log("quit event");
+				//remove from waitlist
+				waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
+				waitListArray.$loaded().then(function () {
+					angular.forEach(waitListArray, function(waitingMember){
+						console.log("waiting member: "+ waitingMember +"\n"+ waitingMember.$value +"\n"+ waitingMember.$id);
+						if (waitingMember.$value == $scope.uid){
+							//waitingMember.$remove();
+							index = waitListArray.$indexFor(waitingMember.$id);
+							console.log(index); 
+							waitListArray.$remove(index);
+						}
+					})
+					var index = waitListArray.$indexFor($scope.uid);
+					console.log("index for: "+index + "     uid: "+$scope.uid);
+					var index = waitListArray.$keyAt($scope.uid);
+					console.log("key for: "+index + "     uid: "+$scope.uid);
+					waitListArray.$remove(index);
+					waitListArray.$remove($scope.uid);
+
+				})
+				//change variable saved in user
+				userNewTeamObject.isJoin = false;
+				$scope.isJoin = false;
+				userNewTeamObject.$save();
+			}
+		}
+
 		//monitor if the user is logged in or not
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
@@ -334,6 +377,13 @@ angular.module('teamform-event-app', ['firebase'])
 				$window.location.href = '/index.html';
 			}
 			//need uid so need to run after onAuthStateChanged
+
+			currentUsersRef = firebase.database().ref('users/' + user.uid + '/teams/' + eventid);
+			userNewTeamObject = $firebaseObject(currentUsersRef);
+			userNewTeamObject.$loaded().then(function () {
+				if (typeof userNewTeamObject.isJoin == "undefined") { userNewTeamObject.isJoin = false; }
+				$scope.isJoin = userNewTeamObject.isJoin;
+			})
 
 			refPath = "events/" + eventid + "/teams";
 			$scope.teams = [];

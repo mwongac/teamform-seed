@@ -33,10 +33,10 @@ angular.module('teamform-admin-app', ['firebase'])
 
 		eventid = getURLParameter("q");
 		console.log("event id : " + eventid)
-		refPath = "events/" + eventid + "/admin/param";
-		ref = firebase.database().ref(refPath);
 
 		// Link and sync a firebase object
+		refPath = "events/" + eventid + "/admin/param";
+		ref = firebase.database().ref(refPath);
 		$scope.param = $firebaseObject(ref);
 		$scope.param.$loaded()
 			.then(function (data) {
@@ -78,8 +78,6 @@ angular.module('teamform-admin-app', ['firebase'])
 				// Database connection error handling...
 				//console.error("Error:", error);
 			});
-
-
 
 		refPath = "events/" + eventid + "/teams";
 		$scope.teams = [];
