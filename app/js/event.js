@@ -139,11 +139,17 @@ angular.module('teamform-event-app', ['firebase'])
     // $scope.invitelist =
 
 	//show create team form
-	$scope.showTeamForm = function(){
-		$('#create_team_page_visibility').show(); 
-		$('#create_team_page_btn_visibility').hide(); 
-	
+	$scope.showTeamForm = function () {
+		$('#create_team_page_visibility').show();
+		create_team_page_btn_visibility.disabled = true;
 	}
+
+	//hide create team form
+	$scope.hideTeamForm = function () {
+		$('#create_team_page_visibility').hide();
+		create_team_page_btn_visibility.disabled = false;
+	}
+
     //addpreference
     $scope.addPre = function(){
         console.log('addPre pressed');
