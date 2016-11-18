@@ -470,22 +470,16 @@ angular.module('teamform-event-app', ['firebase'])
 				//remove from waitlist
 				waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
 				waitListArray.$loaded().then(function () {
+					//search the index of user
 					angular.forEach(waitListArray, function(waitingMember){
-						console.log("waiting member: "+ waitingMember +"\n"+ waitingMember.$value +"\n"+ waitingMember.$id);
-						if (waitingMember.$value == $scope.uid){
+						console.log("waiting member: "+ waitingMember.$id +"\n"+ waitingMember.uid +"\n"+ $scope.uid);
+						if (waitingMember.uid == $scope.uid){
 							//waitingMember.$remove();
 							index = waitListArray.$indexFor(waitingMember.$id);
 							console.log(index); 
 							waitListArray.$remove(index);
 						}
 					})
-					var index = waitListArray.$indexFor($scope.uid);
-					console.log("index for: "+index + "     uid: "+$scope.uid);
-					var index = waitListArray.$keyAt($scope.uid);
-					console.log("key for: "+index + "     uid: "+$scope.uid);
-					waitListArray.$remove(index);
-					waitListArray.$remove($scope.uid);
-
 				})
 				//change variable saved in user
 				userNewTeamObject.isJoin = false;

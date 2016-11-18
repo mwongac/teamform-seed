@@ -222,10 +222,6 @@
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
         <div class="col-md-2"></div>
         <div class="col-md-8" ng-hide="teamsList.length == 0">
-
-          <ul ng-repeat="m in member">
-            <li>ID = {{m.$id}} <br> Name = {{m.name}} <br> request to join the following teams: {{m.selection | json}}</li>
-          </ul>
           <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0">
             <thead>
               <tr>
@@ -243,7 +239,7 @@
                   <span ng-repeat="p in member.preference">{{p}}{{$last ? '' : ', '}}
                   </span>
                 </td>
-                <td><button><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="kick(t, false)"></span></button></td>
+                <td><button><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="kick(member.uid)"></span></button></td>
               </tr>
             </tbody>
           </table>
