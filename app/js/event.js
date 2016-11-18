@@ -454,7 +454,8 @@ angular.module('teamform-event-app', ['firebase'])
 				waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
 				waitListArray.$loaded().then(function () {
 					if (typeof waitListArray == "undefined") { waitListArray = []; }
-					waitListArray.$add( $scope.uid);
+					//waitListArray.$add( $scope.uid);
+					waitListArray.$add({uid : $scope.uid});
 				})
 				//change variable saved in user
 				userNewTeamObject.isJoin = true;

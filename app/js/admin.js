@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     $('#admin_page_controller').hide();
     $('#text_event_name').text("Error: Invalid event id ");
@@ -9,7 +9,7 @@ $(document).ready(function() {
 });
 
 angular.module('teamform-admin-app', ['firebase'])
-    .controller('AdminCtrl', ['$scope', '$firebaseObject', '$firebaseArray', '$window', function($scope, $firebaseObject, $firebaseArray, $window) {
+    .controller('AdminCtrl', ['$scope', '$firebaseObject', '$firebaseArray', '$window', function ($scope, $firebaseObject, $firebaseArray, $window) {
 
         // TODO: implementation of AdminCtrl
 
@@ -34,7 +34,7 @@ angular.module('teamform-admin-app', ['firebase'])
         ref = firebase.database().ref(refPath);
         $scope.param = $firebaseObject(ref);
         $scope.param.$loaded()
-            .then(function(data) {
+            .then(function (data) {
                 // // Fill in some initial values when the DB entry doesn't exist
                 console.log("loaded: " + $scope.param.eventName);
                 console.log("loaded: " + $scope.param);
@@ -60,7 +60,7 @@ angular.module('teamform-admin-app', ['firebase'])
                     console.log(new Date($scope.param.deadline));
                 }
                 $scope.today = new Date();
-                $scope.getUserNameByID($scope.param.admin, function(resultFromCallback) {
+                $scope.getUserNameByID($scope.param.admin, function (resultFromCallback) {
                     $scope.adminName = resultFromCallback;
                     console.log("resultFromCallback: " + $scope.adminName);
                 })
@@ -69,7 +69,7 @@ angular.module('teamform-admin-app', ['firebase'])
                 $('#text_event_name').text("Event Name: " + $scope.param.eventName);
                 $('#admin_page_controller').show();
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 // Database connection error handling...
                 //console.error("Error:", error);
             });
@@ -78,24 +78,25 @@ angular.module('teamform-admin-app', ['firebase'])
         $scope.teams = [];
         $scope.teams = $firebaseArray(firebase.database().ref(refPath));
 
-        refPath = "events/" + eventid + "/member";
-        $scope.member = [];
-        $scope.member = $firebaseArray(firebase.database().ref(refPath));
-
         refPath = "events/" + eventid + "/announcements";
         $scope.announcements = [];
         $scope.announcements = $firebaseArray(firebase.database().ref(refPath));
 
-        $scope.getUserNameInTeam = function(team) {
+        refPath = "events/" + eventid + "/waitlist";
+        $scope.waitList = [];
+        $scope.waitList = $firebaseArray(firebase.database().ref(refPath));
+        //$scope.waitList.$loaded();
+
+        $scope.getUserNameInTeam = function (team) {
             var resultName;
             console.log("getUserNameInTeam for team" + team);
-            $scope.getUserNameByID(team.teamLeader, function(resultFromCallback) {
+            $scope.getUserNameByID(team.teamLeader, function (resultFromCallback) {
                 resultName = resultFromCallback;
                 console.log("Leader: getMemberNameByID: " + resultName);
                 team.teamLeaderName = resultName;
             })
-            angular.forEach(team.members, function(member, key) {
-                $scope.getUserNameByID(member.memberID, function(resultFromCallback) {
+            angular.forEach(team.members, function (member, key) {
+                $scope.getUserNameByID(member.memberID, function (resultFromCallback) {
                     resultName = resultFromCallback;
                     //console.log("Member: getMemberNameByID: "+ resultName);
                     member.memberName = resultName;
@@ -108,34 +109,52 @@ angular.module('teamform-admin-app', ['firebase'])
             })
         }
 
-        $scope.getUserNameByID = function(userid, callback) {
+        $scope.getUserDatabyID = function (user) {
+            var resultName;
+            console.log("getUserDatabyID for " + user);
+            $scope.getUserNameByID(user.uid, function (resultFromCallback) {
+                user.name = resultFromCallback;
+                console.log("Leader: getMemberNameByID: " + user.name);
+            })
+            var userPreference = $firebaseObject(firebase.database().ref('users/' + user.uid + '/language'));
+            userPreference.$loaded()
+                .then(function (data) {
+                    user.preference = userPreference;
+                    console.log("user.preference"+user.preference);
+                    angular.forEach(user.preference,function(p){
+                        console.log("preference?"+p);
+                    })
+                })
+        }
+
+        $scope.getUserNameByID = function (userid, callback) {
             var foundName;
             var userDatabase = firebase.database();
             var userRef = userDatabase.ref('users/' + userid + '/name');
             var userData = $firebaseObject(userRef);
             userData.$loaded()
-                .then(function(data) {
+                .then(function (data) {
                     //console.log("getUserNameByID: "+userData.$value);
                     callback(userData.$value);
                 })
         }
 
-        $scope.edit_click = function() {
+        $scope.edit_click = function () {
             $scope.editable = true;
         };
 
-        $scope.generate_click = function() {//TODO
+        $scope.generate_click = function () {//TODO
             //find team that member less than minTeamSize
             //put user without team who have responding preference into above team
             //random put remaining user into teams
             $window.alert("TODO: waiting for teams ");
         }
 
-        $scope.new_announcement_click = function() {
+        $scope.new_announcement_click = function () {
             $scope.writingAnnouncement = true;
         }
 
-        $scope.make_announcement = function(announcement_text) {
+        $scope.make_announcement = function (announcement_text) {
             if (announcement_text == "" || announcement_text == null) {
                 $window.alert("Announcement cannot be empty.");
             } else {
@@ -153,18 +172,18 @@ angular.module('teamform-admin-app', ['firebase'])
             }
         }
 
-        $scope.del_announcement_click = function(announcement_object) {
+        $scope.del_announcement_click = function (announcement_object) {
             console.log("Remove announcement \n announcement: " + announcement_object.text + "\n announcement_object.id: " + announcement_object.$id);
             $firebaseObject(firebase.database().ref("events/" + eventid + "/announcements/" + announcement_object.$id)).$remove();
         }
 
-        $scope.edit_announcement_click = function(announcement_object) {
+        $scope.edit_announcement_click = function (announcement_object) {
             console.log("edit announcement \n announcement: " + announcement_object.text + "\n announcement_object.id: " + announcement_object.$id);
             var newText = prompt("Edit Announcement", announcement_object.text);
             if (newText != null) {
                 console.log("edit announcement edited: " + newText);
                 var tempObj = $firebaseObject(firebase.database().ref("events/" + eventid + "/announcements/" + announcement_object.$id));
-                tempObj.$loaded().then(function() {
+                tempObj.$loaded().then(function () {
                     tempObj.text = newText;
                     tempObj.date = new Date().toISOString();
                     tempObj.$save();
@@ -174,7 +193,7 @@ angular.module('teamform-admin-app', ['firebase'])
             }
         }
 
-        $scope.dismissTeam = function(team, moveToWaitList) {
+        $scope.dismissTeam = function (team, moveToWaitList) {
             var teamName = team.teamName;
             var teamid = team.$id;
             console.log("teamid: " + teamid);
@@ -182,7 +201,7 @@ angular.module('teamform-admin-app', ['firebase'])
             //leader
             $firebaseObject(firebase.database().ref("users/" + team.teamLeader + "/teams/" + eventid)).$remove();
             //members
-            angular.forEach(team.members, function(member, index) {
+            angular.forEach(team.members, function (member, index) {
                 $firebaseObject(firebase.database().ref("users/" + member.memberID + "/teams/" + eventid)).$remove();
             })
             //if moveToWaitList is true, save to events/eventid/waitList
@@ -190,9 +209,9 @@ angular.module('teamform-admin-app', ['firebase'])
                 refPath = "events/" + eventid + "/waitList";
                 waitList = [];
                 waitList = $firebaseArray(firebase.database().ref(refPath));
-                waitList.$loaded().them(function() {
+                waitList.$loaded().them(function () {
                     waitList.$add(team.teamLeader);
-                    angular.forEach(team.members, function(member, index) {
+                    angular.forEach(team.members, function (member, index) {
                         waitList.$add(member.memberID);
                     })
                 })
@@ -251,26 +270,26 @@ angular.module('teamform-admin-app', ['firebase'])
         // 	}
         // }
 
-        $scope.changeMinTeamSize = function(delta) {
+        $scope.changeMinTeamSize = function (delta) {
             var newVal = $scope.param.minTeamSize + delta;
             if (newVal >= 1 && newVal <= $scope.param.maxTeamSize) {
                 $scope.param.minTeamSize = newVal;
             }
         }
 
-        $scope.changeMaxTeamSize = function(delta) {
+        $scope.changeMaxTeamSize = function (delta) {
             var newVal = $scope.param.maxTeamSize + delta;
             if (newVal >= 1 && newVal >= $scope.param.minTeamSize) {
                 $scope.param.maxTeamSize = newVal;
             }
         }
 
-        $scope.saveFunc = function() {
+        $scope.saveFunc = function () {
             if ($scope.param.eventName == "" || $scope.param.eventName == null) {
                 $window.alert("Event Name cannot be empty");
             } else {
                 console.log("eventname in saveFunc: " + $scope.param.eventName);
-                $scope.isEventExist($scope.param.eventName, function(result) {
+                $scope.isEventExist($scope.param.eventName, function (result) {
                     console.log("result:" + result);
                     if (result) {
                         console.log("Event " + $scope.param.eventName + " already exist.");
@@ -285,20 +304,20 @@ angular.module('teamform-admin-app', ['firebase'])
             }
         }
 
-        $scope.isEventExist = function(eventname, callback) {
+        $scope.isEventExist = function (eventname, callback) {
             console.log("eventname: " + eventname);
             var ref = firebase.database().ref("events/");
             var eventsList = $firebaseObject(ref);
             var existflag = false;
-            eventsList.$loaded(function(data) {
-                data.forEach(function(eventObj, key) {
+            eventsList.$loaded(function (data) {
+                data.forEach(function (eventObj, key) {
                     console.log("eventObj's key: " + key);
                     if ((eventObj.admin.param.eventName == eventname) && (eventid != key)) {
                         console.log("callback true");
                         existflag = true;
                     }
                 })
-            }).then(function() {
+            }).then(function () {
                 callback(existflag);
             });
         }
@@ -308,7 +327,7 @@ angular.module('teamform-admin-app', ['firebase'])
         $scope.users = $firebaseArray(usersRef);
 
         //logout function
-        $scope.logout = function() {
+        $scope.logout = function () {
             firebase.auth().signOut();
         }
 
@@ -322,10 +341,10 @@ angular.module('teamform-admin-app', ['firebase'])
                 var usersRef = database.ref('users/' + user.uid);
                 var currentUserData = $firebaseObject(usersRef);
                 currentUserData.$loaded()
-                    .then(function(data) {
+                    .then(function (data) {
                         $scope.username = currentUserData.name;
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console.error("Error: " + error);
                     });
                 $scope.loggedIn = true;
@@ -334,7 +353,7 @@ angular.module('teamform-admin-app', ['firebase'])
                 refPath = "events/" + eventid + "/admin/param";
                 ref = firebase.database().ref(refPath);
                 $scope.param = $firebaseObject(ref);
-                $scope.param.$loaded().then(function(data) {
+                $scope.param.$loaded().then(function (data) {
                     if ($scope.param.admin != user.uid) {//check if user is admin of this event
                         console.log('admin: ' + $scope.param.admin + ', user: ' + user.uid);
                         console.log('not admin');
