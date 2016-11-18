@@ -102,7 +102,7 @@ angular.module('teamform-event-app', ['firebase'])
 							if(typeof $scope.teamMemberList == "undefined"){
 								$scope.teamMemberList = [];
 							}
-							$scope.teamMemberList.push($scope.uid);
+							$scope.teamMemberList.push({"memberID":$scope.uid});
 							teamobject.teamMemberList = $scope.teamMemberList; 
 							teamobject.$save();
 							console.log(teamobject);
@@ -120,6 +120,28 @@ angular.module('teamform-event-app', ['firebase'])
 							userNewTeamObject.$save();
 						}
 						console.log(userNewTeamObject);
+					});		
+			}
+		}
+
+		//request to join this team 
+		$scope.requestJoinTeam = function (currentTeamid) {
+			if (currentTeamid == '') {
+				return false;
+			} else {
+				console.log(currentTeamid);
+				var newteamRef = firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid);
+				var teamobject = $firebaseObject(newteamRef);
+				teamobject.$loaded()
+					.then(function(data){
+							$scope.requestMemberList = teamobject.requestMemberList;
+							if(typeof $scope.requestMemberList == "undefined"){
+								$scope.requestMemberList = [];
+							}
+							$scope.requestMemberList.push( {"memberID":$scope.uid});
+							teamobject.requestMemberList = $scope.requestMemberList; 
+							teamobject.$save();
+							console.log(teamobject);
 					});		
 			}
 		}
