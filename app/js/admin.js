@@ -59,7 +59,7 @@ angular.module('teamform-admin-app', ['firebase'])
                     $scope.deadline = new Date($scope.param.deadline);
                     console.log(new Date($scope.param.deadline));
                 }
-                $scope.today = new Date().setDate(new Date().getDate());
+                $scope.today = new Date(new Date().setDate(new Date().getDate()));
                 $scope.getUserNameByID($scope.param.admin, function (resultFromCallback) {
                     $scope.adminName = resultFromCallback;
                     console.log("resultFromCallback: " + $scope.adminName);
@@ -156,7 +156,7 @@ angular.module('teamform-admin-app', ['firebase'])
         $scope.reopen_event_click = function () {
             //TODO:
             if (confirm("After reopen event, deadline will be set to one week later. You can modify the deadline by edit function.")) {
-                $scope.deadline =  new Date(new Date().setDate(new Date().getDate() + 7));
+                $scope.deadline = new Date(new Date().setDate(new Date().getDate() + 7));
                 $scope.param.deadline = $scope.deadline.toISOString();
                 $scope.param.$save();
             } else {
@@ -226,7 +226,7 @@ angular.module('teamform-admin-app', ['firebase'])
                 $firebaseObject(firebase.database().ref("users/" + member.memberID + "/teams/" + eventid)).$remove();
             })
             //if moveToWaitList is true, save to events/eventid/waitList
-            if (moveToWaitList) {
+            if (moveToWaitList) {//not updated, but this function not used in this page; the updated version in teamGenerator.js
                 refPath = "events/" + eventid + "/waitList";
                 waitList = [];
                 waitList = $firebaseArray(firebase.database().ref(refPath));
@@ -370,6 +370,10 @@ angular.module('teamform-admin-app', ['firebase'])
         var usersRef = firebase.database().ref('users');
         $scope.users = $firebaseArray(usersRef);
 
+
+        $scope.scrollToTop = function () {
+            $window.scrollTo(0, 0);
+        }
         //logout function
         $scope.logout = function () {
             firebase.auth().signOut();

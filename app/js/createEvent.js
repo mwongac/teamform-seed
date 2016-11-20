@@ -151,6 +151,11 @@ angular.module('create-event-app', ['firebase'])
 		var usersRef = firebase.database().ref('users');
 		$scope.users = $firebaseArray(usersRef);
 
+
+		$scope.scrollToTop = function () {
+			$window.scrollTo(0, 0);
+		}
+		
 		//logout function
 		$scope.logout = function () {
 			firebase.auth().signOut();

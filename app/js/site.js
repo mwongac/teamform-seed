@@ -69,4 +69,5 @@ function retrieveOnceFirebase(firebase, refPath, callbackFunc) {
 
 function scrollToTop() {
 			$window.scrollTo(0, 0);
+      console.log("scrollToTop");
 }

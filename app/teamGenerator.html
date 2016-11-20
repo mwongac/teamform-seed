@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="create-event-app">
+<html lang="en" ng-app="teamform-admin-app">
 
 <head>
     <meta charset="utf-8">
@@ -30,7 +30,7 @@
 
 </head>
 
-<body ng-controller="newEventCtrl">
+<body ng-controller="teamformCtrl">
     <div ng-include="'navbar.html'" id='navbarMenu'></div>
     <br>
     <div>
@@ -40,47 +40,63 @@
         </section>
     </div>
     <div>
-        <div class="container">
-            <div id="team_generator_controller">
-                <div class="row">
-                    <div class="col-md-3 col-xs-2"></div>
-                    <div class="custom_center_box row col-md-8" id="content">
-                        <h1>Event: {{param.eventName}}</h1>
+        <div id="team_generator_controller">
+            <div class="row">
+                <div class="col-md-2 col-xs-2"></div>
+                <div class="custom_center_box row col-md-8" id="content">
+                    <div id="success">
+                        <h2>Event: {{param.eventName}}</h2>
                         <!--show generated sugguest team in table-->
                         <table></table>
                         <!--button for adin to comfire or cancel-->
-
+                        <!--for testing-->
+                        <ul ng-repeat="user in waitList">
+                            uid = {{user.uid}}<br> name = {{user.name}}<br> role = {{user.role}}<br> team={{user.teamid}}
+                            <br>
+                            <br>
+                        </ul>
+                        <div style="text-align: right">
+                            <button ng-click="return()">Cancel</button>
+                            <button class="btn btn-primary" ng-click="confirm()">Confirm</button>
+                        </div>
                     </div>
-                    <div class="col-md-2 col-xs-2"></div>
-
+                    <div id="fail">
+                        <h2>Event: {{param.eventName}}</h2>
+                        It is not possible to generate team. You may need to modify team size or add/kick some member.<br>
+                        <div style="text-align: right">
+                            <button ng-click="return()">Return</button>
+                        </div>
+                    </div>
                 </div>
-
-
-
-            </div>
-            <div class="col-md-12">
-                <!-- /END THE FEATURETTES -->
-                <!-- FOOTER -->
-                <hr>
-                <footer>
-                    <p class="pull-right"><a style="cursor: pointer" ng-click="scrollToTop()">Back to top</a></p>
-                    <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
-                    <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
-                </footer>
+                <div class="col-md-2 col-xs-2"></div>
             </div>
         </div>
-        <!--end of container-->
-        <!-- JavaScript of this page -->
 
-        <!-- Angular and Angular-route libraries (v1.5.7) -->
-        <script src="lib/angular.min.js"></script>
-        <script src="lib/angular-route.min.js"></script>
 
-        <!-- Firebase (v3.0.3) and AngularFire (v2.0.0) (after angular library is loaded) -->
-        <script src="lib/firebase.js"></script>
-        <script src="lib/angularfire.min.js"></script>
 
-        <script src="js/teamGenerator.js"></script>
+        <div class="col-md-12">
+            <!-- /END THE FEATURETTES -->
+            <!-- FOOTER -->
+            <hr>
+            <footer>
+                <p class="pull-right"><a style="cursor: pointer" ng-click="scrollToTop()">Back to top</a></p>
+                <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
+                <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+            </footer>
+        </div>
+    </div>
+    <!--end of container-->
+    <!-- JavaScript of this page -->
+
+    <!-- Angular and Angular-route libraries (v1.5.7) -->
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-route.min.js"></script>
+
+    <!-- Firebase (v3.0.3) and AngularFire (v2.0.0) (after angular library is loaded) -->
+    <script src="lib/firebase.js"></script>
+    <script src="lib/angularfire.min.js"></script>
+
+    <script src="js/teamGenerator.js"></script>
 
 </body>
 
