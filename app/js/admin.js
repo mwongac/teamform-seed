@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('#admin_page_controller').hide();
+    $('#admin_page').hide();
     $('#text_event_name').text("Error: Invalid event id ");
     var eventid = getURLParameter("q");
     if (eventid != null && eventid !== '') {
@@ -59,7 +59,7 @@ angular.module('teamform-admin-app', ['firebase'])
                     $scope.deadline = new Date($scope.param.deadline);
                     console.log(new Date($scope.param.deadline));
                 }
-                $scope.today = new Date();
+                $scope.today = new Date().setDate(new Date().getDate());
                 $scope.getUserNameByID($scope.param.admin, function (resultFromCallback) {
                     $scope.adminName = resultFromCallback;
                     console.log("resultFromCallback: " + $scope.adminName);
@@ -67,7 +67,7 @@ angular.module('teamform-admin-app', ['firebase'])
                 // $scope.adminName=$scope.getUserNameByID($scope.param.admin);
                 // Enable the UI when the data is successfully loaded and synchornized
                 $('#text_event_name').text("Event Name: " + $scope.param.eventName);
-                $('#admin_page_controller').show();
+                $('#admin_page').show();
             })
             .catch(function (error) {
                 // Database connection error handling...
@@ -143,11 +143,32 @@ angular.module('teamform-admin-app', ['firebase'])
             $scope.editable = true;
         };
 
-        $scope.generate_click = function () {//TODO
-            //find team that member less than minTeamSize
-            //put user without team who have responding preference into above team
-            //random put remaining user into teams
-            $window.alert("TODO: waiting for teams ");
+        $scope.close_event_click = function () {
+            if (confirm("After close event, deadline will be set to current time and members cannot take any action, including request to join, invite others, accept request or accept invite.")) {
+                $scope.deadline = $scope.today;
+                $scope.param.deadline = $scope.deadline.toISOString();
+                $scope.param.$save();
+            } else {
+                //cancel, not thing done
+            }
+        };
+
+        $scope.reopen_event_click = function () {
+            //TODO:
+            if (confirm("After reopen event, deadline will be set to one week later. You can modify the deadline by edit function.")) {
+                $scope.deadline =  new Date(new Date().setDate(new Date().getDate() + 7));
+                $scope.param.deadline = $scope.deadline.toISOString();
+                $scope.param.$save();
+            } else {
+                //cancel, not thing done
+            }
+        };
+
+        $scope.generate_click = function () {
+            //jump to generateTeam page since The view may be complicated depend on number of members and team size
+            //jump to new page for confirm
+            var url = "teamGenerator.html?q=" + eventid;
+            window.location.href = url;
         }
 
         $scope.new_announcement_click = function () {
@@ -276,8 +297,8 @@ angular.module('teamform-admin-app', ['firebase'])
             waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
             waitListArray.$loaded().then(function () {
                 angular.forEach(waitListArray, function (waitingMember) {
-					//search the index of user
-                    console.log("waiting member: " + waitingMember.$id + "\n" + waitingMember.uid + "\n"+kickUid);
+                    //search the index of user
+                    console.log("waiting member: " + waitingMember.$id + "\n" + waitingMember.uid + "\n" + kickUid);
                     if (waitingMember.uid == kickUid) {
                         //waitingMember.$remove();
                         index = waitListArray.$indexFor(waitingMember.$id);
@@ -347,47 +368,47 @@ angular.module('teamform-admin-app', ['firebase'])
 
         //$scope.users is an array of users in firebase
         var usersRef = firebase.database().ref('users');
-$scope.users = $firebaseArray(usersRef);
+        $scope.users = $firebaseArray(usersRef);
 
-//logout function
-$scope.logout = function () {
-    firebase.auth().signOut();
-}
+        //logout function
+        $scope.logout = function () {
+            firebase.auth().signOut();
+        }
 
 
 
-//monitor if the user is logged in or not
-firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-        console.log('logged in');
-        var database = firebase.database();
-        var usersRef = database.ref('users/' + user.uid);
-        var currentUserData = $firebaseObject(usersRef);
-        currentUserData.$loaded()
-            .then(function (data) {
-                $scope.username = currentUserData.name;
-            })
-            .catch(function (error) {
-                console.error("Error: " + error);
-            });
-        $scope.loggedIn = true;
-        $scope.uid = user.uid;
-        eventid = getURLParameter("q");
-        refPath = "events/" + eventid + "/admin/param";
-        ref = firebase.database().ref(refPath);
-        $scope.param = $firebaseObject(ref);
-        $scope.param.$loaded().then(function (data) {
-            if ($scope.param.admin != user.uid) {//check if user is admin of this event
-                console.log('admin: ' + $scope.param.admin + ', user: ' + user.uid);
-                console.log('not admin');
-                $window.alert("Permission Denied. \n You are not admin of this event")
+        //monitor if the user is logged in or not
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                console.log('logged in');
+                var database = firebase.database();
+                var usersRef = database.ref('users/' + user.uid);
+                var currentUserData = $firebaseObject(usersRef);
+                currentUserData.$loaded()
+                    .then(function (data) {
+                        $scope.username = currentUserData.name;
+                    })
+                    .catch(function (error) {
+                        console.error("Error: " + error);
+                    });
+                $scope.loggedIn = true;
+                $scope.uid = user.uid;
+                eventid = getURLParameter("q");
+                refPath = "events/" + eventid + "/admin/param";
+                ref = firebase.database().ref(refPath);
+                $scope.param = $firebaseObject(ref);
+                $scope.param.$loaded().then(function (data) {
+                    if ($scope.param.admin != user.uid) {//check if user is admin of this event
+                        console.log('admin: ' + $scope.param.admin + ', user: ' + user.uid);
+                        console.log('not admin');
+                        $window.alert("Permission Denied. \n You are not admin of this event")
+                        $window.location.href = '/index.html';
+                    }
+                })
+
+            } else {
+                console.log('not log in');
                 $window.location.href = '/index.html';
             }
         })
-
-    } else {
-        console.log('not log in');
-        $window.location.href = '/index.html';
-    }
-})
     }]);

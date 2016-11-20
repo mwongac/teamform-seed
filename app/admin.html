@@ -76,26 +76,30 @@
       <h1 class="pull-left banner_title">Administrative Page</h1>
     </section>
   </div>
-  <div id="event" class="text-center">
+  <div id="admin_page" class="text-center">
 
     <div id="admin_event_div">
       <!--<div class="col-lg-8">-->
       <div ng-include="'description.html'"></div>
       <!--</div>-->
       <!--smart generator-->
-      <div class="row">
-        <div class="col-md-4"><button id="btn_smart_generator" type="button" class="btn  btn-primary" ng-click="generate_click()" ng-hide="(deadline-today)>0"
-            ng-disabled="editable">Generate Teams</button></div>
-        <!--show if achieve deadline-->
-      </div>
-
-      <!--<div class="col-md-4">-->
-      <button id="btn_event_edit" class="btn btn-primary" ng-click="edit_click()" ng-hide="editable">
-            <span class="glyphicon glyphicon-pencil" aria-label="edit">Edit</span>
+      <div class="col-md-12" id="admin_action_buttons" ng-hide="editable">
+        <button id="btn_smart_generator" type="button" class="btn  btn-primary" ng-click="generate_click()" ng-hide="(deadline-today)>0">
+            Generate Teams
           </button>
-      <!--</div>-->
+        <!--show generator if achieve deadline-->
+        <button id="btn_event_edit" class="btn btn-primary" ng-click="edit_click()">
+              <span class="glyphicon glyphicon-pencil" aria-label="edit">Edit</span>
+          </button>
+        <button id="btn_event_edit" class="btn btn-primary" ng-click="close_event_click()" ng-show="(deadline-today)>0">
+              <span class="glyphicon glyphicon-folder-close" aria-label="close event"> Close Event</span>
+          </button>
+        <button id="btn_event_edit" class="btn btn-default" ng-click="reopen_event_click()" ng-hide="(deadline-today)>0">
+              <span class="glyphicon glyphicon-calendar" aria-label="reopen event"> Reopen Event</span>
+          </button>
+      </div>
+      <br>
     </div>
-    <br>
 
     <div id="admin_page_controller">
       <div class="col-md-12">
@@ -106,7 +110,7 @@
             <table align="center">
               <th class="editor" colspan="2">This is the real-time editor. You can see the results above instantly.</th>
               <tr align="left">
-                <td class="edit "><strong>Event Name: </strong></td>
+                <td class="edit"><strong>Event Name: </strong></td>
                 <td class="edit"><input class="form-control ng-dirty ng-invalid ng-valid" ng-model="param.eventName" required></td>
               </tr>
 
@@ -159,7 +163,7 @@
       <div class="col-md-12">
         <div class="announcement_div">
           <br>
-          <h2 class="text-center">Announcements</h2><br>
+          <h2 class="text-center">Announcements</h2>
           <!--new announcement-->
           <div id="new_announcement_div">
             <button id="btn_new_announcement" type="button" class="btn btn-primary" ng-click="new_announcement_click()" ng-disabled="writingAnnouncement">
@@ -244,8 +248,11 @@
             </tbody>
           </table>
         </div>
+        <div class="col-md-2"></div>
+        <center>
+          <label ng-show="waitList.length ==0">No one on the waitlist.</label>
+        </center>
       </div>
-      <label ng-show="waitList.length ==0">No one on the waitlist.</label>
     </div>
     <!--end of teams & member list-->
 
