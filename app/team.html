@@ -29,7 +29,7 @@
       
 	  	  
    </head>
-   <body> 
+   <body ng-controller="TeamCtrl"> 
 
   <div ng-include="'navbar.html'" id='navbarMenu'></div>
    <br>
@@ -40,7 +40,7 @@
       </section>
     </div>
    <div class="text-center">
-      <div ng-controller="TeamCtrl" id="team_page_controller" >
+      <div id="team_page_controller" >
       <h1>Team Page</h1>
             <div id="event_description_div" class="row">
               <div ng-include="'description.html'"></div>
@@ -77,8 +77,8 @@
                     </ul>
            </div>
            <tr>
-           <td><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam($scope.uid)">Join this teamd directly (this will remove)</button></td> <!--this will remove after we finish request to join team properly-->
-           <td><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam($scope.uid)">Request to join this team</button></td>
+           <td><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam('')">Join this teamd directly (this will remove)</button></td> <!--this will remove after we finish request to join team properly-->
+           <td><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam('')">Request to join this team</button></td>
            </tr>
     </div>           
   </div>

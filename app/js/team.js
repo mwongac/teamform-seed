@@ -1,9 +1,6 @@
 $(document).ready(function () {
 	$('#team_page_controller').hide();
 	$('#text_event_name').text("Error: Invalid event name ");
-
-
-
 	var eventid = getURLParameter("eventid");
 	console.log(eventid);
 	if (eventid != null && eventid !== '') {
@@ -21,7 +18,7 @@ angular.module('teamform-team-app', ['firebase'])
 			// Call Firebase initialization code defined in site.js
 			initalizeFirebase();
 
-
+			
 			var teamid = getURLParameter("teamid");
 			$scope.teamid = teamid;
 			var eventid = getURLParameter("eventid");
@@ -121,7 +118,7 @@ angular.module('teamform-team-app', ['firebase'])
 			
 			var membersRef = firebase.database().ref("events/" + eventid + "/teams/" + teamid + "/members");
 			//$scope.members = [];
-			$scope.members = $firebaseArray(membersRef);
+			$scope.members = $firebaseObject(membersRef);
 
 			 $scope.members.$loaded()
 			 	.then(function (data) {
@@ -151,9 +148,11 @@ angular.module('teamform-team-app', ['firebase'])
 
 		//request to join this team 
 		$scope.requestJoinTeam = function (currentTeamid) {
-			if (currentTeamid == '') {
+			if (currentTeamid == "undefined") {
 				return false;
-			} else {
+			} else if (currentTeamid == ''){
+				currentTeamid = $scope.teamid;
+			}
 				console.log(currentTeamid);
 				var newteamRef = firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid);
 				var teamobject = $firebaseObject(newteamRef);
@@ -168,20 +167,19 @@ angular.module('teamform-team-app', ['firebase'])
 							teamobject.$save();
 							console.log(teamobject);
 					});		
-			}
+			
 		}
 
-				//join this team 
+		//join this team 
 		$scope.joinTeam = function (currentTeamid) {
-			if (currentTeamid == '') {
+			if (typeof currentTeamid == "undefined") {
 				return false;
 				//user will enter team page which is created by user who become leader
-			} else {
+			} else if (currentTeamid == ''){
+				currentTeamid = $scope.teamid;
+			}
 			//	console.log(currentTeamid);
-
-					
 				var currentUser = $scope.uid;
-		//		var currentUser = firebase.auth().currentUser;
 				var currentUsersRef = firebase.database().ref('users/'+currentUser+'/teams/'+$scope.eventid);
 				var userNewTeamObject = $firebaseObject(currentUsersRef);
 				userNewTeamObject.$loaded()
@@ -201,9 +199,9 @@ angular.module('teamform-team-app', ['firebase'])
 				teamobject.$loaded()
 					.then(function(data){
 							//console.log(data);
-							$scope.members = teamobject.members;
-							if(typeof $scope.members == "undefined"){
-								$scope.members = [];
+							$scope.joinTeamMembers = teamobject.members;
+							if(typeof $scope.joinTeamMembers == "undefined"){
+								$scope.joinTeamMembers = [];
 							}
 							// var membersArrayRef=firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid+'/members');
 							// var membersArray = $firebaseArray(membersArrayRef);
@@ -214,17 +212,17 @@ angular.module('teamform-team-app', ['firebase'])
 							// 	return;
 							// 	}	
 							// }
-							$scope.members.push({"memberID":$scope.uid});
-							teamobject.members = $scope.members; 
+							$scope.joinTeamMembers.push({"memberID":$scope.uid});
+							teamobject.members = $scope.joinTeamMembers; 
 							teamobject.$save();
+							$scope.$apply();
 							console.log(teamobject);
 					});	
-			}
 		}
 
 
 			//logout function
-			$scope.logout = function () {
+			$scope.logout = function() {
 				firebase.auth().signOut();
 			}
 
@@ -244,6 +242,8 @@ angular.module('teamform-team-app', ['firebase'])
 						});
 					$scope.loggedIn = true;
 					$scope.uid = user.uid;
+					
+					//console.log("$scope.loggedIn: "+$scope.loggedIn);
 					// eventid = getURLParameter("eventid");
 					// refPath = "events/" + eventid + "/admin/param";
 					// ref = firebase.database().ref(refPath);
@@ -259,7 +259,7 @@ angular.module('teamform-team-app', ['firebase'])
 
 				} else {
 					console.log('not log in');
-					$window.location.href = '/index.html';
+					window.location.href = '/index.html';
 				}
 			})
 		}]);
