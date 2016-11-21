@@ -176,11 +176,17 @@ angular.module('teamform-event-app', ['firebase'])
 
 
 	//show create team form
-	$scope.showTeamForm = function(){
-		$('#create_team_page_visibility').show(); 
-		$('#create_team_page_btn_visibility').hide(); 
-	
+	$scope.showTeamForm = function () {
+		$('#create_team_page_visibility').show();
+		create_team_page_btn_visibility.disabled = true;
 	}
+
+	//hide create team form
+	$scope.hideTeamForm = function () {
+		$('#create_team_page_visibility').hide();
+		create_team_page_btn_visibility.disabled = false;
+	}
+
     //addpreference
     $scope.addPre = function(){
         console.log('addPre pressed');
@@ -448,7 +454,8 @@ angular.module('teamform-event-app', ['firebase'])
 				waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
 				waitListArray.$loaded().then(function () {
 					if (typeof waitListArray == "undefined") { waitListArray = []; }
-					waitListArray.$add( $scope.uid);
+					//waitListArray.$add( $scope.uid);
+					waitListArray.$add({uid : $scope.uid});
 				})
 				//change variable saved in user
 				userNewTeamObject.isJoin = true;
@@ -463,22 +470,16 @@ angular.module('teamform-event-app', ['firebase'])
 				//remove from waitlist
 				waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
 				waitListArray.$loaded().then(function () {
+					//search the index of user
 					angular.forEach(waitListArray, function(waitingMember){
-						console.log("waiting member: "+ waitingMember +"\n"+ waitingMember.$value +"\n"+ waitingMember.$id);
-						if (waitingMember.$value == $scope.uid){
+						console.log("waiting member: "+ waitingMember.$id +"\n"+ waitingMember.uid +"\n"+ $scope.uid);
+						if (waitingMember.uid == $scope.uid){
 							//waitingMember.$remove();
 							index = waitListArray.$indexFor(waitingMember.$id);
 							console.log(index); 
 							waitListArray.$remove(index);
 						}
 					})
-					var index = waitListArray.$indexFor($scope.uid);
-					console.log("index for: "+index + "     uid: "+$scope.uid);
-					var index = waitListArray.$keyAt($scope.uid);
-					console.log("key for: "+index + "     uid: "+$scope.uid);
-					waitListArray.$remove(index);
-					waitListArray.$remove($scope.uid);
-
 				})
 				//change variable saved in user
 				userNewTeamObject.isJoin = false;

@@ -2,7 +2,7 @@
   <!--current announcement list-->
   <div class="col-md-2"></div>
   <div class="col-md-8">
-    <table class="table table-striped" border="1">
+    <table class="table table-striped" border="1" ng-hide="announcements.length == 0">
       <thead>
         <tr>
           <th>
@@ -45,7 +45,7 @@
         </tr>
       </tbody>
     </table>
-
+    <label ng-show="announcements.length == 0">There is no announcement. You can write new announcement.</label>
   </div>
   <br><br>
 </div>

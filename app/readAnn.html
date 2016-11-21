@@ -7,7 +7,7 @@
 	              }
 				  </style>
 				  
-				  <table class="table table-striped" border="1">
+				  <table class="table table-striped" border="1" ng-hide="announcements.length == 0">
                     <thead>
                       <tr>
                         <th><font size="4px"><center>Announcement</center></font></th>
@@ -21,3 +21,4 @@
                       </tr>
                     </tbody>
                   </table>
+    <label ng-show="announcements.length == 0">There is no announcement.</label>

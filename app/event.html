@@ -129,6 +129,7 @@
                 </div>
               </div>
 
+              <button id="btn_createTeam" type="button" class="btn btn-default" ng-click="hideTeamForm()">Cancel</button>     
               <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam()">Create teams</button>
             </form>
           </div>
@@ -187,7 +188,7 @@
             </thead>
             <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
               <tr>
-                <td>{{t.teamName}}</td>
+                <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
                 <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
                 <td>
                   <span ng-repeat="member in t.members">
@@ -195,9 +196,11 @@
                   </span>
                 </td>
                 <td>{{t.preference}}</td>
-                <td><button>(to be done)</button></td>
-                <!-- enter the team button -->
-                <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">watch this team</button></td>
+
+
+                <!-- enter the team button moved to table-->
+                <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
+
                 <td><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team</button></td>
                 <td><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join this team</button></td>
               </tr>
