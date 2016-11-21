@@ -171,6 +171,56 @@ angular.module('teamform-team-app', ['firebase'])
 			}
 		}
 
+				//join this team 
+		$scope.joinTeam = function (currentTeamid) {
+			if (currentTeamid == '') {
+				return false;
+				//user will enter team page which is created by user who become leader
+			} else {
+			//	console.log(currentTeamid);
+
+					
+				var currentUser = $scope.uid;
+		//		var currentUser = firebase.auth().currentUser;
+				var currentUsersRef = firebase.database().ref('users/'+currentUser+'/teams/'+$scope.eventid);
+				var userNewTeamObject = $firebaseObject(currentUsersRef);
+				userNewTeamObject.$loaded()
+					.then(function(data){
+						if(userNewTeamObject.role != 'admin' && userNewTeamObject.role != 'leader'){
+							userNewTeamObject.role = 'member';
+							userNewTeamObject.teamid = currentTeamid;
+							userNewTeamObject.$save();
+						}
+						console.log(userNewTeamObject);
+					});	
+
+
+					
+				var newteamRef = firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid);
+				var teamobject = $firebaseObject(newteamRef);
+				teamobject.$loaded()
+					.then(function(data){
+							//console.log(data);
+							$scope.members = teamobject.members;
+							if(typeof $scope.members == "undefined"){
+								$scope.members = [];
+							}
+							// var membersArrayRef=firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid+'/members');
+							// var membersArray = $firebaseArray(membersArrayRef);
+							// console.log(membersArray);
+							// for(mA in membersArray){
+							// 	console.log(mA.memberID);
+							// 	if(mA.memberID == $scope.uid){
+							// 	return;
+							// 	}	
+							// }
+							$scope.members.push({"memberID":$scope.uid});
+							teamobject.members = $scope.members; 
+							teamobject.$save();
+							console.log(teamobject);
+					});	
+			}
+		}
 
 
 			//logout function
