@@ -50,11 +50,85 @@
                         <table></table>
                         <!--button for adin to comfire or cancel-->
                         <!--for testing-->
+                        <h3>waitList</h3>
                         <ul ng-repeat="user in waitList">
                             uid = {{user.uid}}<br> name = {{user.name}}<br> role = {{user.role}}<br> team={{user.teamid}}
                             <br>
                             <br>
                         </ul>
+                        <h3>Teams not enough</h3>
+                        <table id="teamsList" class="table table-hover text-left">
+                            <thead>
+                                <tr>
+                                    <th>Team id</th>
+                                    <th>Team Name</th>
+                                    <th>Team Leader</th>
+                                    <th>Team members</th>
+                                    <th>Preference</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="(key,t) in teamsNotEnough" ng-init="getUserNameInTeam(t)">
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td>{{t.teamName}}</td>
+                                    <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                                    <td><span ng-repeat="member in t.members">
+                                        <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                                    </span>
+                                    </td>
+                                    <td>{{t.preference}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h3>Teams enough</h3>
+                        <table id="teamsEnoughList" class="table table-hover text-left">
+                            <thead>
+                                <tr>
+                                    <th>Team id</th>
+                                    <th>Team Name</th>
+                                    <th>Team Leader</th>
+                                    <th>Team members</th>
+                                    <th>Preference</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="(key,t) in teamsEnough" ng-init="getUserNameInTeam(t)">
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td>{{t.teamName}}</td>
+                                    <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                                    <td><span ng-repeat="member in t.members">
+                                        <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                                    </span>
+                                    </td>
+                                    <td>{{t.preference}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h3>Teams Full</h3>
+                        <table id="teamsFullList" class="table table-hover text-left">
+                            <thead>
+                                <tr>
+                                    <th>Team id</th>
+                                    <th>Team Name</th>
+                                    <th>Team Leader</th>
+                                    <th>Team members</th>
+                                    <th>Preference</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="(key,t) in teamsFull" ng-init="getUserNameInTeam(t)">
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td>{{t.teamName}}</td>
+                                    <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                                    <td><span ng-repeat="member in t.members">
+                                        <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                                    </span>
+                                    </td>
+                                    <td>{{t.preference}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                         <div style="text-align: right">
                             <button ng-click="return()">Cancel</button>
                             <button class="btn btn-primary" ng-click="confirm()">Confirm</button>
