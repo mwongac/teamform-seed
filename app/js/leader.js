@@ -19,6 +19,47 @@ angular.module('leader-app', ['firebase'])
         $scope.displayName = '';
         $scope.nameToInvite = '';
         $scope.invitelist = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/invitelist'))
+        $scope.requestMemberList = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/requestMemberList'))
+        $scope.requestMemberList.$loaded()
+            .then(function (data) {
+                // console.log("data: ");
+                // console.log(data);
+                angular.forEach(data, function (oneMember, key) {
+                    console.log("oneMember: ");
+                    console.log(oneMember);
+                    $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
+                        oneMember.name = resultFromCallback;
+                        $scope.$apply();
+                        console.log("a member name: " + oneMember.name);
+                    });
+                });
+            });
+
+        $scope.members = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/members'))
+        $scope.members.$loaded()
+            .then(function (data) {
+                // console.log("data: ");
+                // console.log(data);
+                angular.forEach(data, function (oneMember, key) {
+                    console.log("oneMember: ");
+                    console.log(oneMember);
+                    $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
+                        oneMember.name = resultFromCallback;
+                        $scope.$apply();
+                        console.log("a member name: " + oneMember.name);
+                    });
+                });
+            });
+
+        $scope.getUserNameByID = function (currentUserId, callback) {
+            var RefPath = "users/" + currentUserId;
+            retrieveOnceFirebase(firebase, RefPath, function (currentUserData) {
+                //console.log(currentUserData.child("name").val());
+                if (currentUserData.child("name").val() != null) {
+                    callback(currentUserData.child("name").val());
+                }
+            });
+        }
 
         //change teamName
         $scope.changeTeamName = function () {
