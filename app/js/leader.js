@@ -77,27 +77,27 @@ angular.module('leader-app', ['firebase'])
                 });
 
             //update team members
-            var newteamRef = firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid);
-            var teamobject = $firebaseObject(newteamRef);
+            $scope.local = $scope.members;
+            $scope.local.push({ "memberID": uid });
+            teamData.$loaded()
+                .then(function (test) {
+                    console.log("push" + uid);
+                    teamData.members = $scope.local;
+                    teamData.$save();
+                });
             $scope.members.$loaded()
                 .then(function (data) {
-                    $scope.test = teamobject.members;
-                    $scope.test.push({ "memberID": uid });
-                    teamobject.members = $scope.test;
-                    teamobject.$save();
-                    console.log(teamobject);
-
+                    // console.log("data: ");
+                    // console.log(data);
                     angular.forEach(data, function (oneMember, key) {
                         console.log("oneMember: ");
                         console.log(oneMember);
                         $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
                             oneMember.name = resultFromCallback;
                             console.log("a member name: " + oneMember.name);
-                            $scope.$apply();
                         });
                     });
                 });
-             
             //update user state
             var currentUser = uid;
             var currentUsersRef = firebase.database().ref('users/' + currentUser + '/teams/' + $scope.eventid);
@@ -111,6 +111,7 @@ angular.module('leader-app', ['firebase'])
                     }
                     console.log(userNewTeamObject);
                 });
+                location.reload();
 
         }
 
