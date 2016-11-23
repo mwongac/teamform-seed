@@ -14,7 +14,7 @@ $(document).ready(function () {
 angular.module('teamform-team-app', ['firebase'])
 	.controller('TeamCtrl', ['$scope', '$firebaseObject', '$firebaseArray',
 		function ($scope, $firebaseObject, $firebaseArray) {
-
+			
 			// Call Firebase initialization code defined in site.js
 			initalizeFirebase();
 
@@ -43,8 +43,9 @@ angular.module('teamform-team-app', ['firebase'])
 				"minTeamSize":0,
 				"maxTeamSize":0,
 			};
-			$scope.currentTeamSize = 1;
-
+			$scope.currentTeamSize = 0;
+			$scope.teamLeaderName ='';
+			
 			//Start: It get the data about admin and put them in parm
 			//$scope.param = $firebaseObject(eventRef);
 			// $scope.param.$loaded()
@@ -109,13 +110,26 @@ angular.module('teamform-team-app', ['firebase'])
 						$scope.preference = $scope.range.preference;
  						$scope.preferredTeamSize = $scope.range.preferredTeamSize;
 						$scope.teamDescription = $scope.range.teamDescription;
-						$scope.teamLeader = $scope.range.teamLeader;
+						//$scope.teamLeader = $scope.range.teamLeader;
   						$scope.teamName = $scope.range.teamName; 
 						$scope.$apply(); // force to refresh
 			 		}
 				 });
-		
 			
+			var teamLeaderRef = firebase.database().ref("events/" + eventid + "/teams/" + teamid + "/teamLeader");
+			 $scope.teamLeader = $firebaseObject(teamLeaderRef);
+			 $scope.teamLeader.$loaded()
+			 	.then(function (data) {
+					//  console.log("data.$value: ");
+			 		//  console.log(data.$value);
+							$scope.getUserNameByID(data.$value, function (resultFromCallback){
+								$scope.teamLeader.name= resultFromCallback;
+								$scope.currentTeamSize +=1;
+								console.log("The Team Leader name: "+ $scope.teamLeader.name );
+								//console.log($scope.teamLeader.name);
+							});
+			 	});
+
 			var membersRef = firebase.database().ref("events/" + eventid + "/teams/" + teamid + "/members");
 			//$scope.members = [];
 			$scope.members = $firebaseObject(membersRef);

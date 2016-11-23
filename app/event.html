@@ -46,7 +46,7 @@
     <h1>
       <u>Event Page</u>
     </h1>
-    <div id="event_description_div">
+    <div id="event_description_div" class = "row">
       <div ng-include="'description.html'"></div>
     </div>
 
@@ -68,17 +68,18 @@
       </div>
       <!--end of announcement div-->
       <br>
-      <hr>
-      <br>
-
+      
+      
+      <span class ="row">
       <!--join event: You will be on the waiting list of member. If cannot join a team before deadline, admin will assign you to a team according your preference.-->
       <button id="btn_join" type="button" class="btn btn-primary" ng-click="joinEvent()" ng-hide="isJoin">Join Event</button>
       <button id="btn_join" type="button" class="btn btn-default" ng-click="quitEvent()" ng-show="isJoin">Quit Event</button>
+      
       <!-- create team button -->
     <!--  <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam('default')">Create teams</button>
     -->
       <button id="create_team_page_btn_visibility" type="button" class="btn btn-primary" ng-click="showTeamForm()">Create teams</button>
- 
+      </span>
       <div id="create_team_page_visibility">
         <div class="row">
           <div class="col-md-3 col-xs-2"></div>
@@ -170,7 +171,14 @@
           </tbody>
         </table>
       </div>
-
+      <div class="row">
+          <div class="col-md-6">
+           <h3>Search By Team name:</h3>
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="input-lg" ng-model="filterName">
+          </div>
+      </div>
       <!--teams & member list-->
       <div class="row">
         <div class="col-md-6 col-xs-6 text-right">
@@ -187,22 +195,24 @@
               </tr>
             </thead>
             <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
-              <tr>
-                <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
-                <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
-                <td>
-                  <span ng-repeat="member in t.members">
-                            <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
-                  </span>
-                </td>
-                <td>{{t.preference}}</td>
+              <div> <!--ng-show="filter(t)">-->
+                <tr>
+                  <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
+                  <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                  <td>
+                    <span ng-repeat="member in t.members">
+                              <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                    </span>
+                  </td>
+                  <td>{{t.preference}}</td>
 
 
-                <!-- enter the team button moved to table-->
-                <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
-                <td><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team directly (this will remove)</button></td> <!--this will remove after we finish request to join team properly-->
-                <td><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join this team</button></td>
-              </tr>
+                  <!-- enter the team button moved to table-->
+                  <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
+                  <td><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team directly (this will be removed)</button></td> <!--this will remove after we finish request to join team properly-->
+                  <td><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join this team</button></td>
+                  </tr>
+              </div>
             </tbody>
           </table>
         </div>
