@@ -1,9 +1,6 @@
 $(document).ready(function () {
 	$('#team_page_controller').hide();
 	$('#text_event_name').text("Error: Invalid event name ");
-
-
-
 	var eventid = getURLParameter("eventid");
 	console.log(eventid);
 	if (eventid != null && eventid !== '') {
@@ -17,27 +14,61 @@ $(document).ready(function () {
 angular.module('teamform-team-app', ['firebase'])
 	.controller('TeamCtrl', ['$scope', '$firebaseObject', '$firebaseArray',
 		function ($scope, $firebaseObject, $firebaseArray) {
-
+			
 			// Call Firebase initialization code defined in site.js
 			initalizeFirebase();
 
-
+			
 			var teamid = getURLParameter("teamid");
+			$scope.teamid = teamid;
+			var eventid = getURLParameter("eventid");
+			$scope.eventid = eventid;
+
+
 			var teamRef = firebase.database().ref('events/' + eventid + '/teams/' + teamid);
 			var teamObject = $firebaseObject(teamRef);
+			console.log("teamObject:");
+			console.log(teamObject);
 
-			var eventid = getURLParameter("eventid");
+
 			var eventRef = firebase.database().ref('events/' + eventid + '/admin/param');
 			var eventObject = $firebaseObject(eventRef);
-
+			console.log("eventObject:");
+			console.log(eventObject);
 
 			// TODO: implementation of MemberCtrl	
 			$scope.param = {
-				"teamName": '',
-				"currentTeamSize": 0,
-				"teamMembers": []
+				"eventName": '',
+				"teamMembers": [],
+				"minTeamSize":0,
+				"maxTeamSize":0,
 			};
+			$scope.currentTeamSize = 0;
+			$scope.teamLeaderName ='';
+			
+			//Start: It get the data about admin and put them in parm
+			//$scope.param = $firebaseObject(eventRef);
+			// $scope.param.$loaded()
+			//  	.then(function (data) {
 
+			// 		$scope.today = new Date();
+			// 		var database = firebase.database();
+			// 		var adminRef = database.ref('users/' + $scope.param.admin);
+			// 		var adminData = $firebaseObject(adminRef);
+			// 		adminData.$loaded()
+			// 			.then(function (data) {
+			// 				$scope.adminName = adminData.name;
+			// 			})
+
+			// 		// Enable the UI when the data is successfully loaded and synchornized
+			// 		$('#text_event_name').text("Event Name: " + $scope.param.eventName);
+			// 		$('#admin_page_controller').show();
+			// 	})
+			// 	.catch(function (error) {
+			// 		// Database connection error handling...
+			// 		//console.error("Error:", error);
+			// 	});
+			//End: It get the data about admin and put them in parm
 
 
 			refPath = "events/" + eventid + "/admin";
@@ -45,157 +76,167 @@ angular.module('teamform-team-app', ['firebase'])
 				console.log(data.child("param").val());
 				if (data.child("param").val() != null) {
 					$scope.range = data.child("param").val();
-					$scope.param.currentTeamSize = parseInt(($scope.range.minTeamSize + $scope.range.maxTeamSize) / 2);
+					$scope.param.minTeamSize = parseInt($scope.range.minTeamSize);
+					//console.log($scope.param.minTeamSize);
+					$scope.param.maxTeamSize = parseInt($scope.range.maxTeamSize);
+					$scope.deadline = Date.parse($scope.range.deadline);
+					$scope.today = new Date();
+					//console.log($scope.today);
+					$scope.param.eventName= $scope.range.eventName;
+					$scope.param.description = $scope.range.description;
+					$scope.param.admin = $scope.range.admin;
+
+					adminRefPath = "users/" + $scope.range.admin;
+					retrieveOnceFirebase(firebase, adminRefPath, function (adminData) {
+					//	console.log(adminData.child("name").val());
+						if (adminData.child("name").val() != null) {
+							$scope.adminName = adminData.child("name").val();
+							//$scope.adminName = $scope.adminData.name;
+							$scope.$apply(); // force to refresh
+						}
+					});
+
 					$scope.$apply(); // force to refresh
 					$('#team_page_controller').show(); // show UI
-
 				}
 			});
 
 
-			refPath = "events/" + eventid + "/teams/" + teamid + "teamMembers";
-			$scope.member = [];
-			$scope.member = $firebaseArray(firebase.database().ref(refPath));
+			refPath = "events/" + eventid + "/teams/"+ teamid;
+			 retrieveOnceFirebase(firebase, refPath, function (data) {
+			 //	console.log(data.val());
+			 		if (data.val() != null) {
+						$scope.range = data.val();
+						$scope.preference = $scope.range.preference;
+ 						$scope.preferredTeamSize = $scope.range.preferredTeamSize;
+						$scope.teamDescription = $scope.range.teamDescription;
+						//$scope.teamLeader = $scope.range.teamLeader;
+  						$scope.teamName = $scope.range.teamName; 
+						$scope.$apply(); // force to refresh
+			 		}
+				 });
+			
+			var teamLeaderRef = firebase.database().ref("events/" + eventid + "/teams/" + teamid + "/teamLeader");
+			 $scope.teamLeader = $firebaseObject(teamLeaderRef);
+			 $scope.teamLeader.$loaded()
+			 	.then(function (data) {
+					//  console.log("data.$value: ");
+			 		//  console.log(data.$value);
+							$scope.getUserNameByID(data.$value, function (resultFromCallback){
+								$scope.teamLeader.name= resultFromCallback;
+								$scope.currentTeamSize +=1;
+								console.log("The Team Leader name: "+ $scope.teamLeader.name );
+								//console.log($scope.teamLeader.name);
+							});
+			 	});
 
+			var membersRef = firebase.database().ref("events/" + eventid + "/teams/" + teamid + "/members");
+			//$scope.members = [];
+			$scope.members = $firebaseObject(membersRef);
 
-			refPath = "events/" + eventid + "/teams";
-			$scope.team = [];
-			$scope.team = $firebaseArray(firebase.database().ref(refPath));
+			 $scope.members.$loaded()
+			 	.then(function (data) {
+					// console.log("data: ");
+			 		// console.log(data);
+					angular.forEach(data, function (oneMember, key) {
+						console.log("oneMember: ");
+						console.log(oneMember);
+							$scope.getUserNameByID(oneMember.memberID, function (resultFromCallback){
+								oneMember.name = resultFromCallback;
+								$scope.currentTeamSize +=1;
+								console.log("a member name: "+ oneMember.name);
+							});
+					});
+					
+			 	});
 
-
-			$scope.requests = [];
-			$scope.refreshViewRequestsReceived = function () {
-
-				//$scope.test = "";		
-				$scope.requests = [];
-				var teamID = $.trim($scope.param.teamName);
-
-				$.each($scope.member, function (i, obj) {
-					//$scope.test += i + " " + val;
-					//$scope.test += obj.$id + " " ;
-
-					var userID = obj.$id;
-					if (typeof obj.selection != "undefined" && obj.selection.indexOf(teamID) > -1) {
-						//$scope.test += userID + " " ;
-
-						$scope.requests.push(userID);
+			$scope.getUserNameByID = function (currentUserId, callback) {
+				var RefPath = "users/" + currentUserId;
+				retrieveOnceFirebase(firebase, RefPath, function (currentUserData) {
+					//console.log(currentUserData.child("name").val());
+					if (currentUserData.child("name").val() != null) {
+						callback(currentUserData.child("name").val());
 					}
 				});
-
-				$scope.$apply();
-
 			}
 
-			$scope.changeCurrentTeamSize = function (delta) {
-				var newVal = $scope.param.currentTeamSize + delta;
-				if (newVal >= $scope.range.minTeamSize && newVal <= $scope.range.maxTeamSize) {
-					$scope.param.currentTeamSize = newVal;
-				}
+		//request to join this team 
+		$scope.requestJoinTeam = function (currentTeamid) {
+			if (currentTeamid == "undefined") {
+				return false;
+			} else if (currentTeamid == ''){
+				currentTeamid = $scope.teamid;
 			}
+				console.log(currentTeamid);
+				var newteamRef = firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid);
+				var teamobject = $firebaseObject(newteamRef);
+				teamobject.$loaded()
+					.then(function(data){
+							$scope.requestMemberList = teamobject.requestMemberList;
+							if(typeof $scope.requestMemberList == "undefined"){
+								$scope.requestMemberList = [];
+							}
+							$scope.requestMemberList.push( {"memberID":$scope.uid});
+							teamobject.requestMemberList = $scope.requestMemberList; 
+							teamobject.$save();
+							console.log(teamobject);
+					});		
+			
+		}
 
-			$scope.saveFunc = function () {
-
-
-				var teamID = $.trim($scope.param.teamName);
-
-				if (teamID !== '') {
-
-					var newData = {
-						'size': $scope.param.currentTeamSize,
-						'teamMembers': $scope.param.teamMembers
-					};
-
-					var refPath = getURLParameter("q") + "/team/" + teamID;
-					var ref = firebase.database().ref(refPath);
-
-
-					// for each team members, clear the selection in /[eventName]/team/
-
-					$.each($scope.param.teamMembers, function (i, obj) {
-
-
-						//$scope.test += obj;
-						var rec = $scope.member.$getRecord(obj);
-						rec.selection = [];
-						$scope.member.$save(rec);
-
-
-
-					});
-
-
-
-					ref.set(newData, function () {
-
-						// console.log("Success..");
-
-						// Finally, go back to the front-end
-						// window.location.href= "index.html";
-					});
-
-
-
-				}
-
-
+		//join this team 
+		$scope.joinTeam = function (currentTeamid) {
+			if (typeof currentTeamid == "undefined") {
+				return false;
+				//user will enter team page which is created by user who become leader
+			} else if (currentTeamid == ''){
+				currentTeamid = $scope.teamid;
 			}
+			//	console.log(currentTeamid);
+				var currentUser = $scope.uid;
+				var currentUsersRef = firebase.database().ref('users/'+currentUser+'/teams/'+$scope.eventid);
+				var userNewTeamObject = $firebaseObject(currentUsersRef);
+				userNewTeamObject.$loaded()
+					.then(function(data){
+						if(userNewTeamObject.role != 'admin' && userNewTeamObject.role != 'leader'){
+							userNewTeamObject.role = 'member';
+							userNewTeamObject.teamid = currentTeamid;
+							userNewTeamObject.$save();
+						}
+						console.log(userNewTeamObject);
+					});	
 
-			$scope.loadFunc = function () {
 
-				var teamID = $.trim($scope.param.teamName);
-				var eventid = getURLParameter("q");
-				var refPath = eventid + "/team/" + teamID;
-				retrieveOnceFirebase(firebase, refPath, function (data) {
-
-					if (data.child("size").val() != null) {
-
-						$scope.param.currentTeamSize = data.child("size").val();
-
-						$scope.refreshViewRequestsReceived();
-
-
-					}
-
-					if (data.child("teamMembers").val() != null) {
-
-						$scope.param.teamMembers = data.child("teamMembers").val();
-
-					}
-
-					$scope.$apply(); // force to refresh
-				});
-
-			}
-
-			$scope.processRequest = function (r) {
-				//$scope.test = "processRequest: " + r;
-
-				if (
-					$scope.param.teamMembers.indexOf(r) < 0 &&
-					$scope.param.teamMembers.length < $scope.param.currentTeamSize) {
-
-					// Not exists, and the current number of team member is less than the preferred team size
-					$scope.param.teamMembers.push(r);
-
-					$scope.saveFunc();
-				}
-			}
-
-			$scope.removeMember = function (member) {
-
-				var index = $scope.param.teamMembers.indexOf(member);
-				if (index > -1) {
-					$scope.param.teamMembers.splice(index, 1); // remove that item
-
-					$scope.saveFunc();
-				}
-
-			}
-
+					
+				var newteamRef = firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid);
+				var teamobject = $firebaseObject(newteamRef);
+				teamobject.$loaded()
+					.then(function(data){
+							//console.log(data);
+							$scope.joinTeamMembers = teamobject.members;
+							if(typeof $scope.joinTeamMembers == "undefined"){
+								$scope.joinTeamMembers = [];
+							}
+							// var membersArrayRef=firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid+'/members');
+							// var membersArray = $firebaseArray(membersArrayRef);
+							// console.log(membersArray);
+							// for(mA in membersArray){
+							// 	console.log(mA.memberID);
+							// 	if(mA.memberID == $scope.uid){
+							// 	return;
+							// 	}	
+							// }
+							$scope.joinTeamMembers.push({"memberID":$scope.uid});
+							teamobject.members = $scope.joinTeamMembers; 
+							teamobject.$save();
+							$scope.$apply();
+							console.log(teamobject);
+					});	
+		}
 
 
 			//logout function
-			$scope.logout = function () {
+			$scope.logout = function() {
 				firebase.auth().signOut();
 			}
 
@@ -215,26 +256,24 @@ angular.module('teamform-team-app', ['firebase'])
 						});
 					$scope.loggedIn = true;
 					$scope.uid = user.uid;
-					eventid = getURLParameter("q");
-					refPath = "events/" + eventid + "/admin/param";
-					ref = firebase.database().ref(refPath);
-					$scope.param = $firebaseObject(ref);
-					$scope.param.$loaded().then(function (data) {
-						// if($scope.param.admin != user.uid){//check if user is admin of this event
-						// 	console.log('admin: '+$scope.param.admin+', user: '+user.uid);
-						// 	console.log('not admin');
-						// 	$window.alert("Permission Denied. \n You are not admin of this event")
-						// 	$window.location.href = '/index.html';
-						// }
-					})
+					
+					//console.log("$scope.loggedIn: "+$scope.loggedIn);
+					// eventid = getURLParameter("eventid");
+					// refPath = "events/" + eventid + "/admin/param";
+					// ref = firebase.database().ref(refPath);
+					// $scope.param = $firebaseObject(ref);
+					// $scope.param.$loaded().then(function (data) {
+					// 	// if($scope.param.admin != user.uid){//check if user is admin of this event
+					// 	// 	console.log('admin: '+$scope.param.admin+', user: '+user.uid);
+					// 	// 	console.log('not admin');
+					// 	// 	$window.alert("Permission Denied. \n You are not admin of this event")
+					// 	// 	$window.location.href = '/index.html';
+					// 	// }
+					// })
 
 				} else {
 					console.log('not log in');
-					$window.location.href = '/index.html';
+					window.location.href = '/index.html';
 				}
 			})
-
-
-
-
 		}]);

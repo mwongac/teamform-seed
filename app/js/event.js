@@ -19,6 +19,9 @@ angular.module('teamform-event-app', ['firebase'])
 		$scope.param = {}; //event.{eventid}.admin.param
 		$scope.loggedIn = true;
 
+		//filterName is the context of filter which will check whether it contains in teamName
+		$scope.filterName = '';
+
 		// Call Firebase initialization code defined in site.js
 		initalizeFirebase();
 
@@ -65,6 +68,8 @@ angular.module('teamform-event-app', ['firebase'])
 					.then(function (data) {
 						$scope.adminName = adminData.name;
 					})
+				//change the preferred Team Size to the min team size
+				$scope.preferredTeamSize = $scope.param.minTeamSize;
 				// Enable the UI when the data is successfully loaded and synchornized
 				$('#text_event_name').text("Event Name: " + $scope.param.eventName);
 				$('#admin_page_controller').show();
@@ -85,7 +90,6 @@ angular.module('teamform-event-app', ['firebase'])
 				return true;
 			}
 		}
-
 
 		// for create new team 
 		$scope.nextTeamName = "";
@@ -201,9 +205,10 @@ angular.module('teamform-event-app', ['firebase'])
 			$scope.preference.splice($scope.preference.indexOf(target), 1);
 		}
 
+
 		$scope.changePreferredTeamSize = function (delta) {
 			var newVal = $scope.preferredTeamSize + delta;
-			if (newVal >= 1 && newVal <= $scope.param.maxTeamSize) {
+			if (newVal >= $scope.param.minTeamSize && newVal <= $scope.param.maxTeamSize) {
 				$scope.preferredTeamSize = newVal;
 			}
 		}
@@ -267,6 +272,31 @@ angular.module('teamform-event-app', ['firebase'])
 			}
 		}
 
+
+		//filter for *.rule and rule.*
+		$scope.matchRule = function (str, rule, callback) {
+			var matchtest = new RegExp(rule).test(str);
+			console.log("rule: " + rule);
+			console.log("str: ");
+			console.log(str);
+			console.log("match: " + matchtest);
+			callback(matchtest);
+		}
+
+		// $scope.filter.$loaded().then(function (teamidForFilter){
+		// 	console.log("steamidForFiltertr: ");
+		// 	console.log(teamidForFilter);
+		// 	var refPath = "events/" + eventid + "/teams/"+ teamidForFilter+"/teamName";
+		// 	$scope.filteringTeamName = $firebaseObject(firebase.database().ref(refPath));
+		// 	$scope.filteringTeamName.$loaded().then(function (){
+		// 			var rulename = $scope.filterName;
+		// 			var filterResult = false;
+		// 			$scope.matchRule($scope.filteringTeamName, rulename, boolResult){
+		// 				filterResult = boolResult;
+		// 			}	
+		// 		});
+		// 	return filterResult;	
+		// });
 		refPath = "events/" + eventid + "/teams";
 		$scope.teams = [];
 		$scope.teams = $firebaseArray(firebase.database().ref(refPath));
@@ -471,25 +501,25 @@ angular.module('teamform-event-app', ['firebase'])
 		$scope.quitEvent = function () {
 			//disable this confirm since other function will use quitEvent
 			//if (confirm("After you quiteEvent, you cannot request/accept invite to join team after deadline if you cannot find a team.")) {
-				console.log("quit event");
-				//remove from waitlist
-				waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
-				waitListArray.$loaded().then(function () {
-					//search the index of user
-					angular.forEach(waitListArray, function (waitingMember) {
-						console.log("waiting member: " + waitingMember.$id + "\n" + waitingMember.uid + "\n" + $scope.uid);
-						if (waitingMember.uid == $scope.uid) {
-							//waitingMember.$remove();
-							index = waitListArray.$indexFor(waitingMember.$id);
-							console.log(index);
-							waitListArray.$remove(index);
-						}
-					})
+			console.log("quit event");
+			//remove from waitlist
+			waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
+			waitListArray.$loaded().then(function () {
+				//search the index of user
+				angular.forEach(waitListArray, function (waitingMember) {
+					console.log("waiting member: " + waitingMember.$id + "\n" + waitingMember.uid + "\n" + $scope.uid);
+					if (waitingMember.uid == $scope.uid) {
+						//waitingMember.$remove();
+						index = waitListArray.$indexFor(waitingMember.$id);
+						console.log(index);
+						waitListArray.$remove(index);
+					}
 				})
-				//change variable saved in user
-				userNewTeamObject.isJoin = false;
-				$scope.isJoin = false;
-				userNewTeamObject.$save();
+			})
+			//change variable saved in user
+			userNewTeamObject.isJoin = false;
+			$scope.isJoin = false;
+			userNewTeamObject.$save();
 			// }
 		}
 

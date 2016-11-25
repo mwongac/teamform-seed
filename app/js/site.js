@@ -34,27 +34,28 @@ function initalizeFirebase() {
   //   databaseURL: "https://teamform-15bcb.firebaseio.com",
   //   storageBucket: "teamform-15bcb.appspot.com",
   // };
-
-  //the config above is peter's firebase'
+//  the config above is peter's firebase'
+  
+  
   //our own firebase (owned under team account)
-  // var config = {
-  //   apiKey: "AIzaSyCw7pPwTqi5mXO84LEfYOVUOI1_UPTTg94",
-  //   authDomain: "teapot-576b6.firebaseapp.com",
-  //   databaseURL: "https://teapot-576b6.firebaseio.com",
-  //   storageBucket: "teapot-576b6.appspot.com",
-  //   messagingSenderId: "955450264497"
-  // };
-  // firebase.initializeApp(config);
+  var config = {
+    apiKey: "AIzaSyCw7pPwTqi5mXO84LEfYOVUOI1_UPTTg94",
+    authDomain: "teapot-576b6.firebaseapp.com",
+    databaseURL: "https://teapot-576b6.firebaseio.com",
+    storageBucket: "teapot-576b6.appspot.com",
+    messagingSenderId: "955450264497"
+  };
+  firebase.initializeApp(config);
 
   //Vivian own firebase for testing
-      var config = {
-        apiKey: "AIzaSyBZLwdkcSVTj5wU81C5lmztCYk7jcBsLfs",
-        authDomain: "comp3111-418-teapot.firebaseapp.com",
-        databaseURL: "https://comp3111-418-teapot.firebaseio.com",
-        storageBucket: "comp3111-418-teapot.appspot.com",
-        messagingSenderId: "144499913129"
-      };
-      firebase.initializeApp(config);
+      // var config = {
+      //   apiKey: "AIzaSyBZLwdkcSVTj5wU81C5lmztCYk7jcBsLfs",
+      //   authDomain: "comp3111-418-teapot.firebaseapp.com",
+      //   databaseURL: "https://comp3111-418-teapot.firebaseio.com",
+      //   storageBucket: "comp3111-418-teapot.appspot.com",
+      //   messagingSenderId: "144499913129"
+      // };
+      // firebase.initializeApp(config);
 
 }
 

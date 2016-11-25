@@ -19,6 +19,101 @@ angular.module('leader-app', ['firebase'])
         $scope.displayName = '';
         $scope.nameToInvite = '';
         $scope.invitelist = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/invitelist'))
+        $scope.requestMemberList = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/requestMemberList'))
+        $scope.requestMemberList.$loaded()
+            .then(function (data) {
+                // console.log("data: ");
+                // console.log(data);
+                angular.forEach(data, function (oneMember, key) {
+                    console.log("oneMember: ");
+                    console.log(oneMember);
+                    $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
+                        oneMember.name = resultFromCallback;
+                        $scope.$apply();
+                        console.log("a member name: " + oneMember.name);
+                    });
+                });
+            });
+
+        $scope.members = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/members'))
+        $scope.members.$loaded()
+            .then(function (data) {
+                // console.log("data: ");
+                // console.log(data);
+                angular.forEach(data, function (oneMember, key) {
+                    console.log("oneMember: ");
+                    console.log(oneMember);
+                    $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
+                        oneMember.name = resultFromCallback;
+                        $scope.$apply();
+                        console.log("a member name: " + oneMember.name);
+                    });
+                });
+            });
+
+        $scope.getUserNameByID = function (currentUserId, callback) {
+            var RefPath = "users/" + currentUserId;
+            retrieveOnceFirebase(firebase, RefPath, function (currentUserData) {
+                //console.log(currentUserData.child("name").val());
+                if (currentUserData.child("name").val() != null) {
+                    callback(currentUserData.child("name").val());
+                }
+            });
+        }
+
+        //accept request 
+        $scope.acceptRequest = function (uid, u) {
+            console.log('accoept clicked uid: ' + uid);
+            console.log($scope.requestMemberList.indexOf(u));
+            //delete from requestMemberList
+            $scope.requestMemberList.splice($scope.requestMemberList.indexOf(u), 1);
+            var db = firebase.database();
+            var teamRef = db.ref('events/' + $scope.eventid + '/teams/' + $scope.teamid);
+            var teamData = $firebaseObject(teamRef);
+            teamData.$loaded()
+                .then(function (data) {
+                    teamData.requestMemberList = $scope.requestMemberList;
+                    teamData.$save();
+                });
+
+            //update team members
+            $scope.local = $scope.members;
+            $scope.local.push({ "memberID": uid });
+            teamData.$loaded()
+                .then(function (test) {
+                    console.log("push" + uid);
+                    teamData.members = $scope.local;
+                    teamData.$save();
+                });
+            $scope.members.$loaded()
+                .then(function (data) {
+                    // console.log("data: ");
+                    // console.log(data);
+                    angular.forEach(data, function (oneMember, key) {
+                        console.log("oneMember: ");
+                        console.log(oneMember);
+                        $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
+                            oneMember.name = resultFromCallback;
+                            console.log("a member name: " + oneMember.name);
+                        });
+                    });
+                });
+            //update user state
+            var currentUser = uid;
+            var currentUsersRef = firebase.database().ref('users/' + currentUser + '/teams/' + $scope.eventid);
+            var userNewTeamObject = $firebaseObject(currentUsersRef);
+            userNewTeamObject.$loaded()
+                .then(function (data) {
+                    if (userNewTeamObject.role != 'admin' && userNewTeamObject.role != 'leader') {
+                        userNewTeamObject.role = 'member';
+                        userNewTeamObject.teamid = $scope.teamid;
+                        userNewTeamObject.$save();
+                    }
+                    console.log(userNewTeamObject);
+                });
+                location.reload();
+
+        }
 
         //change teamName
         $scope.changeTeamName = function () {
