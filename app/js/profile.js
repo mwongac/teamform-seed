@@ -3,6 +3,9 @@ angular.module('profile-app', ['firebase'])
         //init firebase
         initalizeFirebase();
 
+        $scope.inputUid = getURLParameter("q");
+        $scope.othersProfile = false;
+
         $scope.userData = {
             name: 'default',
             language: [],
@@ -171,6 +174,34 @@ angular.module('profile-app', ['firebase'])
                         $scope.userData.language = currentUserData.language;
                         $scope.username = currentUserData.name;
                         $scope.userData.userid = user.uid;
+
+                        //the id is different
+                        if($scope.inputUid!=user.uid && $scope.inputUid != null){
+                            console.log($scope.inputUid);
+                            console.log("the uid is different");
+                            ref = database.ref('users/' + $scope.inputUid);
+                            var inputUserData = $firebaseObject(ref);
+                            inputUserData.$loaded()
+                                .then(function(input){
+                                console.log(input.name);
+                                $scope.userData.name = input.name;
+                                $scope.userData.gpa = input.gpa;
+                                $scope.userData.team = input.team;
+                                if(input.description == null){
+                                    $scope.userData.description = '';
+                                }else{
+                                    $scope.userData.description = input.description;
+                                }
+                                if(input.eventlist == null){
+                                    $scope.userData.eventlist = {};
+                                }else{
+                                    $scope.userData.eventlist = input.eventlist;
+                                }
+                                $scope.userData.language = input.language;
+                                $scope.userData.userid = input.uid;
+                                $scope.othersProfile = true;
+                                })
+                        }
                     })
                     .catch(function (error) {
                         console.error("Error: " + error);
