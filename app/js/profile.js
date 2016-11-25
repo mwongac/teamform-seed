@@ -159,7 +159,7 @@ angular.module('profile-app', ['firebase'])
                         console.log(currentUserData.name);
                         $scope.userData.name = currentUserData.name;
                         $scope.userData.gpa = currentUserData.gpa;
-                        $scope.userData.team = currentUserData.team;
+                        $scope.userData.teams = currentUserData.teams;
                         // $scope.userData.description = currentUserData.description;
                         if (currentUserData.description == null) {
                             $scope.userData.description = '';
@@ -186,7 +186,7 @@ angular.module('profile-app', ['firebase'])
                                 console.log(input.name);
                                 $scope.userData.name = input.name;
                                 $scope.userData.gpa = input.gpa;
-                                $scope.userData.team = input.team;
+                                $scope.userData.teams = input.teams;
                                 if(input.description == null){
                                     $scope.userData.description = '';
                                 }else{
