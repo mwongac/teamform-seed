@@ -47,7 +47,8 @@
   <p>teamid: {{teamid}}</p>
 
   <!--change team name-->
-  <p>teamName: <input ng-model='displayName'></input></p>
+  <p>teamName: <input ng-model='displayName'></input>
+  </p>
   <button type='button' class="btn btn-primary" ng-click='changeTeamName()'>Change</button>
   <!--button type="button" class="btn btn-primary" ng-click="createTeam();" >Create Team</button-->
 
@@ -60,18 +61,18 @@
   <p>Current Team Member:</p>
   <div ng-repeat="oneMember in members">
     <ul>
-       <li> member ID: {{oneMember.memberID}} </li>
-       <li> member Name: {{oneMember.name}} </li>
-     </ul>
+      <li> member ID: {{oneMember.memberID}} </li>
+      <li> member Name: {{oneMember.name}} </li>
+    </ul>
   </div>
 
   <p>Current requests:</p>
   <div ng-repeat="member in requestMemberList">
     <ul>
-       <li> member ID: {{member.memberID}} </li>
-       <li> member Name: {{member.name}} </li>
-       <li><a ng-click='acceptRequest(member.memberID, member)'>Accept</a></li>
-     </ul>
+      <li> member ID: {{member.memberID}} </li>
+      <li> member Name: {{member.name}} </li>
+      <li><a ng-click='acceptRequest(member.memberID, member)'>Accept</a></li>
+    </ul>
   </div>
 
 
@@ -90,7 +91,8 @@
   <button class='btn btn-primary' ng-click='filterPre()'>Filter by Preference</button>
 
   <!--filt by name-->
-  <p>Person you want to invite: <input ng-model='nameToInvite'></input></p>
+  <p>Person you want to invite: <input ng-model='nameToInvite'></input>
+  </p>
   <p></p>
   <button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button>
 

@@ -111,7 +111,7 @@ angular.module('leader-app', ['firebase'])
                     }
                     console.log(userNewTeamObject);
                 });
-                location.reload();
+            location.reload();
 
         }
 

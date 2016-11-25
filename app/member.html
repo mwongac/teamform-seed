@@ -1,124 +1,144 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="teamform-member-app">
-   <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="keywords" content="teamform, team">
-      <!-- The meta tags *must* come first in the head; any other head content must come *after* these tags -->
-      <title>teamform - member page</title>
-	  
-      <!-- libraries and CSS 	  
+<html lang="en" ng-app="leader-app" ng-controller="LeaderCtrl">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="teamform, team">
+  <!-- The meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>teamform - A real-time online team forming app</title>
+
+  <!-- libraries and CSS 	  
 		JQuery: Necessary for some bootstrap interactions (v1.12.4 is used)		
 		Bootstrap: Library and CSS for bootstrap framework (v3.3.7 is used)
 		Font-awesome: More icons for the web development (v4.6.3 is used)		
 		site.css: A customized css for our web application. Not from any web framework. 
 	  -->
-	        
-      <script src="lib/jquery.min.js"></script>      
-      <script src="lib/bootstrap.min.js"></script>      
-      	  
-	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">   
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">     
-      <!--<link rel="stylesheet" href="css/site.css" >-->
-      <link rel="stylesheet" href="css/custom.css" 
 
-      <!-- Customized libraries shared by pages -->
-      <script src="js/site.js"></script>
-	  	  
-   </head>
-   <body>
+  <script src="lib/jquery.min.js"></script>
+  <script src="lib/bootstrap.min.js"></script>
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Customized libraries shared by pages -->
+
+  <script src="js/site.js"></script>
+
+</head>
+
+
+<body>
+
+  <!--Menu bar-->
   <div ng-include="'navbar.html'" id='navbarMenu'></div>
-      <div>
-     <section  style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive" >
+  <div>
+    <section style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive">
       <br><br><br><br><br>
       <h1 class="pull-left banner_title">Member Page</h1>
-      </section>
-    </div>
-   <br>
+    </section>
+  </div>
+  <!--content-->
+  <h1>{{displayName}}</h1>
+  <p>eventid: {{eventid}}</p>
+  <p>teamid: {{teamid}}</p>
 
-   <div class="text-center">
-      <h1>Member Page</h1>
-      <h2 id="text_event_name"></h2>
-       <div id="member_page_controller" ng-controller="MemberCtrl">
+  <!--change team name-->
+  <p>teamName: <input ng-model='displayName'></input>
+  </p>
+  <button type='button' class="btn btn-primary" ng-click='changeTeamName()'>Change</button>
+  <!--button type="button" class="btn btn-primary" ng-click="createTeam();" >Create Team</button-->
 
+  <!--change description-->
+  <p>Description:</p>
+  <textarea ng-model='teamDescription'></textarea>
+  <br><button class='btn btn-primary' ng-click='changeDescription()'>Change</button></br>
 
-         <div class="row">
+  <!--show current members and current requests-->
+  <p>Current Team Member:</p>
+  <div ng-repeat="oneMember in members">
+    <ul>
+      <li> member ID: {{oneMember.memberID}} </li>
+      <li> member Name: {{oneMember.name}} </li>
+    </ul>
+  </div>
 
-            <div class="col-md-2 col-xs-2"></div>
-
-            <div class="col-md-8 col-xs-8 panel">
-			
-
-               
-               <form class="form-horizontal">
-                  <div class="form-group">
-                     <label for="inputUserID" class="col-sm-3 control-label">User ID</label>
-                     <div class="col-sm-5">
-                     <input type="text" class="form-control" id="inputUserID" ng-model="userID" placeholder="Enter your User ID">
-                     </div>
-					 
-					 <div class="col-sm-4">
-					   <button type="button" class="btn btn-primary" ng-click="saveFunc();" >Add/Modify</button>
-					  <button type="button" class="btn btn-primary" ng-click="loadFunc();" >Load</button>
-					  </div>
-                  </div>
-
-                  <div class="form-group">
-                     <label for="inputName" class="col-sm-3 control-label">Name</label>
-                     <div class="col-sm-9">
-                     <input type="text" class="form-control" id="inputUserName" ng-model="userName" placeholder="Type in your name">
-                     </div>
-                  </div>
-				  
-				  
-				 
+  <p>Current requests:</p>
+  <div ng-repeat="member in requestMemberList">
+    <ul>
+      <li> member ID: {{member.memberID}} </li>
+      <li> member Name: {{member.name}} </li>
+      <li><a ng-click='acceptRequest(member.memberID, member)'>Accept</a></li>
+    </ul>
+  </div>
 
 
+  <!--add preference-->
+  <p>Preference:<input ng-model='addpreference'></input>
+  </p>
+  <button class='btn btn-primary' ng-click='addPre()'>Add</button>
 
-               </form>
-			   
-			     <div class="row text-left">
-			        
-				    <h3>Your team preference:</h3>
-			       <div ng-repeat="team in teams">
-					  					  
-					 <div class="checkbox">
-						<label><input type="checkbox" value="{{team.$id}}" 
-						  ng-checked="selection.indexOf(team.$id) > -1"
-						  ng-click="toggleSelection(team.$id)">
-						{{team.$id}}</label>
-					 </div>
-					  
-				  </div>
-				</div>
+  <!--show preference list-->
+  <p>Preference list:</p>
+  <ol>
+    <li ng-repeat='pre in preference'>{{pre}}<a ng-click="removePre(pre)">Remove</a></li>
+  </ol>
 
-               
-            </div>
-            <div class="col-md-2 col-xs-2"></div>
-         </div>
+  <!--filt by preference-->
+  <button class='btn btn-primary' ng-click='filterPre()'>Filter by Preference</button>
+
+  <!--filt by name-->
+  <p>Person you want to invite: <input ng-model='nameToInvite'></input>
+  </p>
+  <p></p>
+  <button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button>
+
+  <!--filt result and invite button-->
+  <p> =========================================================================================================== </p>
+  <p>Filtered list:</p>
+  <div ng-repeat="user in filtedUsers">
+    <ul>
+      <li>Name:{{user.name}}</li>
+      <li>Gpa:{{user.gpa}}</li>
+      <li>Language:{{user.language}}</li>
+      <li>Team:{{user.teams}}</li>
+      <li>Description:{{user.description}}</li>
+      <li>User Id: {{user.$id}}</li>
+      <li><a ng-click='inviteUser(user.$id,user)'>invite</a></li>
+    </ul>
+  </div>
+  <p>InviteList:</p>
+
+  <!--invite list-->
+  <div ng-repeat='user in invitelist'>
+    <ul>
+      <li>Name:{{user.name}}</li>
+      <li>Uid:{{user.$id}}</li>
+    </ul>
+  </div>
 
 
 
-       </div>
-   </div>
+  <!-- /.container -->
+
+  <!-- Angular and Angular-route libraries (v1.5.7) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+  <script src="lib/angular-route.min.js"></script>
+
+  <!-- Firebase (v3.0.3) and AngularFire (v2.0.0) (after angular library is loaded) -->
+  <script src="lib/firebase.js"></script>
+  <script src="lib/angularfire.min.js"></script>
 
 
-   <!-- Angular and Angular-route libraries (v1.5.7) -->
-   <script src="lib/angular.min.js"></script>
-   <script src="lib/angular-route.min.js"></script>        
-     
-   <!-- Firebase (v3.0.3) and AngularFire (v2.0.0) (after angular library is loaded) -->
-   <script src="lib/firebase.js"></script>     
-   <script src="lib/angularfire.min.js"></script>
+  <!-- JavaScript of this page -->
+  <script src="js/leader.js"></script>
 
 
 
-   <!-- JavaScript of this page -->
-   <script src="js/member.js"></script>
 
-   </body>
+</body>
+
 </html>
-
