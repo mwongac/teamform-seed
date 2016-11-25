@@ -162,7 +162,6 @@ angular.module('teamform-admin-app', ['firebase'])
                     var numberOfMemberInTeam = team.members.length + 1;
                     if ((numberOfMemberInTeam) == $scope.param.maxTeamSize) {//plus Leader
                         $scope.teamsFull.push({ index: team });
-
                         numberOfFull += numberOfMemberInTeam;
                     } else if (numberOfMemberInTeam > min) {
                         $scope.teamsEnough.push({ index: team });
@@ -183,49 +182,46 @@ angular.module('teamform-admin-app', ['firebase'])
                     console.log("It is not possible to generate team. You may need to modify team size or add/kick some member.");
                     $('#success').hide();
                 } else {
+                    console.log("It is possible to generate team");
                     // dismiss team with no member and put to waitlist
                     // combine teams with not enough member ; name= team1.name + "&"+team2.name
                     // combine big teams first  -preference.size.teamid
-
-
-                    console.log("It is possible to generate team");
-                    if ($scope.isValid($scope.waitList.length + numberOfNotEnough, min, max)) {
-                        console.log("case2: generate teams without dismiss any teams with enough members.");
-                        //case 2: Can generate team just by waitList and team that have not enough member
-                        //numberOfMemberNeed = $scope.teamsNotEnough * min - numberOfNotEnough = # of member need to fil remaining team
-                        //$scope.waitList.length - ($scope.teamsNotEnough * max - numberOfNotEnough) = # of member can be add to remaining team
-                        while ($scope.waitList.length < ($scope.teamsNotEnough.length * min - numberOfNotEnough) ||//waiting member is not enough to fill all teams without enough member
-                            (($scope.waitList.length > $scope.teamsNotEnough.length * max - numberOfNotEnough + $scope.teamsEnough.length * max - numberOfEnough) && //waitlist is more than space in teams enough + teams not enough
-                                !$scope.isRangeValid($scope.waitList.length - ($scope.teamsNotEnough.length * max - numberOfNotEnough) - ($scope.teamsEnough * max - numberOfEnough), //check if the exceed waitlist member can group a teams 
-                                    $scope.waitList.length - $scope.teamsNotEnough.length * min - numberOfNotEnough, min, max))) {
-                            console.log("need to dismiss some teams.")
-                            // case 2.2: need to dismiss some team without enough member
-                            // TODO:
-                            // dismiss team with less member and check if valid again
-                            // if min team size =1, i.e. only teamleader, dismiss them directly 
-                            var tmpMinLength = min;
-                            angular.forEach($scope.teamsNotEnough, function (team, index) {
-                                if (team.length < tmpMinLength) {
-                                    tmpMinLength = team.length;
+                    console.log("case2: generate teams without dismiss any teams with enough members.");
+                    //case 2: Can generate team just by waitList and team that have not enough member
+                    //numberOfMemberNeed = $scope.teamsNotEnough * min - numberOfNotEnough = # of member need to fil remaining team
+                    //$scope.waitList.length - ($scope.teamsNotEnough * max - numberOfNotEnough) = # of member can be add to remaining team
+                    while ($scope.waitList.length < ($scope.teamsNotEnough.length * min - numberOfNotEnough) ||//waiting member is not enough to fill all teams without enough member
+                        (($scope.waitList.length > $scope.teamsNotEnough.length * max - numberOfNotEnough + $scope.teamsEnough.length * max - numberOfEnough) && //waitlist is more than space in teams enough + teams not enough
+                            !$scope.isRangeValid($scope.waitList.length - ($scope.teamsNotEnough.length * max - numberOfNotEnough) - ($scope.teamsEnough * max - numberOfEnough), //check if the exceed waitlist member can group a teams 
+                                $scope.waitList.length - $scope.teamsNotEnough.length * min - numberOfNotEnough, min, max))) {
+                        console.log("need to dismiss some teams.")
+                        // case 2.2: need to dismiss some team without enough member
+                        // TODO:
+                        // dismiss team with less member and check if valid again
+                        // if min team size = 1, i.e. only teamleader, dismiss them directly 
+                        var tmpMinLength = min;
+                        angular.forEach($scope.teamsNotEnough, function (team, index) {
+                            if (team.length < tmpMinLength) {
+                                tmpMinLength = team.length;
+                            }
+                        })
+                        var keepGoing = true;
+                        angular.forEach($scope.teamsNotEnough, function (team, index) {
+                            if (tmpMinLength != 1 && keepGoing) {
+                                if (team.length == tmpMinLength) {
+                                    $scope.dissmissTeam(team, true);//move dismissed member to waitlist
+                                    keepGoing = false;
+                                    numberOfNotEnough -= tmpMinLength;
                                 }
-                            })
-                            var keepGoing = true;
-                            angular.forEach($scope.teamsNotEnough, function (team, index) {
-                                if (tmpMinLength != 1 && keepGoing) {
-                                    if (team.length == tmpMinLength) {
-                                        $scope.dissmissTeam(team, true);//move dismissed member to waitlist
-                                        keepGoing = false;
-                                        numberOfNotEnough -= tmpMinLength;
-                                    }
-                                }
-                            })
-                            console.log("remain teams with not enough member: " + $scope.teamsNotEnough.length);
-                        }
-                        console.log("case 2.1: generated by fill waiting member to current teams");
-                        // e.g. min = 4, max = 4, waitlist = 3, 2 team with 2, 1 member, total 8
-                        $scope.putMemberToTeams($scope.waitList, $scope.teamsNotEnough, min);
-                        // case 2.1: don't need to dismiss any team (or 2.2->dismiss some team to waitlist and success)
-                    } else if ($scope.isValid($scope.waitList.length + numberOfEnough + numberOfNotEnough, min, max)) {
+                            }
+                        })
+                        console.log("remain teams with not enough member: " + $scope.teamsNotEnough.length);
+                    }
+                    console.log("case 2.1: generated by fill waiting member to current teams");
+                    // e.g. min = 4, max = 4, waitlist = 3, 2 team with 2, 1 member, total 8
+                    $scope.putMemberToTeams($scope.waitList, $scope.teamsNotEnough, min);
+                    // case 2.1: don't need to dismiss any team (or 2.2->dismiss some team to waitlist and success)
+                    if ($scope.isValid($scope.waitList.length + numberOfEnough + numberOfNotEnough, min, max)) {
                         console.log("case 3");
                         // do it need to dismiss some team?
                     } else {
