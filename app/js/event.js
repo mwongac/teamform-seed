@@ -61,6 +61,11 @@ angular.module('teamform-event-app', ['firebase'])
 					console.log(new Date($scope.param.deadline));
 				}
 				$scope.today = new Date();
+				// if($scope.deadline.getTime()>$scope.today.getTime()){
+		
+				// 	console.log("$scope.deadline.getTime(): "+$scope.deadline.getTime());
+				// 	$('#create_team_page_btn_visibility').hide();
+				// }
 				var database = firebase.database();
 				var adminRef = database.ref('users/' + $scope.param.admin);
 				var adminData = $firebaseObject(adminRef);
@@ -272,30 +277,24 @@ angular.module('teamform-event-app', ['firebase'])
     }
 
 
-	//filter for *.rule and rule.*
-	$scope.matchRule = function (str, rule,callback) {
-		var matchtest = new RegExp(rule).test(str);
-		console.log("rule: " + rule);
-		console.log("str: ");
-		console.log(str);
-		console.log("match: " + matchtest);
-		callback(matchtest);
-	}
+	// //filter for *.rule and rule.*
+	// $scope.matchRule = function (str, rule) {
+	// 	var matchtest = new RegExp(rule).test(str);
+	// 	// console.log("rule: " + rule);
+	// 	// console.log("str: ");
+	// 	// console.log(str);
+	// 	// console.log("match: " + matchtest);
+	// 	return matchtest;
+	// }
 
-	// $scope.filter.$loaded().then(function (teamidForFilter){
-	// 	console.log("steamidForFiltertr: ");
-	// 	console.log(teamidForFilter);
-	// 	var refPath = "events/" + eventid + "/teams/"+ teamidForFilter+"/teamName";
-	// 	$scope.filteringTeamName = $firebaseObject(firebase.database().ref(refPath));
-	// 	$scope.filteringTeamName.$loaded().then(function (){
-	// 			var rulename = $scope.filterName;
-	// 			var filterResult = false;
-	// 			$scope.matchRule($scope.filteringTeamName, rulename, boolResult){
-	// 				filterResult = boolResult;
-	// 			}	
-	// 		});
-	// 	return filterResult;	
-	// });
+	// 	// var refPath = "events/" + eventid + "/teams/"+ teamidForFilter+"/teamName";
+	// 	// $scope.filteringTeamName = $firebaseObject(firebase.database().ref(refPath));
+	// 	$scope.filteringTeamName = function (teamNameForFilter){
+	// 		console.log(teamNameForFilter);
+	// 		var rulename = $scope.filterName;
+	// 		return 	$scope.matchRule(teamNameForFilter, rulename)
+	// 	}
+
 		refPath = "events/" + eventid + "/teams";
 		$scope.teams = [];
 		$scope.teams = $firebaseArray(firebase.database().ref(refPath));

@@ -139,13 +139,17 @@ angular.module('teamform-team-app', ['firebase'])
 					// console.log("data: ");
 			 		// console.log(data);
 					angular.forEach(data, function (oneMember, key) {
-						console.log("oneMember: ");
-						console.log(oneMember);
-							$scope.getUserNameByID(oneMember.memberID, function (resultFromCallback){
-								oneMember.name = resultFromCallback;
-								$scope.currentTeamSize +=1;
-								console.log("a member name: "+ oneMember.name);
-							});
+						// console.log("oneMember: ");
+						// console.log(oneMember);
+						$scope.getUserNameByID(oneMember.memberID, function (resultFromCallback){
+						oneMember.name = resultFromCallback;
+						$scope.currentTeamSize +=1;
+						console.log("a member name: "+ oneMember.name);
+						});
+						$scope.getUserDescriptionByID(oneMember.memberID, function (resultFromCallback){
+						oneMember.description = resultFromCallback;
+						console.log("a member's description: "+ oneMember.description);
+						});
 					});
 					
 			 	});
@@ -156,6 +160,16 @@ angular.module('teamform-team-app', ['firebase'])
 					//console.log(currentUserData.child("name").val());
 					if (currentUserData.child("name").val() != null) {
 						callback(currentUserData.child("name").val());
+					}
+				});
+			}
+
+			$scope.getUserDescriptionByID = function (currentUserId, callback) {
+				var RefPath = "users/" + currentUserId;
+				retrieveOnceFirebase(firebase, RefPath, function (currentUserData) {
+					//console.log(currentUserData.child("name").val());
+					if (currentUserData.child("description").val() != null) {
+						callback(currentUserData.child("description").val());
 					}
 				});
 			}
