@@ -46,7 +46,7 @@
   <p>eventid: {{eventid}}</p>
   <p>teamid: {{teamid}}</p>
   <p>Description: {{teamDescription}}</p>
-  <p>Leader: {{teamLeader.name}}</p>
+  <p>Leader: {{leaderName}}</p>
 
   <!--show current members and current requests-->
   <p>Current Team Member:</p>
@@ -63,7 +63,7 @@
     <li ng-repeat='pre in preference'>{{pre}}</li>
   </ol>
 
-  <button class='btn btn-primary' ng-click='quitTeam()'>Quit this team</button>
+  <button class='btn btn-primary' ng-click=quitTeam()>Quit this team</button>
 
   <!-- /.container -->
 

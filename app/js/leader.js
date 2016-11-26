@@ -115,6 +115,42 @@ angular.module('leader-app', ['firebase'])
 
         }
 
+        //kick member
+        $scope.kickMember = function (memberId) {
+            //delete from memberlist
+
+            var db = firebase.database();
+            var teamRef = db.ref('events/' + $scope.eventid + '/teams/' + $scope.teamid);
+            var teamData = $firebaseObject(teamRef);
+            teamData.$loaded()
+                .then(function (data) {
+                    for (var i = $scope.members.length - 1; i >= 0; i--) {
+                        if (memberId == $scope.members[i].memberID) {
+                            $scope.members.splice(i, 1);
+                            break;
+                        }
+                    }
+                    teamData.members = $scope.members;
+                    teamData.$save();
+                });
+
+            //update user state
+            var currentUser = memberId;
+            var currentUsersRef = firebase.database().ref('users/' + currentUser + '/teams/' + $scope.eventid);
+            var userNewTeamObject = $firebaseObject(currentUsersRef);
+            userNewTeamObject.$loaded()
+                .then(function (data) {
+                    if (userNewTeamObject.role != 'admin' && userNewTeamObject.role != 'leader') {
+                        userNewTeamObject.role = null;
+                        userNewTeamObject.teamid = null;
+                        userNewTeamObject.$save();
+                    }
+                    console.log(userNewTeamObject);
+                });
+                location.reload();
+        }
+
+
         //change teamName
         $scope.changeTeamName = function () {
             console.log('clicked changeTeamName');
