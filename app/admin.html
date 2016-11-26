@@ -181,7 +181,7 @@
       </div>
       <!--end of announcement div-->
 
-      <!--teams & member list-->
+      <!--teams list-->
       <hr>
       <div class="col-md-12">
         <center>
@@ -217,6 +217,7 @@
         </div>
         <label ng-show="teams.length ==0">This event do not have any team. Ask students/ members to form team now!</label>
       </div>
+      <!--end of teams list-->
 
       <hr>
       <div class="col-md-12">
@@ -232,7 +233,7 @@
                 <th>Name</th>
                 <th>uid</th>
                 <th>Preference</th>
-                <th>Action(not done)</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody ng-repeat="member in waitList" ng-init="getUserDatabyID(member)">

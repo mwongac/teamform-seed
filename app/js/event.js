@@ -309,6 +309,10 @@ angular.module('teamform-event-app', ['firebase'])
 		$scope.announcements = [];
 		$scope.announcements = $firebaseArray(firebase.database().ref(refPath));
 
+        refPath = "events/" + eventid + "/waitlist";
+        $scope.waitList = [];
+        $scope.waitList = $firebaseArray(firebase.database().ref(refPath));
+
 		//$scope.users is an array of users in firebase
 		var usersRef = firebase.database().ref('users');
 		$scope.users = $firebaseArray(usersRef);
@@ -418,6 +422,24 @@ angular.module('teamform-event-app', ['firebase'])
 			console.log("leader name: " + TeamObject.teamLeaderName + "\ndone get team info by ID \n*************end************\n\n");
 			// });
 		}
+		
+        $scope.getUserDatabyID = function (user) {
+            var resultName;
+            console.log("getUserDatabyID for " + user);
+            $scope.getUserNameByID(user.uid, function (resultFromCallback) {
+                user.name = resultFromCallback;
+                console.log("Leader: getMemberNameByID: " + user.name);
+            })
+            var userPreference = $firebaseObject(firebase.database().ref('users/' + user.uid + '/language'));
+            userPreference.$loaded()
+                .then(function (data) {
+                    user.preference = userPreference;
+                    console.log("user.preference" + user.preference);
+                    angular.forEach(user.preference, function (p) {
+                        console.log("preference?" + p);
+                    })
+                })
+        }
 
 		$scope.getUserNameByID = function (userid, callback) {
 			var foundName;

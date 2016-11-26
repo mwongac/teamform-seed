@@ -184,12 +184,11 @@ angular.module('teamform-admin-app', ['firebase'])
                 } else {
                     console.log("It is possible to generate team");
                     // dismiss team with no member and put to waitlist
-                    // combine teams with not enough member ; name= team1.name + "&"+team2.name
-                    // combine big teams first  -preference.size.teamid
-                    console.log("case2: generate teams without dismiss any teams with enough members.");
-                    //case 2: Can generate team just by waitList and team that have not enough member
-                    //numberOfMemberNeed = $scope.teamsNotEnough * min - numberOfNotEnough = # of member need to fil remaining team
-                    //$scope.waitList.length - ($scope.teamsNotEnough * max - numberOfNotEnough) = # of member can be add to remaining team
+                    // skip
+                    // // combine teams with not enough member ; name= team1.name + "&"+team2.name
+                    // // combine big teams first  -preference.size.teamid
+                    // numberOfMemberNeed = $scope.teamsNotEnough * min - numberOfNotEnough = # of member need to fil remaining team
+                    // $scope.waitList.length - ($scope.teamsNotEnough * max - numberOfNotEnough) = # of member can be add to remaining team
                     while ($scope.waitList.length < ($scope.teamsNotEnough.length * min - numberOfNotEnough) ||//waiting member is not enough to fill all teams without enough member
                         (($scope.waitList.length > $scope.teamsNotEnough.length * max - numberOfNotEnough + $scope.teamsEnough.length * max - numberOfEnough) && //waitlist is more than space in teams enough + teams not enough
                             !$scope.isRangeValid($scope.waitList.length - ($scope.teamsNotEnough.length * max - numberOfNotEnough) - ($scope.teamsEnough * max - numberOfEnough), //check if the exceed waitlist member can group a teams 
@@ -209,7 +208,7 @@ angular.module('teamform-admin-app', ['firebase'])
                         angular.forEach($scope.teamsNotEnough, function (team, index) {
                             if (tmpMinLength != 1 && keepGoing) {
                                 if (team.length == tmpMinLength) {
-                                    $scope.dissmissTeam(team, true);//move dismissed member to waitlist
+                                    $scope.dismissTeam(team, true);//move dismissed member to waitlist
                                     keepGoing = false;
                                     numberOfNotEnough -= tmpMinLength;
                                 }

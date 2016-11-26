@@ -70,7 +70,7 @@
       <br>
       
       
-      <span class ="row">
+      <span class ="row" ng-show="(deadline-today)>0">
       <!--join event: You will be on the waiting list of member. If cannot join a team before deadline, admin will assign you to a team according your preference.-->
       <button id="btn_join" type="button" class="btn btn-primary" ng-click="joinEvent()" ng-hide="isJoin">Join Event</button>
       <button id="btn_join" type="button" class="btn btn-default" ng-click="quitEvent()" ng-show="isJoin">Quit Event</button>
@@ -138,39 +138,45 @@
         </div>
       </div>
 
+      <span class ="row" ng-hide="(deadline-today)>0">Passed the deadline, you cannot join/quit this event now.</span>
+
       <br>
       <hr>
-      <h2>Invite List</h2>
-      <div>
-        <table id="inviteList" class="table table-hover">
-          <thead>
-            <tr>
-              <th>Team Name</th>
-              <th>Team Leader</th>
-              <th>Team members</th>
-              <th>Preference</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <!--<tbody ng-repeat="iT in inviteTeams">-->
-          <tbody ng-repeat="(teamid, iT) in inviteTeams">
-            <tr>
-              <td>{{iT.teamName}}</td>
-              <td><a href="profile.html?q={{iT.teamLeader}}">{{iT.teamLeaderName}}</a></td>
-              <td>
-                <span ng-repeat="member in iT.members">
-                    <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
-                  </span>
-              </td>
-              <td>{{iT.preference}}</td>
-              <td>
-                <button id="btn_acceptInvite" ng-click="acceptInvite(teamid)">Accept</button>
-                <button id="btn_rejectInvite" ng-click="rejectInvite(teamid)">Reject</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div ng-show="(deadline-today)>0">
+        <h2>Invite List</h2>
+        <div ng-hide="inviteTeams.length ==0">You have not be invited yet. You can request teams below.</div>
+        <div ng-show="inviteTeams.length ==0">
+          <table id="inviteList" class="table table-hover">
+            <thead>
+              <tr>
+                <th>Team Name</th>
+                <th>Team Leader</th>
+                <th>Team members</th>
+                <th>Preference</th>
+                <th ng-show="(deadline-today)>0">Action</th>
+              </tr>
+            </thead>
+            <!--<tbody ng-repeat="iT in inviteTeams">-->
+            <tbody ng-repeat="(teamid, iT) in inviteTeams">
+              <tr>
+                <td>{{iT.teamName}}</td>
+                <td><a href="profile.html?q={{iT.teamLeader}}">{{iT.teamLeaderName}}</a></td>
+                <td>
+                  <span ng-repeat="member in iT.members">
+                      <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                    </span>
+                </td>
+                <td>{{iT.preference}}</td>
+                <td ng-show="(deadline-today)>0">
+                  <button id="btn_acceptInvite" ng-click="acceptInvite(teamid)">Accept</button>
+                  <button id="btn_rejectInvite" ng-click="rejectInvite(teamid)">Reject</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
       <div class="row">
           <div class="col-md-6">
            <h3>Search By Team name:</h3>
@@ -179,51 +185,84 @@
             <input type="text" class="input-lg" ng-model="filterName">
           </div>
       </div>
-      <!--teams & member list-->
-      <div class="row">
-        <div class="col-md-6 col-xs-6 text-right">
-          <h3>All teams:</h3>
-          <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
-          <table id="teamsList" class="table table-hover">
+      <!--teams list-->
+      <div class="col-md-12">
+        <!--skip below line since action buttons is too long-->
+          <!--<div class="col-md-2"></div>-->
+          <div class="col-md-12">
+              <h3>All teams:</h3>
+              <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+              <table id="teamsList" class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Team Name</th>
+                    <th>Team Leader</th>
+                    <th>Team members</th>
+                    <th>Preference</th>
+                    <th ng-show="(deadline-today)>0">Action</th>
+                  </tr>
+                </thead>
+                <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
+                  <div> <!--ng-show="filter(t)">-->
+                    <tr>
+                      <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
+                      <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                      <td>
+                        <span ng-repeat="member in t.members">
+                                  <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                        </span>
+                      </td>
+                      <td>{{t.preference}}</td>
+                      <!-- enter the team button moved to table-->
+                      <td ng-show="(deadline-today)>0"><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
+                      <td ng-show="(deadline-today)>0"><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team directly (this will be removed)</button></td>
+                      <!--this will remove after we finish request to join team properly-->
+                      <td ng-show="(deadline-today)>0"><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join this team</button></td>
+                      </tr>
+                  </div>
+                </tbody>
+              </table>
+          </div>
+          <!--<div class="col-md-2"></div>-->
+      </div>
+      <!--end of teams list-->
+      
+      <hr>
+      <div class="col-md-12">
+        <center>
+          <h3>Waitlist</h3>
+        </center>
+        <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+        <div class="col-md-1"></div>
+        <div class="col-md-10" ng-hide="teamsList.length == 0">
+          <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0">
             <thead>
               <tr>
-                <th>Team Name</th>
-                <th>Team Leader</th>
-                <th>Team members</th>
+                <th>Name</th>
+                <th>uid</th>
                 <th>Preference</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
-              <div> <!--ng-show="filter(t)">-->
-                <tr>
-                  <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
-                  <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
-                  <td>
-                    <span ng-repeat="member in t.members">
-                              <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
-                    </span>
-                  </td>
-                  <td>{{t.preference}}</td>
-
-
-                  <!-- enter the team button moved to table-->
-                  <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
-                  <td><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team directly (this will be removed)</button></td> <!--this will remove after we finish request to join team properly-->
-                  <td><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join this team</button></td>
-                  </tr>
-              </div>
+            <tbody ng-repeat="member in waitList" ng-init="getUserDatabyID(member)">
+              <tr>
+                <td><a href="profile.html?q={{member.uid}}">{{member.name}}</a></td>
+                <td>{{member.uid}}</td>
+                <td>
+                  <span ng-repeat="p in member.preference">{{p}}{{$last ? '' : ', '}}
+                  </span>
+                </td>
+                <td><button><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="kick(member.uid)"></span></button></td>
+              </tr>
             </tbody>
           </table>
         </div>
-
-        <div class="col-md-6 col-xs-6 text-left">
-          <h3>All members:</h3>
-          <ul ng-repeat="m in member">
-            <li>ID = {{m.$id}} <br> Name = {{m.name}} <br> request to join the following teams: {{m.selection | json}}</li>
-          </ul>
-        </div>
+        <div class="col-md-1"></div>
+        <center>
+          <label ng-show="waitList.length ==0">No one on the waitlist.</label>
+        </center>
       </div>
+    </div>
       <!--end of teams & member list-->
     </div>
   </div>
