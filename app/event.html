@@ -172,11 +172,14 @@
         </table>
       </div>
       <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
            <h3>Search By Team name:</h3>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <input type="text" class="input-lg" ng-model="filterName">
+          </div>
+          <div class="col-md-4">
+           <button ng-click="filterByName()">FilterByName</button>
           </div>
       </div>
       <!--teams & member list-->
@@ -195,7 +198,7 @@
               </tr>
             </thead>
             <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
-              <div> <!--ng-show="filteringTeamName(t)"-->
+              <div ng-hide="t.filterResult"> <!--ng-show="{{t.filterResult}}"-->
                 <tr>
                   <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
                   <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>

@@ -287,17 +287,40 @@ angular.module('teamform-event-app', ['firebase'])
 	// 	return matchtest;
 	// }
 
-	// 	// var refPath = "events/" + eventid + "/teams/"+ teamidForFilter+"/teamName";
-	// 	// $scope.filteringTeamName = $firebaseObject(firebase.database().ref(refPath));
-	// 	$scope.filteringTeamName = function (teamNameForFilter){
-	// 		console.log(teamNameForFilter);
-	// 		var rulename = $scope.filterName;
-	// 		return 	$scope.matchRule(teamNameForFilter, rulename)
-	// 	}
+		// var refPath = "events/" + eventid + "/teams/"+ teamidForFilter+"/teamName";
+		// $scope.filteringTeamName = $firebaseObject(firebase.database().ref(refPath));
+		$scope.filteringResultByTeamName = function (teamNameForFilter, callback){
+			console.log(teamNameForFilter);
+			var rulename = $scope.filterName;
+			var matchtest = new RegExp(rulename).test(teamNameForFilter)
+			callback(matchtest);
+		}
 
-		refPath = "events/" + eventid + "/teams";
-		$scope.teams = [];
-		$scope.teams = $firebaseArray(firebase.database().ref(refPath));
+		// $scope.getTeamNameByID = function (currentTeamid, callback) {
+		// 	var RefPath = "events/" + eventid + "/teams/" +currentTeamid;
+		// 	retrieveOnceFirebase(firebase, RefPath, function (currentTeamData) {
+		// 		//console.log(currentTeamData.child("teamName").val());
+		// 		if (currentTeamData.child("teamName").val() != null) {
+		// 			callback(currentTeamData.child("teamName").val());
+		// 		}
+		// 	});
+		// }
+		$scope.filterByName = function () {
+			angular.forEach($scope.teams, function (oneTeam, key) {
+				console.log(oneTeam);
+//				$scope.getTeamNameByID(oneTeam, function (teamNameResultFromCallback){
+					$scope.filteringResultByTeamName(oneTeam.teamName, function (resultFromCallback){
+					oneTeam.filterResult = resultFromCallback;
+					console.log("resultFromCallback: "+ resultFromCallback);
+					if(!resultFromCallback){
+						$("oneTeam").hide();
+					}else{
+						$('oneTeam').show();
+					}
+					});
+//				});
+			});
+		}
 
 		refPath = "events/" + eventid + "/member";
 		$scope.member = [];
