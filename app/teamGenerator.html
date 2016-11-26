@@ -56,7 +56,7 @@
                             <br>
                             <br>
                         </ul>
-                        <h3>Teams not enough</h3>
+                        <h3>Teams that were without enough member before generate</h3>
                         <table id="teamsList" class="table table-hover text-left">
                             <thead>
                                 <tr>
@@ -65,6 +65,7 @@
                                     <th>Team Leader</th>
                                     <th>Team members</th>
                                     <th>Preference</th>
+                                    <th>Change</th>
                                 </tr>
                             </thead>
                             <tbody ng-repeat="(key,t) in teamsNotEnough" ng-init="getUserNameInTeam(t)">
@@ -77,10 +78,11 @@
                                     </span>
                                     </td>
                                     <td>{{t.preference}}</td>
+                                    <th>{{t.change}}</th>
                                 </tr>
                             </tbody>
                         </table>
-                        <h3>Teams enough</h3>
+                        <h3>Teams that have enough member before generate</h3>
                         <table id="teamsEnoughList" class="table table-hover text-left">
                             <thead>
                                 <tr>
@@ -89,6 +91,7 @@
                                     <th>Team Leader</th>
                                     <th>Team members</th>
                                     <th>Preference</th>
+                                    <th>Change</th>
                                 </tr>
                             </thead>
                             <tbody ng-repeat="(key,t) in teamsEnough" ng-init="getUserNameInTeam(t)">
@@ -101,6 +104,7 @@
                                     </span>
                                     </td>
                                     <td>{{t.preference}}</td>
+                                    <th>{{t.change}}</th>
                                 </tr>
                             </tbody>
                         </table>
@@ -113,6 +117,7 @@
                                     <th>Team Leader</th>
                                     <th>Team members</th>
                                     <th>Preference</th>
+                                    <th>Change</th>
                                 </tr>
                             </thead>
                             <tbody ng-repeat="(key,t) in teamsFull" ng-init="getUserNameInTeam(t)">
@@ -125,6 +130,7 @@
                                     </span>
                                     </td>
                                     <td>{{t.preference}}</td>
+                                    <th>{{t.change}}</th>
                                 </tr>
                             </tbody>
                         </table>

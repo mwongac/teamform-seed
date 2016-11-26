@@ -29,16 +29,29 @@ angular.module('teamform-admin-app', ['firebase'])
         $scope.param = $firebaseObject(firebase.database().ref("events/" + eventid + "/admin/param"));
         $scope.param.$loaded()
             .then(function (data) {
-                // // Fill in some initial values when the DB entry doesn't exist
                 $scope.param.eventName = data.eventName;
                 console.log("loaded: " + $scope.param.eventName);
                 console.log("loaded: " + $scope.param);
                 $scope.deadline = new Date($scope.param.deadline);
                 console.log(new Date($scope.param.deadline));
-                $scope.today = new Date();
-                $scope.generate();
-                // Enable the UI when the data is successfully loaded and synchornized
-                $('#team_generator_controller').show();
+                $scope.today = new Date();//convert string to date object
+
+                //get waitList
+                $scope.waitList = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
+                $scope.waitList.$loaded().then(function () {
+                    //waitListItem key = random, uid
+                    //load user data into it
+                    $scope.users.$loaded().then(function () {
+                        angular.forEach($scope.waitList, function (waitingMember, index) {
+                            setTimeout($scope.getUserDatabyID(waitingMember), 0);
+                        });
+                        $scope.waitList = $scope.waitList;
+                        $scope.generate();
+                        // Enable the UI when the data is successfully loaded and synchornized
+                        $('#team_generator_controller').show();
+                    })
+                })//end of $loaded of $scope.users
+                //end of $loaded of waitList
             })
             .catch(function (error) {
                 // Database connection error handling...
@@ -51,7 +64,6 @@ angular.module('teamform-admin-app', ['firebase'])
         refPath = "events/" + eventid + "/waitlist";
         $scope.waitList = [];
         $scope.waitList = $firebaseArray(firebase.database().ref(refPath));
-        //$scope.waitList.$loaded();
 
         //$scope.users is an array of users in firebase
         var usersRef = firebase.database().ref('users');
@@ -60,10 +72,9 @@ angular.module('teamform-admin-app', ['firebase'])
 
         $scope.getUserNameInTeam = function (team) {
             var resultName;
-            console.log("getUserNameInTeam for team" + team);
             $scope.getUserNameByID(team.teamLeader, function (resultFromCallback) {
                 resultName = resultFromCallback;
-                console.log("Leader: getMemberNameByID: " + resultName);
+                // console.log("Leader: getMemberNameByID: " + resultName);
                 team.teamLeaderName = resultName;
             })
             angular.forEach(team.members, function (member, key) {
@@ -71,32 +82,24 @@ angular.module('teamform-admin-app', ['firebase'])
                     resultName = resultFromCallback;
                     //console.log("Member: getMemberNameByID: "+ resultName);
                     member.memberName = resultName;
-                    console.log("member: " + member.memberID + "\nmember: " + member.memberName);
+                    // console.log("member: " + member.memberID + "\nmember: " + member.memberName);
                     team.memberNames = [];
                     team.memberNames.push(resultName);
                 })
-                console.log("team.members: " + team.members);
-                console.log("team.memberNames: " + team.memberNames);
+                // console.log("team.members: " + team.members+"\nteam.memberNames: " + team.memberNames);
             })
         }
 
         $scope.getUserDatabyID = function (user) {
-            var userRef = firebase.database().ref('users/' + user.uid);
-            var userData = $firebaseObject(userRef);
-            userData.$loaded()
-                .then(function (data) {
-                    user.name = data.name;
-                    user.preference = data.preference;
-                    var teamRef = firebase.database().ref('users/' + user.uid + '/teams/' + eventid)
-                    user.team = $firebaseObject(teamRef);
-                    user.team.$loaded().then(function (eventData) {
-                        if (eventData.isJoin) {
-                            user.role = "waiting";
-                        } else {
-                            user.role = eventData.role;
-                        }
-                    })
-                })
+            user.name = $scope.users.$getRecord(user.uid).name;
+            user.preference = $scope.users.$getRecord(user.uid).language;
+            user.team = $scope.users.$getRecord(user.uid).teams[eventid];
+            console.log("getUserDatabyID\nname: " + user.name + "\npreference: " + user.preference + "\nteams: " + user.team);
+            if (user.team.isJoin) {
+                user.role = "waiting";
+            } else {
+                user.role = user.team.role;
+            }
         }
 
         $scope.getUserNameByID = function (userid, callback) {
@@ -116,8 +119,8 @@ angular.module('teamform-admin-app', ['firebase'])
             // cond0 : if (total /minTeamSize) > minTeamSize > won't fial 
             // cond1 : if (total % maxTeamSize ) + (total / maxTeamSize) * (max-min) < min fail
             // cond1 can cover cond0 (provided by math, if total/min>min then ((total % max ) + (total / max) * (max-min) ) > min
-            console.log("isValid: total, min, max: " + total + min + max);
-            if (((total % max) + (total / max) * (max - min) < min) && (((total % max) + (total / max) * (max - min)) > 0)) {
+            console.log("isValid: total, min, max: " + total + min + max + "\n" + ((total % max) + (total / max) * (max - min)));
+            if (((total % max) + (total / max) * (max - min) < min) && ((total % max) != 0)) {
                 return false;
             } else {
                 return true;
@@ -133,7 +136,7 @@ angular.module('teamform-admin-app', ['firebase'])
             console.log("range valid\ntotal_min: " + total_min + "\ntotal_max: " + total_max + "\nmin: " + min + "\nmax: " + max);
             console.log("range valid: " + ((total_min % max) + (total_min / max) * (max - min) + (total_max - total_min)));
             if (((total_min % max) + (total_min / max) * (max - min) + (total_max - total_min) < min) &&
-                (((total_min % max) + (total_min / max) * (max - min)) > 0)) {
+                ((total_min % max) != 0)) {
                 return false;
             } else {
                 return true;
@@ -141,18 +144,10 @@ angular.module('teamform-admin-app', ['firebase'])
         }
 
         $scope.generate = function () {
-            //TODO: let admin to view the generated list and choose to accept or not
+            //let admin to view the generated list and choose to accept or not
             var max = $scope.param.maxTeamSize;
             var min = $scope.param.minTeamSize;
-            //get waitList
-            $scope.waitList = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
-            $scope.waitList.$loaded().then(function () {
-                //waitListItem key = random, uid
-                //load user data into it
-                angular.forEach($scope.waitList, function (waitingMember, index) {
-                    $scope.getUserDatabyID(waitingMember);
-                })
-            })
+
             //get teams and classify to 3 type 1. full 2. Fenough member 3. not enough member
             $scope.teamsFull = {}; numberOfFull = 0;
             $scope.teamsEnough = {}; numberOfEnough = 0;
@@ -160,11 +155,12 @@ angular.module('teamform-admin-app', ['firebase'])
             $scope.teams.$loaded().then(function (teamsData) {
                 angular.forEach($scope.teams, function (team, index) {
                     var numberOfMemberInTeam = team.members.length + 1;
-                    if ((numberOfMemberInTeam) == $scope.param.maxTeamSize) {//plus Leader
-                        $scope.teamsFull.push({ index: team });
+                    console.log("numberOfMemberInTeam: " + numberOfMemberInTeam);
+                    if ((numberOfMemberInTeam) == max) {//plus Leader
+                        $scope.teamsFull[index] = team;
                         numberOfFull += numberOfMemberInTeam;
-                    } else if (numberOfMemberInTeam > min) {
-                        $scope.teamsEnough.push({ index: team });
+                    } else if (numberOfMemberInTeam >= min) {
+                        $scope.teamsEnough[index] = team;
                         numberOfEnough += numberOfMemberInTeam;
                     } else {
                         console.log("index= " + index);
@@ -183,10 +179,11 @@ angular.module('teamform-admin-app', ['firebase'])
                     $('#success').hide();
                 } else {
                     console.log("It is possible to generate team");
-                    // dismiss team with no member and put to waitlist
-                    // skip
-                    // // combine teams with not enough member ; name= team1.name + "&"+team2.name
-                    // // combine big teams first  -preference.size.teamid
+                    if ($scope.waitList.length < ($scope.teamsNotEnough.length * min - numberOfNotEnough)) {
+                        console.log("combine team (not done, skipped for now)")
+                        // combine teams with not enough member ; name= team1.name + "&"+team2.name
+                        // combine big teams first  -preference.size.teamid
+                    }
                     // numberOfMemberNeed = $scope.teamsNotEnough * min - numberOfNotEnough = # of member need to fil remaining team
                     // $scope.waitList.length - ($scope.teamsNotEnough * max - numberOfNotEnough) = # of member can be add to remaining team
                     while ($scope.waitList.length < ($scope.teamsNotEnough.length * min - numberOfNotEnough) ||//waiting member is not enough to fill all teams without enough member
@@ -195,74 +192,176 @@ angular.module('teamform-admin-app', ['firebase'])
                                 $scope.waitList.length - $scope.teamsNotEnough.length * min - numberOfNotEnough, min, max))) {
                         console.log("need to dismiss some teams.")
                         // case 2.2: need to dismiss some team without enough member
-                        // TODO:
+                        // TODO: test
                         // dismiss team with less member and check if valid again
-                        // if min team size = 1, i.e. only teamleader, dismiss them directly 
-                        var tmpMinLength = min;
-                        angular.forEach($scope.teamsNotEnough, function (team, index) {
-                            if (team.length < tmpMinLength) {
-                                tmpMinLength = team.length;
+                        // if min team size = 1, i.e. only teamleader, dismiss them directly
+                        if ($scope.teamsNotEnough.length != 0) {
+                            var tmpMinLength = min;
+                            angular.forEach($scope.teamsNotEnough, function (team, index) {
+                                if (team.length < tmpMinLength) {
+                                    tmpMinLength = team.length;
+                                }
+                            })
+                            var keepGoing = true;
+                            angular.forEach($scope.teamsNotEnough, function (team, index) {
+                                if (tmpMinLength != 1 && keepGoing) {
+                                    if (team.length == tmpMinLength) {
+                                        $scope.dismissTeam(team, true);//move dismissed member to waitlist
+                                        keepGoing = false;
+                                        numberOfNotEnough -= tmpMinLength;
+                                    }
+                                }
+                            })
+                        } else if ($scope.teamsEnough.length != 0) {//all of team without enough member is dismissed but still cannot generated, need to dismiss some team with enough member 
+                            var tmpMinLength = min;
+                            angular.forEach($scope.teamsEnough, function (team, index) {
+                                if (team.length < tmpMinLength) {
+                                    tmpMinLength = team.length;
+                                }
+                            })
+                            var keepGoing = true;
+                            angular.forEach($scope.teamsEnough, function (team, index) {
+                                if (keepGoing) {
+                                    if (team.length == tmpMinLength) {
+                                        $scope.dismissTeam(team, true);//move dismissed member to waitlist
+                                        keepGoing = false;
+                                        numberOfNotEnough -= tmpMinLength;
+                                    }
+                                }
+                            })
+                        } else {//all of team that is not full is dismissed but still cannot generate teams
+                            var tmpMinLength = min;
+                            angular.forEach($scope.teamsFull, function (team, index) {
+                                if (team.length < tmpMinLength) {
+                                    tmpMinLength = team.length;
+                                }
+                            })
+                            var keepGoing = true;
+                            angular.forEach($scope.teamsFull, function (team, index) {
+                                if (keepGoing) {
+                                    if (team.length == tmpMinLength) {
+                                        $scope.dismissTeam(team, true);//move dismissed member to waitlist
+                                        keepGoing = false;
+                                        numberOfNotEnough -= tmpMinLength;
+                                    }
+                                }
+                            })
+                        }
+                        console.log("remain teams with not enough member: " + $scope.teamsNotEnough.length);
+                    }
+                    console.log("generated by fill waiting member to current teams");
+                    // e.g. min = 4, max = 4, waitlist = 3, 2 team with 2, 1 member, total 8
+                    console.log("make teamsNotEnough to be enough");
+                    angular.forEach($scope.teamsNotEnough, function (team, teamid) {
+                        if (team.members.length + 1 != min) {
+                            //find the best fit index
+                            var bestFit = 0;
+                            angular.forEach($scope.waitList, function (ppl, uid) {
+                                if ($scope.matchPreference(ppl.preference, team.preference) > bestFit) {
+                                    bestFit = $scope.matchPreference(ppl.preference, team.preference);
+                                }
+                            })
+                            angular.forEach($scope.waitList, function (ppl, uid) {
+                                //console.log("forEach: " + ppl + "\n uid:" + ppl.$id + "\n preference: " + ppl.preference + "\nteam id: " + teamid + "\n preference: " + team.preference);
+                                if (team.members.length + 1 != min) {
+                                    if ($scope.matchPreference(ppl.preference, team.preference) == bestFit) {
+                                        $scope.putMemberToTeams(ppl, team);
+                                    }
+                                }
+                            })
+                        }
+                        team.change = "add enough members"
+                        $scope.teamsEnough[teamid] = team;
+                        delete $scope.teamsNotEnough[teamid];
+                    })
+                    //$scope.teamsnoteneough is uesless in below code
+                    console.log("all current teams have enough member\nwaitlist length: " + $scope.waitList.length + "\nadd remaining waiting ppl to team until the remaining can form team their own");
+                    while (!$scope.isValid($scope.waitList.length, min, max)) {
+                        //number of waitlist cannot form team by their own, fill some waitlist member to teamsEnough(but not full)
+                        console.log("add " + $scope.waitList[0].name + " to best fit team");
+                        var bestFit = 0;
+                        angular.forEach($scope.teamsEnough, function (team, teamid) {
+                            if ($scope.matchPreference(team.preference, $scope.waitList[0].preference) > bestFit) {
+                                bestFit = $scope.matchPreference(team.preference, $scope.waitList[0].preference);
                             }
                         })
                         var keepGoing = true;
-                        angular.forEach($scope.teamsNotEnough, function (team, index) {
-                            if (tmpMinLength != 1 && keepGoing) {
-                                if (team.length == tmpMinLength) {
-                                    $scope.dismissTeam(team, true);//move dismissed member to waitlist
+                        angular.forEach($scope.teamsEnough, function (team, teamid) {
+                            if (keepGoing) {
+                                if ($scope.matchPreference(team.preference, $scope.waitList[0].preference) == bestFit) {
+                                    $scope.putMemberToTeams($scope.waitList[0], team);
                                     keepGoing = false;
-                                    numberOfNotEnough -= tmpMinLength;
+                                    if (team.members.length + 1 == max) {
+                                        $scope.teamsFull[teamid] = team;
+                                        delete $scope.teamsEnough[teamid];
+                                        // $scope.teamsEnough[teamid].remove();
+                                        // $scope.teamsEnough.splice(teamid,1);
+                                    }
                                 }
                             }
                         })
-                        console.log("remain teams with not enough member: " + $scope.teamsNotEnough.length);
                     }
-                    console.log("case 2.1: generated by fill waiting member to current teams");
-                    // e.g. min = 4, max = 4, waitlist = 3, 2 team with 2, 1 member, total 8
-                    $scope.putMemberToTeams($scope.waitList, $scope.teamsNotEnough, min);
-                    // case 2.1: don't need to dismiss any team (or 2.2->dismiss some team to waitlist and success)
-                    if ($scope.isValid($scope.waitList.length + numberOfEnough + numberOfNotEnough, min, max)) {
-                        console.log("case 3");
-                        // do it need to dismiss some team?
-                    } else {
-                        console.log("case 4")
-                        //must dismiss some full team 
-                    }
+                    //TODO: form new teams
+                    //leader: the one with highest GPA
+                    //show the result in list: stated of how team changed
+                    //state 0: unchange
+                    //state 1: new formed
+                    //state 2: dismiss
+                    //state 3: add member
+                    //state 4: be filled to enough
+                    //state 5: combine
                     $('#fail').hide();
-
-                    //case 2: have to dimiss some of full team
-                    //case 2: have to dimiss some of enough team
+                    // admin can view the list and confirm
                 }
-
             })
-
-            //last case: have to dimiss some of full team
-            // } else if (total2) {//type 3 + waitlist enought to can generate new team 
-
-            // } else if (total3) {
-            //question: who be the leader in new team? -> GPA!
-            //case2 : no ppl in waitlist
-            //case3 : don't need to dismiss current team
-
-            //find team that member less than minTeamSize
-            //put user without team who have responding preference into above team
-            //random put remaining user into teams
-
-            //jump to new page for confirm
-            //view list : stated how the team changed, e.g. add new member, new team 
-            // }
         }
 
+        $scope.matchPreference = function (pre1, pre2) {
+            value = 0;
+            angular.forEach(pre1, function (pre11) {
+                angular.forEach(pre2, function (pre22) {
+                    if (pre11 == pre22)
+                    { value += 1; }
+                })
+            })
+            return value;
+        }
+
+        $scope.putMemberToTeams = function (ppl, team) {
+            console.log("put member " + ppl.uid + " to team " + team.teamName);
+            team.members.push({ "memberID": ppl.uid });
+            ppl.role = "member";
+            ppl.team = team.$id;
+            $scope.users.$getRecord(ppl.uid).teams[eventid].role = "member";
+            $scope.users.$getRecord(ppl.uid).teams[eventid].role = team.$id;
+            delete ppl;
+            console.log("waitlist ppl $id: " + ppl.$id + "\n" + $scope.waitList.$getRecord(ppl.$id).uid);//uid=uid; $id=index in firebase array
+            console.log("type of waitListTmp: " + typeof $scope.waitList);
+            $scope.waitList.splice(ppl.$id, 1);
+            $scope.getUserNameInTeam(team);
+            console.log("waitlist: " + $scope.waitList + "\nlenght: " + $scope.waitList.length);
+            team.change = "add new member(s)";
+            //not confirmed so not saved into userRef
+        }
+
+        $scope.confirm = function () {
+            //TODO: admin click confirm -> save this data to firebase
+            //teams in event
+
+
+            //teams and roles in users
+        }
 
         $scope.dismissTeam = function (teams, team, moveToWaitList) {
             var teamName = team.teamName;
             var teamid = team.$id;
-            //not comfirmed, won't remove role in here
+            //not confirmed, won't remove role in here
             //if moveToWaitList is true, save to events/eventid/waitList
             if (moveToWaitList) {
                 //waitList should be already loaded
-                $scope.waitList.$add({ "uid": team.teamLeader });
+                $scope.waitList.add({ "uid": team.teamLeader });
                 angular.forEach(team.members, function (member, index) {
-                    $scope.waitList.$add({ "uid": member.memberID });
+                    $scope.waitList.add({ "uid": member.memberID });
                 })
             }
             //second, del all data of this team

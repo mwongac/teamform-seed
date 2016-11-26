@@ -241,7 +241,6 @@
                 <th>Name</th>
                 <th>uid</th>
                 <th>Preference</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody ng-repeat="member in waitList" ng-init="getUserDatabyID(member)">
@@ -252,7 +251,6 @@
                   <span ng-repeat="p in member.preference">{{p}}{{$last ? '' : ', '}}
                   </span>
                 </td>
-                <td><button><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="kick(member.uid)"></span></button></td>
               </tr>
             </tbody>
           </table>
