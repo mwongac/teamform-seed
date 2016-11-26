@@ -109,7 +109,7 @@
                                 </div>
                                 <button class="event_item col-md-10" ng-click="enterEvent(event.$id)">
                                   <div class="col-md-2">
-                                    <div class="event_item_date pull-right">
+                                    <div class="event_item_date_{{checkDL(event.admin.param.deadline)}} pull-right">
                                       <div class="event_item_day">{{event.admin.param.deadline | date:'dd'}}</div>
                                       <div class="event_item_month">{{event.admin.param.deadline | date:'MMM'}}</div>
                                       <!--({{event.admin.param.deadline | date:'dd/MM/yyyy'}})-->
