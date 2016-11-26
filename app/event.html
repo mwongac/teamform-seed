@@ -78,7 +78,7 @@
       <!-- create team button -->
     <!--  <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam('default')">Create teams</button>
     -->
-      <button id="create_team_page_btn_visibility" type="button" class="btn btn-primary" ng-click="showTeamForm()">Create teams</button>
+      <button ng-show="(deadline-today)>0" id="create_team_page_btn_visibility" type="button" class="btn btn-primary" ng-click="showTeamForm()">Create teams</button>
       </span>
       <div id="create_team_page_visibility">
         <div class="row">
@@ -195,7 +195,7 @@
               </tr>
             </thead>
             <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
-              <div> <!--ng-show="filter(t)">-->
+              <div> <!--ng-show="filteringTeamName(t)"-->
                 <tr>
                   <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
                   <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
@@ -209,8 +209,8 @@
 
                   <!-- enter the team button moved to table-->
                   <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
-                  <td><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team directly (this will be removed)</button></td> <!--this will remove after we finish request to join team properly-->
-                  <td><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join this team</button></td>
+                  <td><button id="btnJoinTeam" ng-show="(deadline-today)>0" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team directly (this will be removed)</button></td> <!--this will remove after we finish request to join team properly-->
+                  <td><button id="btnRequestJoinTeam" ng-show="(deadline-today)>0" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join this team</button></td>
                   </tr>
               </div>
             </tbody>
