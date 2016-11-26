@@ -42,6 +42,7 @@ angular
 		$scope.username = '';
 
 		$scope.eventName = '';
+		$scope.userID = '';
 
 		//testing abt firebase
 		var ref = firebase.database().ref('events');
@@ -86,7 +87,7 @@ angular
 						return true;
 					} else if (teamList.$getRecord(eventid).role == "member") {
 						//the user is the one of the members of a team of the event
-						var url = "member.html?eventid=" + eventid + "$teamid=" + teamList.$getRecord(eventid).teamid;
+						var url = "member.html?eventid=" + eventid + "&teamid=" + teamList.$getRecord(eventid).teamid;
 						window.location.href = url;
 						return true;
 					} else if (teamList.$getRecord(eventid).role == "null") {
@@ -125,6 +126,41 @@ angular
 		}
 
 
+		
+		//identify the role in the event
+		$scope.getUserRoleInEvent = function (event) {
+			var resultRole;
+            //console.log("getUserRoleInEvent for Event: " + event.$id);
+            $scope.getUserRoleByEventID(event.$id, function (resultFromCallback) {
+                resultRole = resultFromCallback;
+                console.log("Event: getUserRoleByEventID: " + resultRole);
+                event.Role = resultRole;
+            })
+			
+		}
+
+		$scope.getUserRoleByEventID = function (eventid, callback) {
+            var foundRole;
+			var currentUser = firebase.auth().currentUser;
+            var userDatabase = firebase.database();
+            var userRef = userDatabase.ref('users/' + currentUser.uid + '/teams');
+            var userData = $firebaseArray(userRef);
+            userData.$loaded()
+                .then(function (data) {
+					var teamevent = userData.$getRecord(eventid);
+					//console.log("getUserRoleByEventID: " + currentUser.uid);
+                    console.log("getUserRoleByEventID: "+ teamevent);
+					if (teamevent == null) {
+						callback('Not Yet Entered');
+					} else if (teamevent.role == "null") { 					//role is a STRING!!!!!
+						callback("You don't have a role yet");
+					} else {
+						callback('Role: ' + teamevent.role);
+					}
+                })
+        }	
+		
+			
 
 		//create new event
 		$scope.createNewEvent = function (eventname) {
