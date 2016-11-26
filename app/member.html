@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="leader-app" ng-controller="LeaderCtrl">
+<html lang="en" ng-app="member-app" ng-controller="MemberCtrl">
 
 <head>
   <meta charset="utf-8">
@@ -45,17 +45,8 @@
   <h1>{{displayName}}</h1>
   <p>eventid: {{eventid}}</p>
   <p>teamid: {{teamid}}</p>
-
-  <!--change team name-->
-  <p>teamName: <input ng-model='displayName'></input>
-  </p>
-  <button type='button' class="btn btn-primary" ng-click='changeTeamName()'>Change</button>
-  <!--button type="button" class="btn btn-primary" ng-click="createTeam();" >Create Team</button-->
-
-  <!--change description-->
-  <p>Description:</p>
-  <textarea ng-model='teamDescription'></textarea>
-  <br><button class='btn btn-primary' ng-click='changeDescription()'>Change</button></br>
+  <p>Description: {{teamDescription}}</p>
+  <p>Leader: {{teamLeader.name}}</p>
 
   <!--show current members and current requests-->
   <p>Current Team Member:</p>
@@ -66,61 +57,13 @@
     </ul>
   </div>
 
-  <p>Current requests:</p>
-  <div ng-repeat="member in requestMemberList">
-    <ul>
-      <li> member ID: {{member.memberID}} </li>
-      <li> member Name: {{member.name}} </li>
-      <li><a ng-click='acceptRequest(member.memberID, member)'>Accept</a></li>
-    </ul>
-  </div>
-
-
-  <!--add preference-->
-  <p>Preference:<input ng-model='addpreference'></input>
-  </p>
-  <button class='btn btn-primary' ng-click='addPre()'>Add</button>
-
   <!--show preference list-->
   <p>Preference list:</p>
   <ol>
-    <li ng-repeat='pre in preference'>{{pre}}<a ng-click="removePre(pre)">Remove</a></li>
+    <li ng-repeat='pre in preference'>{{pre}}</li>
   </ol>
 
-  <!--filt by preference-->
-  <button class='btn btn-primary' ng-click='filterPre()'>Filter by Preference</button>
-
-  <!--filt by name-->
-  <p>Person you want to invite: <input ng-model='nameToInvite'></input>
-  </p>
-  <p></p>
-  <button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button>
-
-  <!--filt result and invite button-->
-  <p> =========================================================================================================== </p>
-  <p>Filtered list:</p>
-  <div ng-repeat="user in filtedUsers">
-    <ul>
-      <li>Name:{{user.name}}</li>
-      <li>Gpa:{{user.gpa}}</li>
-      <li>Language:{{user.language}}</li>
-      <li>Team:{{user.teams}}</li>
-      <li>Description:{{user.description}}</li>
-      <li>User Id: {{user.$id}}</li>
-      <li><a ng-click='inviteUser(user.$id,user)'>invite</a></li>
-    </ul>
-  </div>
-  <p>InviteList:</p>
-
-  <!--invite list-->
-  <div ng-repeat='user in invitelist'>
-    <ul>
-      <li>Name:{{user.name}}</li>
-      <li>Uid:{{user.$id}}</li>
-    </ul>
-  </div>
-
-
+  <button class='btn btn-primary' ng-click='quitTeam()'>Quit this team</button>
 
   <!-- /.container -->
 
@@ -134,7 +77,7 @@
 
 
   <!-- JavaScript of this page -->
-  <script src="js/leader.js"></script>
+  <script src="js/member.js"></script>
 
 
 

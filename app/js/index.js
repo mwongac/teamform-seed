@@ -86,7 +86,7 @@ angular
 						return true;
 					} else if (teamList.$getRecord(eventid).role == "member") {
 						//the user is the one of the members of a team of the event
-						var url = "member.html?eventid=" + eventid + "$teamid=" + teamList.$getRecord(eventid).teamid;
+						var url = "member.html?eventid=" + eventid + "&teamid=" + teamList.$getRecord(eventid).teamid;
 						window.location.href = url;
 						return true;
 					} else if (teamList.$getRecord(eventid).role == "null") {
