@@ -165,6 +165,21 @@ angular
 					}
                 })
         }	
+
+
+		//check id the deadline of a event is passed TRUE:passed FALSE:Not yet passed
+		$scope.checkDL = function  (eventDL) {
+			var today = new Date();
+			var deadline = new Date(eventDL);
+            console.log("checkDL: " + deadline);
+			console.log("checkDL TODAY: " + today);
+			console.log('Deadline: ' + (today > deadline));
+			if (today > deadline) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		
 			
 
