@@ -291,13 +291,24 @@ angular.module('teamform-event-app', ['firebase'])
 
 		// var refPath = "events/" + eventid + "/teams/"+ teamidForFilter+"/teamName";
 		// $scope.filteringTeamName = $firebaseObject(firebase.database().ref(refPath));
-		$scope.filteringResultByTeamName = function (teamNameForFilter, callback){
-			console.log(teamNameForFilter);
-			var rulename = $scope.filterName;
-			var matchtest = new RegExp(rulename).test(teamNameForFilter)
+		$scope.filteringFunction = function (teamNameForFilter, callback){
+			// console.log(teamNameForFilter);
+			var rulename = "";
+			rulename = String($scope.filterName);
+			var matchtest = new RegExp(rulename).test(String(teamNameForFilter));
 			callback(matchtest);
 		}
 
+		// $scope.filteringAllMatchFunction = function (teamNameForFilter, callback){
+		// 	// console.log(teamNameForFilter);
+		// 	var matchtest =false;
+		// 	var rulename = String($scope.filterName);
+		// 	var filteringname = String(teamNameForFilter);
+		// 	if(rulename == filteringname){
+		// 		matchtest = true;
+		// 	}
+		// 	callback(matchtest);
+		// }
 		// $scope.getTeamNameByID = function (currentTeamid, callback) {
 		// 	var RefPath = "events/" + eventid + "/teams/" +currentTeamid;
 		// 	retrieveOnceFirebase(firebase, RefPath, function (currentTeamData) {
@@ -310,16 +321,28 @@ angular.module('teamform-event-app', ['firebase'])
 		$scope.filterByName = function () {
 			$scope.filtedUsers = [];
 			angular.forEach($scope.teams, function (oneTeam, key) {
+				var filtedResultBool = false;
 				console.log(oneTeam);
-//				$scope.getTeamNameByID(oneTeam, function (teamNameResultFromCallback){
-					$scope.filteringResultByTeamName(oneTeam.teamName, function (resultFromCallback){
-					oneTeam.filterResult = resultFromCallback;
-					console.log("resultFromCallback: "+ oneTeam.filterResult);
-					if(resultFromCallback){
-					$scope.filtedUsers.push(oneTeam);
-					}
+					angular.forEach(oneTeam.preference,function (oneTeamPreference, key) {
+						console.log(oneTeamPreference);
+						$scope.filteringFunction(oneTeamPreference, function (resultFromCallback){
+							if(resultFromCallback){
+							filtedResultBool = true;
+							}
+						});
 					});
-//				});
+
+					$scope.filteringFunction(oneTeam.teamName, function (resultFromCallback){
+						oneTeam.filterResult = resultFromCallback;
+						console.log("resultFromCallback: "+ oneTeam.filterResult);
+						if(resultFromCallback){
+							filtedResultBool = true;
+						}
+					});
+
+					if(filtedResultBool){
+						$scope.filtedUsers.push(oneTeam);
+					}
 			});
 			$scope.noFiltedTeam_visibility = false;
 		}
