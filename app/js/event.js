@@ -307,21 +307,27 @@ angular.module('teamform-event-app', ['firebase'])
 		$scope.filteringFunction = function (teamNameForFilter, callback){
 			// console.log(teamNameForFilter);
 			var rulename = "";
+			var matchtest =false;
 			rulename = String($scope.filterName);
-			var matchtest = new RegExp(rulename).test(String(teamNameForFilter));
+			if(rulename =="C++" || rulename =="c++"){
+				matchtest =false;
+			}else{
+			matchtest = new RegExp(rulename).test(String(teamNameForFilter));
+			}
 			callback(matchtest);
 		}
 
-		// $scope.filteringAllMatchFunction = function (teamNameForFilter, callback){
-		// 	// console.log(teamNameForFilter);
-		// 	var matchtest =false;
-		// 	var rulename = String($scope.filterName);
-		// 	var filteringname = String(teamNameForFilter);
-		// 	if(rulename == filteringname){
-		// 		matchtest = true;
-		// 	}
-		// 	callback(matchtest);
-		// }
+		$scope.filteringAllMatchFunction = function (teamNameForFilter, callback){
+			// console.log(teamNameForFilter);
+			var matchtest =false;
+			var rulename = String($scope.filterName);
+			var filteringname = String(teamNameForFilter);
+			if(rulename == filteringname){
+				matchtest = true;
+			}
+			callback(matchtest);
+		}
+
 		// $scope.getTeamNameByID = function (currentTeamid, callback) {
 		// 	var RefPath = "events/" + eventid + "/teams/" +currentTeamid;
 		// 	retrieveOnceFirebase(firebase, RefPath, function (currentTeamData) {
@@ -338,7 +344,7 @@ angular.module('teamform-event-app', ['firebase'])
 				console.log(oneTeam);
 					angular.forEach(oneTeam.preference,function (oneTeamPreference, key) {
 						console.log(oneTeamPreference);
-						$scope.filteringFunction(oneTeamPreference, function (resultFromCallback){
+						$scope.filteringAllMatchFunction(oneTeamPreference, function (resultFromCallback){
 							if(resultFromCallback){
 							filtedResultBool = true;
 							}
