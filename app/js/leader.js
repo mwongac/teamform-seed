@@ -402,10 +402,10 @@ angular.module('leader-app', ['firebase'])
                         } else {
                             $scope.preference = teamData.preference;
                         }
-                        if (teamData.description == null) {
+                        if (teamData.teamDescription == null) {
                             $scope.teamDescription = '';
                         } else {
-                            $scope.teamDescription = teamData.description;
+                            $scope.teamDescription = teamData.teamDescription;
                         }
                         $scope.displayName = teamData.teamName;
                     });

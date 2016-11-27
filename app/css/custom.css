@@ -227,6 +227,17 @@ box-shadow: 2px 2px 2px #ccc;
     background-color: rgb(240, 240, 245);
 }
 
+ .edit {
+    padding: 10px;
+    font-size: 15px;
+  }
+  
+  .editor {
+    padding: 5px;
+    font-size: 18px;
+    /*font-weight: bold;*/
+  }
+
     div#load_screen {
       background: white;
       opacity: 1;
