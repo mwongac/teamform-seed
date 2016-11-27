@@ -47,16 +47,14 @@
                     <div id="success">
                         <h2>Event: {{param.eventName}}</h2>
                         <!--show generated sugguest team in table-->
-                        <table></table>
-                        <!--button for adin to comfire or cancel-->
                         <!--for testing-->
-                        <h3>waitList</h3>
+                        <!--<h3>waitList</h3>
                         <ul ng-repeat="user in waitList">
                             uid = {{user.uid}}<br> name = {{user.name}}<br> role = {{user.role}}<br> team={{user.teamid}}
                             <br>
                             <br>
-                        </ul>
-                        <h3>Teams that were without enough member before generate</h3>
+                        </ul>-->
+                        <!--h3>Teams that were without enough member before generate</h3>
                         <table id="teamsList" class="table table-hover text-left">
                             <thead>
                                 <tr>
@@ -81,8 +79,9 @@
                                     <th>{{t.change}}</th>
                                 </tr>
                             </tbody>
-                        </table>
-                        <h3>Teams that have enough member before generate</h3>
+                        </table>-->
+                        <h3>Suggested Teams</h3>
+                        <!--<h3>Teams that have enough member before generate</h3>-->
                         <table id="teamsEnoughList" class="table table-hover text-left">
                             <thead>
                                 <tr>
@@ -107,8 +106,8 @@
                                     <th>{{t.change}}</th>
                                 </tr>
                             </tbody>
-                        </table>
-                        <h3>Teams Full</h3>
+                            <!--</table>
+                        <h3>Full Teams</h3>
                         <table id="teamsFullList" class="table table-hover text-left">
                             <thead>
                                 <tr>
@@ -119,7 +118,8 @@
                                     <th>Preference</th>
                                     <th>Change</th>
                                 </tr>
-                            </thead>
+                            </thead>-->
+                            <!--merge two list into one-->
                             <tbody ng-repeat="(key,t) in teamsFull" ng-init="getUserNameInTeam(t)">
                                 <tr>
                                     <td>{{key}}</td>
@@ -130,11 +130,53 @@
                                     </span>
                                     </td>
                                     <td>{{t.preference}}</td>
-                                    <th>{{t.change}}</th>
+                                    <th>
+                                        <span ng-show="t.change">{{t.change}}</span>
+                                        <span ng-hide="t.change">No change</span>
+                                    </th>
                                 </tr>
                             </tbody>
                         </table>
 
+
+
+                        </table>
+                        <div ng-hide="isTeamObjectEmpty(teamsDelete)">
+                            <h3>Dismissed Teams</h3>
+                            <table id="teamsDismiss" class="table table-hover text-left">
+                                <thead>
+                                    <tr>
+                                        <th>Team id</th>
+                                        <th>Team Name</th>
+                                        <th>Team Leader</th>
+                                        <th>Team members</th>
+                                        <th>Preference</th>
+                                        <th>Change</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="(key,t) in teamsDelete" ng-init="getUserNameInTeam(t)">
+                                    <tr>
+                                        <td>{{key}}</td>
+                                        <td>{{t.teamName}}</td>
+                                        <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                                        <td><span ng-repeat="member in t.members">
+                                            <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                                        </span>
+                                        </td>
+                                        <td>{{t.preference}}</td>
+                                        <th>
+                                            <span ng-show="t.change">{{t.change}}</span>
+                                            <span ng-hide="t.change">No change</span>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+
+                        <!--button for adin to comfire or cancel-->
                         <div style="text-align: right">
                             <button ng-click="return()">Cancel</button>
                             <button class="btn btn-primary" ng-click="confirm()">Confirm</button>
