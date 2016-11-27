@@ -683,6 +683,8 @@ angular.module('teamform-event-app', ['firebase'])
 						console.log("leader name: " + team.teamLeaderName + "\ndone get team info by ID \n*************end************\n\n");
 					})
 				});
+				var load_screen = document.getElementById("load_screen");
+				document.body.removeChild(load_screen);
 			});
 
 		})

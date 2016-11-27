@@ -30,6 +30,7 @@
 	  	  
    </head>
    <body ng-controller="TeamCtrl"> 
+   <div id="load_screen"> <div id="loading" class="text-center"> <img src="img/loading.gif">loading document </div></div>
 
   <div ng-include="'navbar.html'" id='navbarMenu'></div>
    <br>
@@ -104,7 +105,15 @@
            </tr>
     </div>           
   </div>
-
+  <div class="container">
+    <!-- FOOTER -->
+    <hr>
+    <footer>
+      <p class="pull-right"><a style="cursor: pointer" ng-click="scrollToTop()">Back to top</a></p>
+      <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
+      <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+    </footer>
+  </div>
 
 
    <!-- JavaScript of this page -->
