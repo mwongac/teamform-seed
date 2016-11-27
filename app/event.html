@@ -169,7 +169,7 @@
                   <div> <!--ng-show="filter(t)">-->
                     <tr>
                       <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
-                      <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                      <td><a href="profile.html?q={{t.teamLeader}}">{{t.teamLeaderName}}</a></td>
                       <td>
                         <span ng-repeat="member in t.members">
                                   <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
@@ -191,7 +191,7 @@
                   <div> <!--ng-show="filter(t)">-->
                     <tr>
                       <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
-                      <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                      <td><a href="profile.html?q={{t.teamLeader}}">{{t.teamLeaderName}}</a></td>
                       <td>
                         <span ng-repeat="member in t.members">
                                   <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
@@ -287,9 +287,15 @@
       <!--end of teams & member list-->
     </div>
   </div>
-
-
-
+  <div class="container">
+    <!-- FOOTER -->
+    <hr>
+    <footer>
+      <p class="pull-right"><a style="cursor: pointer" ng-click="scrollToTop()">Back to top</a></p>
+      <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
+      <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+    </footer>
+  </div>
   <!-- JavaScript of this page -->
 
   <!-- Angular and Angular-route libraries (v1.5.7) -->
