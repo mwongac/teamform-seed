@@ -28,11 +28,15 @@
 
   <script src="js/site.js"></script>
 
+
+
 </head>
 
 
 <body>
-
+  <div id="load_screen">
+    <div id="loading">loading document</div>
+  </div>
   <!--Menu bar-->
   <div ng-include="'navbar.html'" id='navbarMenu'></div>
   <div>
@@ -59,11 +63,11 @@
 
   <!--show current members and current requests-->
   <p>Current Team Member:</p>
-  <div ng-repeat="oneMember in members">
+  <div id="memberList", ng-repeat="oneMember in members">
     <ul>
       <li> member ID: {{oneMember.memberID}} </li>
       <li> member Name: {{oneMember.name}} </li>
-      <li><a ng-click='kickMember(oneMember.memberID)'>Kick</a></li>
+      <li><a ng-click='kickMember(oneMember, oneMember.memberID)'>Kick</a></li>
     </ul>
   </div>
 
