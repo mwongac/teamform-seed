@@ -61,6 +61,11 @@ angular
 
 			teamList.$loaded()
 				.then(function (x) {
+
+					// loading screen
+					// var load_screen = document.getElementById("load_screen");
+					// document.body.removeChild(load_screen);
+
 					console.log(teamList.$getRecord(eventid));
 					if (teamList.$getRecord(eventid) == null) {
 						//the first time the user enters an event
@@ -148,22 +153,25 @@ angular
 		$scope.getUserRoleByEventID = function (eventid, callback) {
             var foundRole;
 			var currentUser = firebase.auth().currentUser;
-            var userDatabase = firebase.database();
-            var userRef = userDatabase.ref('users/' + currentUser.uid + '/teams');
-            var userData = $firebaseArray(userRef);
-            userData.$loaded()
-                .then(function (data) {
-					var teamevent = userData.$getRecord(eventid);
-					//console.log("getUserRoleByEventID: " + currentUser.uid);
-                    console.log("getUserRoleByEventID: "+ teamevent);
-					if (teamevent == null) {
-						callback('Not Yet Entered');
-					} else if (teamevent.role == "null") { 					//role is a STRING!!!!!
-						callback("You don't have a role yet");
-					} else {
-						callback('Role: ' + teamevent.role);
-					}
-                })
+			if (currentUser) {
+				var userDatabase = firebase.database();
+				var userRef = userDatabase.ref('users/' + currentUser.uid + '/teams');
+				var userData = $firebaseArray(userRef);
+			
+				userData.$loaded()
+					.then(function (data) {
+						var teamevent = userData.$getRecord(eventid);
+						//console.log("getUserRoleByEventID: " + currentUser.uid);
+						console.log("getUserRoleByEventID: "+ teamevent);
+						if (teamevent == null) {
+							callback('Not Yet Entered');
+						} else if (teamevent.role == "null") { 					//role is a STRING!!!!!
+							callback("You don't have a role yet");
+						} else {
+							callback('Role: ' + teamevent.role);
+						}
+					})
+			}
         }	
 
 
@@ -171,9 +179,9 @@ angular
 		$scope.checkDL = function  (eventDL) {
 			var today = new Date();
 			var deadline = new Date(eventDL);
-            console.log("checkDL: " + deadline);
-			console.log("checkDL TODAY: " + today);
-			console.log('Deadline: ' + (today > deadline));
+            // console.log("checkDL: " + deadline);
+			// console.log("checkDL TODAY: " + today);
+			// console.log('Deadline: ' + (today > deadline));
 			if (today > deadline) {
 				return true;
 			} else {
