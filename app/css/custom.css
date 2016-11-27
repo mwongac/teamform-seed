@@ -112,7 +112,17 @@ input[type=email],input[type=password], select {
     
 }
 
-.event_item_date{
+.event_item_date_true{
+    color:white;
+    background-color: red;
+    border: 2px solid red;
+    width: 55px;
+    height: 55px;
+    padding: 0px 5px;
+    box-shadow: 2px 2px 2px #ccc;
+}
+
+.event_item_date_false{
     color:white;
     background-color: #337ab7;
     border: 2px solid #2573a9;

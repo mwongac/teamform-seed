@@ -8,6 +8,7 @@ $(document).ready(function () {
 	}
 	$('#create_team_page_visibility').hide();
 	$('#create_team_page_btn_visibility').show();
+	$('#noFiltedTeam_visibility').show();
 });
 
 angular.module('teamform-event-app', ['firebase'])
@@ -21,6 +22,7 @@ angular.module('teamform-event-app', ['firebase'])
 
 		//filterName is the context of filter which will check whether it contains in teamName
 		$scope.filterName = '';
+		$scope.noFiltedTeam_visibility = true;
 
 		// Call Firebase initialization code defined in site.js
 		initalizeFirebase();
@@ -61,6 +63,11 @@ angular.module('teamform-event-app', ['firebase'])
 					console.log(new Date($scope.param.deadline));
 				}
 				$scope.today = new Date();
+				// if($scope.deadline.getTime()>$scope.today.getTime()){
+		
+				// 	console.log("$scope.deadline.getTime(): "+$scope.deadline.getTime());
+				// 	$('#create_team_page_btn_visibility').hide();
+				// }
 				var database = firebase.database();
 				var adminRef = database.ref('users/' + $scope.param.admin);
 				var adminData = $firebaseObject(adminRef);
@@ -159,20 +166,31 @@ angular.module('teamform-event-app', ['firebase'])
 			if (currentTeamid == '') {
 				return false;
 			} else {
-				console.log(currentTeamid);
-				var newteamRef = firebase.database().ref('events/' + $scope.eventid + '/teams/' + currentTeamid);
+				//console.log(currentTeamid);
+				var newteamRef = firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid);
 				var teamobject = $firebaseObject(newteamRef);
 				teamobject.$loaded()
-					.then(function (data) {
-						$scope.requestMemberList = teamobject.requestMemberList;
-						if (typeof $scope.requestMemberList == "undefined") {
-							$scope.requestMemberList = [];
-						}
-						$scope.requestMemberList.push({ "memberID": $scope.uid });
-						teamobject.requestMemberList = $scope.requestMemberList;
-						teamobject.$save();
-						console.log(teamobject);
-					});
+					.then(function(data){
+							$scope.requestMemberList = teamobject.requestMemberList;
+							if(typeof $scope.requestMemberList == "undefined"){
+								$scope.requestMemberList = [];
+							}
+							var filtedResultBool = true;
+							angular.forEach($scope.requestMemberList,function (oneMember, key) {
+								// console.log(oneMember);
+								// console.log(oneMember.memberID);
+								if(oneMember.memberID == $scope.uid){
+								filtedResultBool = false;
+								}
+							});
+							if(filtedResultBool){
+								$scope.requestMemberList.push( {"memberID":$scope.uid});
+								console.log("successfully request to join team"+ $scope.uid);
+							}
+							teamobject.requestMemberList = $scope.requestMemberList; 
+							teamobject.$save();
+							// console.log(teamobject);
+					});		
 			}
 		}
 
@@ -273,33 +291,75 @@ angular.module('teamform-event-app', ['firebase'])
 		}
 
 
-		//filter for *.rule and rule.*
-		$scope.matchRule = function (str, rule, callback) {
-			var matchtest = new RegExp(rule).test(str);
-			console.log("rule: " + rule);
-			console.log("str: ");
-			console.log(str);
-			console.log("match: " + matchtest);
+
+	// //filter for *.rule and rule.*
+	// $scope.matchRule = function (str, rule) {
+	// 	var matchtest = new RegExp(rule).test(str);
+	// 	// console.log("rule: " + rule);
+	// 	// console.log("str: ");
+	// 	// console.log(str);
+	// 	// console.log("match: " + matchtest);
+	// 	return matchtest;
+	// }
+
+		// var refPath = "events/" + eventid + "/teams/"+ teamidForFilter+"/teamName";
+		// $scope.filteringTeamName = $firebaseObject(firebase.database().ref(refPath));
+		$scope.filteringFunction = function (teamNameForFilter, callback){
+			// console.log(teamNameForFilter);
+			var rulename = "";
+			rulename = String($scope.filterName);
+			var matchtest = new RegExp(rulename).test(String(teamNameForFilter));
 			callback(matchtest);
 		}
 
-		// $scope.filter.$loaded().then(function (teamidForFilter){
-		// 	console.log("steamidForFiltertr: ");
-		// 	console.log(teamidForFilter);
-		// 	var refPath = "events/" + eventid + "/teams/"+ teamidForFilter+"/teamName";
-		// 	$scope.filteringTeamName = $firebaseObject(firebase.database().ref(refPath));
-		// 	$scope.filteringTeamName.$loaded().then(function (){
-		// 			var rulename = $scope.filterName;
-		// 			var filterResult = false;
-		// 			$scope.matchRule($scope.filteringTeamName, rulename, boolResult){
-		// 				filterResult = boolResult;
-		// 			}	
-		// 		});
-		// 	return filterResult;	
-		// });
-		refPath = "events/" + eventid + "/teams";
-		$scope.teams = [];
-		$scope.teams = $firebaseArray(firebase.database().ref(refPath));
+		// $scope.filteringAllMatchFunction = function (teamNameForFilter, callback){
+		// 	// console.log(teamNameForFilter);
+		// 	var matchtest =false;
+		// 	var rulename = String($scope.filterName);
+		// 	var filteringname = String(teamNameForFilter);
+		// 	if(rulename == filteringname){
+		// 		matchtest = true;
+		// 	}
+		// 	callback(matchtest);
+		// }
+		// $scope.getTeamNameByID = function (currentTeamid, callback) {
+		// 	var RefPath = "events/" + eventid + "/teams/" +currentTeamid;
+		// 	retrieveOnceFirebase(firebase, RefPath, function (currentTeamData) {
+		// 		//console.log(currentTeamData.child("teamName").val());
+		// 		if (currentTeamData.child("teamName").val() != null) {
+		// 			callback(currentTeamData.child("teamName").val());
+		// 		}
+		// 	});
+		// }
+		$scope.filterByName = function () {
+			$scope.filtedUsers = [];
+			angular.forEach($scope.teams, function (oneTeam, key) {
+				var filtedResultBool = false;
+				console.log(oneTeam);
+					angular.forEach(oneTeam.preference,function (oneTeamPreference, key) {
+						console.log(oneTeamPreference);
+						$scope.filteringFunction(oneTeamPreference, function (resultFromCallback){
+							if(resultFromCallback){
+							filtedResultBool = true;
+							}
+						});
+					});
+
+					$scope.filteringFunction(oneTeam.teamName, function (resultFromCallback){
+						oneTeam.filterResult = resultFromCallback;
+						console.log("resultFromCallback: "+ oneTeam.filterResult);
+						if(resultFromCallback){
+							filtedResultBool = true;
+						}
+					});
+
+					if(filtedResultBool){
+						$scope.filtedUsers.push(oneTeam);
+					}
+			});
+			$scope.noFiltedTeam_visibility = false;
+		}
+
 
 		refPath = "events/" + eventid + "/member";
 		$scope.member = [];

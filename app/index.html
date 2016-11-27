@@ -103,13 +103,13 @@
                               <font size="5">...or Choose an Existing Event Below:</font>
                             </div>
                             <section id="event_list">
-                              <div ng-repeat="event in events | orderBy : 'admin.param.deadline'" class="col-md-4">
+                              <div ng-repeat="event in events | orderBy : 'admin.param.deadline'" ng-init="getUserRoleInEvent(event)" class="col-md-4">
                                 <br>
                                 <div class="col-md-1">
                                 </div>
                                 <button class="event_item col-md-10" ng-click="enterEvent(event.$id)">
                                   <div class="col-md-2">
-                                    <div class="event_item_date pull-right">
+                                    <div class="event_item_date_{{checkDL(event.admin.param.deadline)}} pull-right">
                                       <div class="event_item_day">{{event.admin.param.deadline | date:'dd'}}</div>
                                       <div class="event_item_month">{{event.admin.param.deadline | date:'MMM'}}</div>
                                       <!--({{event.admin.param.deadline | date:'dd/MM/yyyy'}})-->
@@ -121,6 +121,9 @@
                                     </div>
                                     <div class="event_item_description row text-left">
                                       {{event.admin.param.description}}
+                                    </div>
+                                    <div class="event_item_name row text-left">
+                                      <p>{{event.Role}}</p>
                                     </div>
                                   </div>
                                   <!--<div class="row">

@@ -42,6 +42,7 @@ angular
 		$scope.username = '';
 
 		$scope.eventName = '';
+		$scope.userID = '';
 
 		//testing abt firebase
 		var ref = firebase.database().ref('events');
@@ -131,6 +132,56 @@ angular
 		}
 
 
+		
+		//identify the role in the event
+		$scope.getUserRoleInEvent = function (event) {
+			var resultRole;
+            //console.log("getUserRoleInEvent for Event: " + event.$id);
+            $scope.getUserRoleByEventID(event.$id, function (resultFromCallback) {
+                resultRole = resultFromCallback;
+                console.log("Event: getUserRoleByEventID: " + resultRole);
+                event.Role = resultRole;
+            })
+			
+		}
+
+		$scope.getUserRoleByEventID = function (eventid, callback) {
+            var foundRole;
+			var currentUser = firebase.auth().currentUser;
+            var userDatabase = firebase.database();
+            var userRef = userDatabase.ref('users/' + currentUser.uid + '/teams');
+            var userData = $firebaseArray(userRef);
+            userData.$loaded()
+                .then(function (data) {
+					var teamevent = userData.$getRecord(eventid);
+					//console.log("getUserRoleByEventID: " + currentUser.uid);
+                    console.log("getUserRoleByEventID: "+ teamevent);
+					if (teamevent == null) {
+						callback('Not Yet Entered');
+					} else if (teamevent.role == "null") { 					//role is a STRING!!!!!
+						callback("You don't have a role yet");
+					} else {
+						callback('Role: ' + teamevent.role);
+					}
+                })
+        }	
+
+
+		//check id the deadline of a event is passed TRUE:passed FALSE:Not yet passed
+		$scope.checkDL = function  (eventDL) {
+			var today = new Date();
+			var deadline = new Date(eventDL);
+            console.log("checkDL: " + deadline);
+			console.log("checkDL TODAY: " + today);
+			console.log('Deadline: ' + (today > deadline));
+			if (today > deadline) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+			
 
 		//create new event
 		$scope.createNewEvent = function (eventname) {
