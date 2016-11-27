@@ -47,10 +47,8 @@
                     <div id="success">
                         <h2>Event: {{param.eventName}}</h2>
                         <!--show generated sugguest team in table-->
-                        <table></table>
-                        <!--button for adin to comfire or cancel-->
                         <!--for testing-->
-                        <h3>waitList</h3>
+                        <!--<h3>waitList</h3>
                         <ul ng-repeat="user in waitList">
                             uid = {{user.uid}}<br> name = {{user.name}}<br> role = {{user.role}}<br> team={{user.teamid}}
                             <br>
@@ -107,8 +105,8 @@
                                     <th>{{t.change}}</th>
                                 </tr>
                             </tbody>
-                        </table>
-                        <h3>Teams Full</h3>
+                        </table>-->
+                        <h3>Suggested Teams</h3>
                         <table id="teamsFullList" class="table table-hover text-left">
                             <thead>
                                 <tr>
@@ -130,11 +128,14 @@
                                     </span>
                                     </td>
                                     <td>{{t.preference}}</td>
-                                    <th>{{t.change}}</th>
+                                    <th>
+                                        <span ng-show="t.change">{{t.change}}</span>
+                                        <span ng-hide="t.change">No change</span>
+                                    </th>
                                 </tr>
                             </tbody>
                         </table>
-
+                        <!--button for adin to comfire or cancel-->
                         <div style="text-align: right">
                             <button ng-click="return()">Cancel</button>
                             <button class="btn btn-primary" ng-click="confirm()">Confirm</button>
