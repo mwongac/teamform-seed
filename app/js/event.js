@@ -98,17 +98,17 @@ angular.module('teamform-event-app', ['firebase'])
 			}
 		}
 
-	// for create new team 
-	$scope.nextTeamName = "";
-	$scope.teamDescription = '';
-    $scope.preference = [];
-    $scope.addpreference = '';
-	$scope.preferredTeamSize = 1;
-	$scope.members =[];
-    // $scope.filtedUsers = [];
-    // $scope.displayName = '';
-    // $scope.nameToInvite = '';
-    // $scope.invitelist =
+		// for create new team 
+		$scope.nextTeamName = "";
+		$scope.teamDescription = '';
+		$scope.preference = [];
+		$scope.addpreference = '';
+		$scope.preferredTeamSize = 1;
+		$scope.members = [];
+		// $scope.filtedUsers = [];
+		// $scope.displayName = '';
+		// $scope.nameToInvite = '';
+		// $scope.invitelist =
 
 		//join this team 
 		$scope.joinTeam = function (currentTeamid) {
@@ -116,48 +116,48 @@ angular.module('teamform-event-app', ['firebase'])
 				return false;
 				//user will enter team page which is created by user who become leader
 			} else {
-			//	console.log(currentTeamid);
+				//	console.log(currentTeamid);
 
-					
+
 				var currentUser = $scope.uid;
-		//		var currentUser = firebase.auth().currentUser;
-				var currentUsersRef = firebase.database().ref('users/'+currentUser+'/teams/'+$scope.eventid);
+				//		var currentUser = firebase.auth().currentUser;
+				var currentUsersRef = firebase.database().ref('users/' + currentUser + '/teams/' + $scope.eventid);
 				var userNewTeamObject = $firebaseObject(currentUsersRef);
 				userNewTeamObject.$loaded()
-					.then(function(data){
-						if(userNewTeamObject.role != 'admin' && userNewTeamObject.role != 'leader'){
+					.then(function (data) {
+						if (userNewTeamObject.role != 'admin' && userNewTeamObject.role != 'leader') {
 							userNewTeamObject.role = 'member';
 							userNewTeamObject.teamid = currentTeamid;
 							userNewTeamObject.$save();
 						}
 						console.log(userNewTeamObject);
-					});	
+					});
 
 
-					
-				var newteamRef = firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid);
+
+				var newteamRef = firebase.database().ref('events/' + $scope.eventid + '/teams/' + currentTeamid);
 				var teamobject = $firebaseObject(newteamRef);
 				teamobject.$loaded()
-					.then(function(data){
-							//console.log(data);
-							$scope.members = teamobject.members;
-							if(typeof $scope.members == "undefined"){
-								$scope.members = [];
-							}
-							// var membersArrayRef=firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid+'/members');
-							// var membersArray = $firebaseArray(membersArrayRef);
-							// console.log(membersArray);
-							// for(mA in membersArray){
-							// 	console.log(mA.memberID);
-							// 	if(mA.memberID == $scope.uid){
-							// 	return;
-							// 	}	
-							// }
-							$scope.members.push({"memberID":$scope.uid});
-							teamobject.members = $scope.members; 
-							teamobject.$save();
-							console.log(teamobject);
-					});	
+					.then(function (data) {
+						//console.log(data);
+						$scope.members = teamobject.members;
+						if (typeof $scope.members == "undefined") {
+							$scope.members = [];
+						}
+						// var membersArrayRef=firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid+'/members');
+						// var membersArray = $firebaseArray(membersArrayRef);
+						// console.log(membersArray);
+						// for(mA in membersArray){
+						// 	console.log(mA.memberID);
+						// 	if(mA.memberID == $scope.uid){
+						// 	return;
+						// 	}	
+						// }
+						$scope.members.push({ "memberID": $scope.uid });
+						teamobject.members = $scope.members;
+						teamobject.$save();
+						console.log(teamobject);
+					});
 			}
 		}
 
@@ -197,97 +197,99 @@ angular.module('teamform-event-app', ['firebase'])
 
 
 
-	//show create team form
-	$scope.showTeamForm = function () {
-		$('#create_team_page_visibility').show();
-		create_team_page_btn_visibility.disabled = true;
-	}
-
-	//hide create team form
-	$scope.hideTeamForm = function () {
-		$('#create_team_page_visibility').hide();
-		create_team_page_btn_visibility.disabled = false;
-	}
-
-    //addpreference
-    $scope.addPre = function(){
-        console.log('addPre pressed');
-        $scope.preference.push($scope.addpreference);
-        $scope.preference.sort();
-        $scope.addpreference = '';
-    }
-	//removepreference
-    $scope.removePre = function(target){
-        console.log('remove clicked');
-        console.log($scope.preference.indexOf(target));
-        $scope.preference.splice($scope.preference.indexOf(target),1);
-	}
-
-	$scope.changePreferredTeamSize = function (delta) {
-	var newVal = $scope.preferredTeamSize + delta;
-	if (newVal >= $scope.param.minTeamSize && newVal <= $scope.param.maxTeamSize) {
-		$scope.preferredTeamSize = newVal;
-	}
-}
-
-   //create team function 
-    $scope.eventid = eventid;
-    $scope.createTeam = function(teamName){
-
-		
-		var teamNameVal = "";
-		if(teamName == "default"){
-			teamNameVal = teamName;
-		}else{
-			teamNameVal = $scope.nextTeamName;
+		//show create team form
+		$scope.showTeamForm = function () {
+			$('#create_team_page_visibility').show();
+			create_team_page_btn_visibility.disabled = true;
 		}
-     	console.log(teamNameVal);
-        console.log('creating team');
-        var ref = firebase.database().ref('events/'+$scope.eventid+'/teams/');
-        console.log($scope.eventid);
-        var teamkey = ref.push().key;
-        console.log(teamkey);
-        var event = $firebaseObject(ref);
-        event.$loaded()
-            .then(function(data){
-                //console.log(data);
-                var newteamRef = firebase.database().ref('events/'+$scope.eventid+'/teams/'+ teamkey);
-                var teamobject = $firebaseObject(newteamRef);
-                teamobject.teamName = teamNameVal; 
-				teamobject.teamLeader = $scope.uid;
-				teamobject.teamDescription = $scope.teamDescription ;
-				teamobject.preference = $scope.preference;
-				teamobject.preferredTeamSize = $scope.preferredTeamSize;
-				teamobject.members = $scope.members;
-                teamobject.$save();
-                console.log(teamobject);
-            });
-                var currentUser = firebase.auth().currentUser;
-                var currentUsersRef = firebase.database().ref('users/'+currentUser.uid+'/teams/'+$scope.eventid);
-                var userNewTeamObject = $firebaseObject(currentUsersRef);
-		userNewTeamObject.$loaded()
-			.then(function(data){
-			   if(userNewTeamObject.role != 'admin'){
-				userNewTeamObject.role = 'leader';
-			   }
-			    userNewTeamObject.teamid = teamkey;
-                userNewTeamObject.$save()
-					.catch(e=>console.log(e));
-				console.log(userNewTeamObject);
-            })
-			.catch(e=>console.log(e));
-		if (teamNameVal == '' ){
- 			//var url = "team.html?teamid=" + teamkey+ "&eventid="+$scope.eventid;
-	    	//	window.location.href = url;
-    		return false;
-		//user will enter team page which is created by user who become leader
-    	}else{
-		//	var url = "nullTeam.html?teamid=" + teamkey+ "&eventid="+$scope.eventid;
-			var url = "leader.html?teamid=" + teamkey+ "&eventid="+$scope.eventid;
-    		window.location.href = url;
-    		return true;
+
+		//hide create team form
+		$scope.hideTeamForm = function () {
+			$('#create_team_page_visibility').hide();
+			create_team_page_btn_visibility.disabled = false;
 		}
-    }
+
+		//addpreference
+		$scope.addPre = function () {
+			console.log('addPre pressed');
+			$scope.preference.push($scope.addpreference);
+			$scope.preference.sort();
+			$scope.addpreference = '';
+		}
+		//removepreference
+		$scope.removePre = function (target) {
+			console.log('remove clicked');
+			console.log($scope.preference.indexOf(target));
+			$scope.preference.splice($scope.preference.indexOf(target), 1);
+		}
+
+
+		$scope.changePreferredTeamSize = function (delta) {
+			var newVal = $scope.preferredTeamSize + delta;
+			if (newVal >= $scope.param.minTeamSize && newVal <= $scope.param.maxTeamSize) {
+				$scope.preferredTeamSize = newVal;
+			}
+		}
+
+		//create team function 
+		$scope.eventid = eventid;
+		$scope.createTeam = function (teamName) {
+
+
+			var teamNameVal = "";
+			if (teamName == "default") {
+				teamNameVal = teamName;
+			} else {
+				teamNameVal = $scope.nextTeamName;
+			}
+			console.log(teamNameVal);
+			console.log('creating team');
+			var ref = firebase.database().ref('events/' + $scope.eventid + '/teams/');
+			console.log($scope.eventid);
+			var teamkey = ref.push().key;
+			console.log(teamkey);
+			var event = $firebaseObject(ref);
+			event.$loaded()
+				.then(function (data) {
+					//console.log(data);
+					var newteamRef = firebase.database().ref('events/' + $scope.eventid + '/teams/' + teamkey);
+					var teamobject = $firebaseObject(newteamRef);
+					teamobject.teamName = teamNameVal;
+					teamobject.teamLeader = $scope.uid;
+					teamobject.teamDescription = $scope.teamDescription;
+					teamobject.preference = $scope.preference;
+					teamobject.preferredTeamSize = $scope.preferredTeamSize;
+					teamobject.members = $scope.members;
+					teamobject.$save();
+					console.log(teamobject);
+				});
+			var currentUser = firebase.auth().currentUser;
+			var currentUsersRef = firebase.database().ref('users/' + currentUser.uid + '/teams/' + $scope.eventid);
+			var userNewTeamObject = $firebaseObject(currentUsersRef);
+			userNewTeamObject.$loaded()
+				.then(function (data) {
+					if (userNewTeamObject.role != 'admin') {
+						userNewTeamObject.role = 'leader';
+					}
+					userNewTeamObject.teamid = teamkey;
+					userNewTeamObject.$save()
+						.catch(e => console.log(e));
+					console.log(userNewTeamObject);
+				})
+				.catch(e => console.log(e));
+			if (teamNameVal == '') {
+				//var url = "team.html?teamid=" + teamkey+ "&eventid="+$scope.eventid;
+				//	window.location.href = url;
+				return false;
+				//user will enter team page which is created by user who become leader
+			} else {
+				//	var url = "nullTeam.html?teamid=" + teamkey+ "&eventid="+$scope.eventid;
+				var url = "leader.html?teamid=" + teamkey + "&eventid=" + $scope.eventid;
+				window.location.href = url;
+				return true;
+			}
+		}
+
 
 
 	// //filter for *.rule and rule.*
@@ -358,6 +360,7 @@ angular.module('teamform-event-app', ['firebase'])
 			$scope.noFiltedTeam_visibility = false;
 		}
 
+
 		refPath = "events/" + eventid + "/member";
 		$scope.member = [];
 		$scope.member = $firebaseArray(firebase.database().ref(refPath));
@@ -365,6 +368,10 @@ angular.module('teamform-event-app', ['firebase'])
 		refPath = "events/" + eventid + "/announcements";
 		$scope.announcements = [];
 		$scope.announcements = $firebaseArray(firebase.database().ref(refPath));
+
+        refPath = "events/" + eventid + "/waitlist";
+        $scope.waitList = [];
+        $scope.waitList = $firebaseArray(firebase.database().ref(refPath));
 
 		//$scope.users is an array of users in firebase
 		var usersRef = firebase.database().ref('users');
@@ -382,6 +389,10 @@ angular.module('teamform-event-app', ['firebase'])
 				//console.log("team info: callback "+team.description);
 				if (typeof team.members == "undefined") {
 					team.members = [];
+				} else if (team.members.length + 1 == $scope.param.maxTeamSize) {//team is full
+					console.log("team full, cannot join");
+					$window.alert("Team is full, cannot join it.");
+					$scope.rejectInvite(teamid);
 				}
 				//add to member list of team
 				team.members.push({ "memberID": $scope.uid });
@@ -471,6 +482,24 @@ angular.module('teamform-event-app', ['firebase'])
 			console.log("leader name: " + TeamObject.teamLeaderName + "\ndone get team info by ID \n*************end************\n\n");
 			// });
 		}
+		
+        $scope.getUserDatabyID = function (user) {
+            var resultName;
+            console.log("getUserDatabyID for " + user);
+            $scope.getUserNameByID(user.uid, function (resultFromCallback) {
+                user.name = resultFromCallback;
+                console.log("Leader: getMemberNameByID: " + user.name);
+            })
+            var userPreference = $firebaseObject(firebase.database().ref('users/' + user.uid + '/language'));
+            userPreference.$loaded()
+                .then(function (data) {
+                    user.preference = userPreference;
+                    console.log("user.preference" + user.preference);
+                    angular.forEach(user.preference, function (p) {
+                        console.log("preference?" + p);
+                    })
+                })
+        }
 
 		$scope.getUserNameByID = function (userid, callback) {
 			var foundName;
@@ -542,7 +571,7 @@ angular.module('teamform-event-app', ['firebase'])
 				waitListArray.$loaded().then(function () {
 					if (typeof waitListArray == "undefined") { waitListArray = []; }
 					//waitListArray.$add( $scope.uid);
-					waitListArray.$add({uid : $scope.uid});
+					waitListArray.$add({ uid: $scope.uid });
 				})
 				//change variable saved in user
 				userNewTeamObject.isJoin = true;
@@ -552,27 +581,28 @@ angular.module('teamform-event-app', ['firebase'])
 		}
 
 		$scope.quitEvent = function () {
-			if (confirm("After you quiteEvent, you cannot request/accept invite to join team after deadline if you cannot find a team.")) {
-				console.log("quit event");
-				//remove from waitlist
-				waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
-				waitListArray.$loaded().then(function () {
-					//search the index of user
-					angular.forEach(waitListArray, function(waitingMember){
-						console.log("waiting member: "+ waitingMember.$id +"\n"+ waitingMember.uid +"\n"+ $scope.uid);
-						if (waitingMember.uid == $scope.uid){
-							//waitingMember.$remove();
-							index = waitListArray.$indexFor(waitingMember.$id);
-							console.log(index); 
-							waitListArray.$remove(index);
-						}
-					})
+			//disable this confirm since other function will use quitEvent
+			//if (confirm("After you quiteEvent, you cannot request/accept invite to join team after deadline if you cannot find a team.")) {
+			console.log("quit event");
+			//remove from waitlist
+			waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
+			waitListArray.$loaded().then(function () {
+				//search the index of user
+				angular.forEach(waitListArray, function (waitingMember) {
+					console.log("waiting member: " + waitingMember.$id + "\n" + waitingMember.uid + "\n" + $scope.uid);
+					if (waitingMember.uid == $scope.uid) {
+						//waitingMember.$remove();
+						index = waitListArray.$indexFor(waitingMember.$id);
+						console.log(index);
+						waitListArray.$remove(index);
+					}
 				})
-				//change variable saved in user
-				userNewTeamObject.isJoin = false;
-				$scope.isJoin = false;
-				userNewTeamObject.$save();
-			}
+			})
+			//change variable saved in user
+			userNewTeamObject.isJoin = false;
+			$scope.isJoin = false;
+			userNewTeamObject.$save();
+			// }
 		}
 
 		//monitor if the user is logged in or not

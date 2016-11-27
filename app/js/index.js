@@ -100,7 +100,13 @@ angular
 						var url = "event.html?q=" + eventid;
 						window.location.href = url;
 						return true;
+					} else if (typeof teamList.$getRecord(eventid).role == "undefined") {
+						//the user has not yet enter a team
+						var url = "event.html?q=" + eventid;
+						window.location.href = url;
+						return true;
 					}
+					console.log(typeof teamList.$getRecord(eventid).role);
 				});
 		}
 
@@ -230,7 +236,7 @@ angular
 			auth.signInWithEmailAndPassword(email, pass)
 				.then(user => {
 					console.log('promise is done');
-					$window.alert("You have successfully logged in");
+					// $window.alert("You have successfully logged in");
 				}).catch(e => {
 					console.log(e.message);
 					$window.alert(e.message);
