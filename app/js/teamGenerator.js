@@ -95,7 +95,7 @@ angular.module('teamform-admin-app', ['firebase'])
             user.preference = $scope.users.$getRecord(user.uid).language;
             user.team = $scope.users.$getRecord(user.uid).teams[eventid];
             console.log("getUserDatabyID\nname: " + user.name + "\npreference: " + user.preference + "\nteams: " + user.team);
-            if (user.team.isJoin) {
+            if (user.team.isJoin && typeof user.role=="undefined") {
                 user.role = "waiting";
             } else {
                 user.role = user.team.role;
@@ -265,7 +265,7 @@ angular.module('teamform-admin-app', ['firebase'])
                                 //console.log("forEach: " + ppl + "\n uid:" + ppl.$id + "\n preference: " + ppl.preference + "\nteam id: " + teamid + "\n preference: " + team.preference);
                                 if (team.members.length + 1 != min) {
                                     if ($scope.matchPreference(ppl.preference, team.preference) == bestFit) {
-                                        $scope.putMemberToTeams(ppl, team);
+                                        $scope.putMemberToTeams(ppl, team, teamid);
                                     }
                                 }
                             })
@@ -289,7 +289,7 @@ angular.module('teamform-admin-app', ['firebase'])
                         angular.forEach($scope.teamsEnough, function (team, teamid) {
                             if (keepGoing) {
                                 if ($scope.matchPreference(team.preference, $scope.waitList[0].preference) == bestFit) {
-                                    $scope.putMemberToTeams($scope.waitList[0], team);
+                                    $scope.putMemberToTeams($scope.waitList[0], team, teamid);
                                     keepGoing = false;
                                     if (team.members.length + 1 == max) {
                                         $scope.teamsFull[teamid] = team;
@@ -327,16 +327,20 @@ angular.module('teamform-admin-app', ['firebase'])
             return value;
         }
 
-        $scope.putMemberToTeams = function (ppl, team) {
-            console.log("put member " + ppl.uid + " to team " + team.teamName);
+        $scope.putMemberToTeams = function (ppl, team, teamid) {
+            console.log("put member " + ppl.uid + " to team " + team.teamName+"\nteamid: "+teamid);
             team.members.push({ "memberID": ppl.uid });
+
             ppl.role = "member";
-            ppl.team = team.$id;
+            ppl.team = teamid;
+            console.log("member role: " + ppl.role + "\nteamid: " + ppl.team);
             $scope.users.$getRecord(ppl.uid).teams[eventid].role = "member";
-            $scope.users.$getRecord(ppl.uid).teams[eventid].role = team.$id;
-            delete ppl;
+            $scope.users.$getRecord(ppl.uid).teams[eventid].team = teamid;
+            console.log("member team: " + $scope.users.$getRecord(ppl.uid).teams[eventid].team + "\nteamid: " + teamid);
+
+            //remove ppl in waitlist
             console.log("waitlist ppl $id: " + ppl.$id + "\n" + $scope.waitList.$getRecord(ppl.$id).uid);//uid=uid; $id=index in firebase array
-            console.log("type of waitListTmp: " + typeof $scope.waitList);
+            delete ppl;
             $scope.waitList.splice(ppl.$id, 1);
             $scope.getUserNameInTeam(team);
             console.log("waitlist: " + $scope.waitList + "\nlenght: " + $scope.waitList.length);
@@ -345,11 +349,27 @@ angular.module('teamform-admin-app', ['firebase'])
         }
 
         $scope.confirm = function () {
-            //TODO: admin click confirm -> save this data to firebase
+            //admin click confirm -> save this data to firebase
             //teams in event
-
-
-            //teams and roles in users
+            angular.forEach($scope.teamsEnough, function (team, teamid) {
+                $scope.teams[teamid] = team;
+            })
+            angular.forEach($scope.teamsFull, function (team, teamid) {
+                $scope.teams[teamid] = team;
+            })
+            angular.forEach($scope.teamsDelete, function (team, teamid) {
+                $scope.teams[teamid] = team;
+            })
+            $scope.teams.$save();
+            //save teams and roles in users
+            $scope.users.$save();
+            angular.forEach($scope.users, function (user, uid) {
+                $scope.users.$save(uid);
+            })
+            //delete waitlist
+            $firebaseObject(firebase.database().ref("events/" + eventid + "/waitlist")).$remove();
+            var url = "admin.html?q=" + eventid;
+            window.location.href = url;
         }
 
         $scope.dismissTeam = function (teams, team, moveToWaitList) {
@@ -365,6 +385,8 @@ angular.module('teamform-admin-app', ['firebase'])
                 })
             }
             //second, del all data of this team
+            team.change = "deleted";
+            $scope.teamsDelete[team.$id] = team;
             $teams.splice(team.$id, 1);
             console.log("team " + teamName + " is dismiss. ")
         }
