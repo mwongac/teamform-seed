@@ -30,6 +30,7 @@
 	  	  
    </head>
    <body ng-controller="TeamCtrl"> 
+   <div id="load_screen"> <div id="loading" class="text-center"> <img src="img/loading.gif">loading document </div></div>
 
   <div ng-include="'navbar.html'" id='navbarMenu'></div>
    <br>
@@ -45,50 +46,58 @@
             <div id="event_description_div" class="row">
               <div ng-include="'description.html'"></div>
             </div>
-	
-          <div class="row">
-            <div class="col-md-3"></div>
-            <div class="text-left custom_center_box col-md-6" style="font-size:16px;">       
+        <div class="container">
+          
+            <!--<div class="col-md-3"></div>-->
+            <div class="text-center custom_center_box" style="font-size:16px;">       
                <div class="row">
                   <p class="imp text-center custom_center_box_title"> {{teamName}}</p>
                   <p >{{teamDescription}}</p>
                   <br>
                </div>
                <div class="row">
-                  <div class="col-md-2"></div>
-                  <div class="event_info_box col-md-4 text-center"> <strong>Preferred Team Size: </strong><div style="font-size:30px;padding:30px;" >{{preferredTeamSize}}</div></div>
-                  <div class="col-md-1"></div>
-                  <div class="event_info_box col-md-4 text-center"><strong>Current Team Size: </strong><div style="font-size:30px;padding:30px;" >{{currentTeamSize}}</div></div>
-                  <div class="col-md-1"></div>
+                 <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <div style="margin: auto;" class="event_info_box text-center"> <strong>Preferred Team Size: </strong><div style="font-size:30px;padding:30px;" >{{preferredTeamSize}}</div></div>
+                  </div>
+                  <div class="col-md-3">
+                    <div style="margin: auto;" class="event_info_box text-center"><strong>Current Team Size: </strong><div style="font-size:30px;padding:30px;" >{{currentTeamSize}}</div></div>
+                  </div>
                </div>
              </div>
-             <div class="col-md-3">
-             </div>
+             <!--<div class="col-md-3">
+             </div>-->
+             
            </div>
-           <div class="row">
-                  <h3>Team Leader:</h3>
-                    <ul>
-                      <li>
-                      Team Leader ID: {{teamLeader.$value}}  <br>
+           <div class="container">
+              <div class="row custom_center_box">
+                      <h3><strong>Team Leader:</strong></h3>
+                      <br>
+                        <ul>
+                          <li class="col-md-6">
+                          <strong>Team Leader ID:</strong><br> {{teamLeader.$value}}  <br>
+                          </li>
+                          <li class="col-md-6">
+                          <strong>Leader Name:</strong><br> {{teamLeader.name}}  <br>
+                          </li>
+                        </ul>
+              </div>
+           </div>
+           <div class="container">
+                
+                  <h3><strong>Currrent Team Member:</strong></h3>
+                    <ul ng-repeat="oneMember in members" class="custom_center_box">
+                      <li class="col-md-4">
+                      <strong>member ID:</strong><br> {{oneMember.memberID}}  <br>
                       </li>
+                      <li class="col-md-4">
+                      <strong>member name:</strong><br> {{oneMember.name}}  <br>
+                      </li class="col-md-4">
                       <li>
-                      Leader Name: {{teamLeader.name}}  <br>
+                     <strong> member description:</strong><br> {{oneMember.description}}  <br>
                       </li>
                     </ul>
-           </div>
-           <div class="row">
-                  <h3>Currrent Team Member:</h3>
-                    <ul ng-repeat="oneMember in members">
-                      <li>
-                      member ID: {{oneMember.memberID}}  <br>
-                      </li>
-                      <li>
-                      member name: {{oneMember.name}}  <br>
-                      </li>
-                      <li>
-                      member description: {{oneMember.description}}  <br>
-                      </li>
-                    </ul>
+                  
            </div>
            <tr>
            <td><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam('')">Join this teamd directly (this will be removed)</button></td> <!--this will remove after we finish request to join team properly-->
@@ -96,7 +105,15 @@
            </tr>
     </div>           
   </div>
-
+  <div class="container">
+    <!-- FOOTER -->
+    <hr>
+    <footer>
+      <p class="pull-right"><a style="cursor: pointer" ng-click="scrollToTop()">Back to top</a></p>
+      <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
+      <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+    </footer>
+  </div>
 
 
    <!-- JavaScript of this page -->

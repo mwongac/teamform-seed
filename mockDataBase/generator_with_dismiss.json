@@ -1,0 +1,460 @@
+{
+  "events" : {
+    "-KWi6D8pUGpA2YbXZWWW" : {
+      "admin" : {
+        "param" : {
+          "admin" : "e0M0JfTmVWeHY1HKjyMqqysflAF3",
+          "deadline" : "2016-12-16T17:08:57.796Z",
+          "description" : "This is team form for First.",
+          "eventName" : "First",
+          "maxTeamSize" : 8,
+          "minTeamSize" : 3
+        }
+      },
+      "teams" : {
+        "-KWmUDkd-9nOSCjXAaAm" : {
+          "preference" : [ "" ],
+          "teamLeader" : "OUfseWANkMff29JwG6lHhU5wNSi2",
+          "teamName" : "default"
+        },
+        "-KWmqe9U2weJzgZt6SHR" : {
+          "teamLeader" : "N1wjlh3AslWmAl0PVdfwKGJh1gV2",
+          "teamName" : "won't be del"
+        }
+      }
+    },
+    "-KWi6NBl87_jFJKa4rbU" : {
+      "admin" : {
+        "param" : {
+          "admin" : "OUfseWANkMff29JwG6lHhU5wNSi2",
+          "deadline" : "2016-11-27T12:27:36.906Z",
+          "description" : "This is team form for again.",
+          "eventName" : "real generator test",
+          "maxTeamSize" : 6,
+          "minTeamSize" : 5
+        }
+      },
+      "announcements" : {
+        "-KWmglHZvs2ms_tojvBc" : {
+          "date" : "2016-11-17T14:31:26.625Z",
+          "text" : "arawre"
+        },
+        "-KWmnRSj8eGwMJkDMS-L" : {
+          "date" : "2016-11-17T15:00:36.356Z",
+          "text" : "testing dismiss id"
+        }
+      },
+      "teams" : {
+        "-KWmn_bYS-a7Tjl8LrI0" : {
+          "members" : [ {
+            "memberID" : "e0M0JfTmVWeHY1HKjyMqqysflAF3"
+          }, {
+            "memberID" : "b17Pk7I29HMiOBfBDHXdwxCkKtk2"
+          } ],
+          "preference" : [ "C++" ],
+          "requestMemberList" : [ {
+            "memberID" : "M8J5NZCdcNPrXFzipHtvh1ms5aH3"
+          } ],
+          "teamLeader" : "sOu3RCUPhDONpBAW1sOwV9xxOT13",
+          "teamName" : "team1"
+        },
+        "-KWmnjsBH0q-5PPgHtF3" : {
+          "invitelist" : {
+            "Nc6uBlb6QsS8LGjowfPnNT4G8HH3" : {
+              "language" : [ "C++" ],
+              "name" : "b@b.com"
+            }
+          },
+          "members" : [ {
+            "memberID" : "N1wjlh3AslWmAl0PVdfwKGJh1gV2"
+          }, {
+            "memberID" : "M8J5NZCdcNPrXFzipHtvh1ms5aH3"
+          }, {
+            "memberID" : "AIgwIoJAA4ZivaELH2DGgh9bGtu2"
+          } ],
+          "preference" : [ "C++" ],
+          "teamLeader" : "k4QfwQh7wlTOYQwbvtOvz0Vkfpc2",
+          "teamName" : "team2"
+        },
+        "-KX_jLWLB5Myrkxtii5o" : {
+          "members" : [ {
+            "memberID" : "0JzD8NnmcRWXHpTdikwztIdJpAp2"
+          } ],
+          "preference" : [ "angularJS", "repository data mining" ],
+          "preferredTeamSize" : 3,
+          "teamDescription" : "Sung is an associate professor at the Hong Kong University of Science and Technology. He was a post-doc at the Program Analysis Group at MIT. He received his Ph.D. (thesis: Adaptive Bug Prediction By Analyzing Software History) in the Computer Science Department at the University of California, Santa Cruz. He has worked for Nara Vision Co. Ltd which is one of the leading Internet software companies in Korea for six years as a CTO.",
+          "teamLeader" : "oSmOgr8PrbNFnIDiXkYSqL7ZYEd2",
+          "teamName" : "Adaptive Bug Prediction By Analyzing Software History"
+        },
+        "-KX_k9wGlwr1OFvx6w80" : {
+          "members" : [ {
+            "memberID" : "f91EkL0cz1a02p1xJtPW1NVBU0b2"
+          } ],
+          "preference" : [ "html" ],
+          "preferredTeamSize" : 3,
+          "teamDescription" : "vs 418",
+          "teamLeader" : "tbhORCVtG4Mz2kzyotBABEKOeqf1",
+          "teamName" : "404"
+        }
+      },
+      "waitlist" : {
+        "-KWtNtAjZ1S-5v1qOALn" : {
+          "uid" : "0JVukPc15hMkqTkb8ic3E9oIleT2"
+        },
+        "-KXVJsAIqpBCQ4Mb6cKo" : {
+          "uid" : "Snaz41ECONOwtBzOJRx1vZrCXlw1"
+        },
+        "-KX_cukfl1xoNfg1FAZV" : {
+          "uid" : "87HaAHFMC5YuWT22z7JTstzSdAp1"
+        },
+        "-KX_czlhcQEMyY8e--WS" : {
+          "uid" : "rzmSsh0e9tdWGmUje4d7oOv1oX82"
+        }
+      }
+    },
+    "-KX02JSb-HVzKBL1g5jP" : {
+      "admin" : {
+        "param" : {
+          "admin" : "M8J5NZCdcNPrXFzipHtvh1ms5aH3",
+          "deadline" : "2016-11-27T10:13:52.928Z",
+          "description" : "This is team form for Test generator.",
+          "eventName" : "Test generator",
+          "maxTeamSize" : 7,
+          "minTeamSize" : 4
+        }
+      },
+      "announcements" : {
+        "-KX0EGJArwJecpr3Sue8" : {
+          "date" : "2016-11-20T10:16:53.709Z",
+          "text" : "ere"
+        }
+      }
+    },
+    "-KX6C8m7cA-fY-oClnRz" : {
+      "admin" : {
+        "param" : {
+          "admin" : "rhIeLlmx4IPU25kLETp0xGOQ7eH2",
+          "deadline" : "2016-12-21T14:05:23.178Z",
+          "description" : "This is team form for Eric's event.\na@a.com is admin\nb@b.com is a leader for team b.\nc@c.com is a member.\nd@d.com is also a member.",
+          "eventName" : "Eric's event",
+          "maxTeamSize" : 11,
+          "minTeamSize" : 2
+        }
+      },
+      "announcements" : {
+        "-KX6DWUdhVmxYybMrlgh" : {
+          "date" : "2016-11-21T14:11:18.833Z",
+          "text" : "Come and join us"
+        }
+      },
+      "teams" : {
+        "-KX6DzqZxoNZ8jHxvWYK" : {
+          "members" : [ {
+            "memberID" : "xCuSurKdUDY5T6eyaClfN08EmMl2"
+          } ],
+          "preference" : [ "c", "c#", "c++" ],
+          "preferredTeamSize" : 4,
+          "teamDescription" : "Team B have at least two members.\nThey are member c@c.com and d@d.com",
+          "teamLeader" : "Nc6uBlb6QsS8LGjowfPnNT4G8HH3",
+          "teamName" : "Eric: Team b"
+        }
+      }
+    }
+  },
+  "users" : {
+    "0JVukPc15hMkqTkb8ic3E9oIleT2" : {
+      "description" : "",
+      "gpa" : 3,
+      "language" : [ "C++", "B--", "B#", "CScript" ],
+      "name" : "foreveralone@connect.hk",
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "isJoin" : true,
+          "role" : "null"
+        }
+      },
+      "test" : "never change"
+    },
+    "0JzD8NnmcRWXHpTdikwztIdJpAp2" : {
+      "description" : "",
+      "gpa" : 3.333,
+      "language" : [ "C++" ],
+      "name" : "peter",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "member",
+          "teamid" : "-KX_jLWLB5Myrkxtii5o"
+        }
+      },
+      "test" : "never change"
+    },
+    "87HaAHFMC5YuWT22z7JTstzSdAp1" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "member2@connect.ust.hk",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "isJoin" : true,
+          "role" : "null"
+        },
+        "-KX02JSb-HVzKBL1g5jP" : {
+          "role" : "null"
+        }
+      },
+      "test" : "never change"
+    },
+    "AIgwIoJAA4ZivaELH2DGgh9bGtu2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "single@connect.hk",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "isJoin" : false
+        },
+        "-KX6C8m7cA-fY-oClnRz" : {
+          "role" : "null"
+        }
+      },
+      "test" : "never change"
+    },
+    "M8J5NZCdcNPrXFzipHtvh1ms5aH3" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "lonely@connect.hk",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6D8pUGpA2YbXZWWW" : {
+          "role" : "null"
+        },
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "isJoin" : false
+        },
+        "-KX02JSb-HVzKBL1g5jP" : {
+          "role" : "admin"
+        }
+      },
+      "test" : "never change"
+    },
+    "N1wjlh3AslWmAl0PVdfwKGJh1gV2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "freerider@connect.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6D8pUGpA2YbXZWWW" : {
+          "role" : "leader",
+          "teamid" : "-KWmqe9U2weJzgZt6SHR"
+        },
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "member",
+          "team" : "-KWmnjsBH0q-5PPgHtF3"
+        }
+      },
+      "test" : "never change"
+    },
+    "Nc6uBlb6QsS8LGjowfPnNT4G8HH3" : {
+      "gpa" : 3,
+      "invitelist" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "-KWmnjsBH0q-5PPgHtF3" : {
+            "teamName" : "team2"
+          }
+        }
+      },
+      "language" : [ "C++" ],
+      "name" : "b@b.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KX6C8m7cA-fY-oClnRz" : {
+          "isJoin" : false,
+          "role" : "leader",
+          "teamid" : "-KX6DzqZxoNZ8jHxvWYK"
+        }
+      },
+      "test" : "never change"
+    },
+    "OUfseWANkMff29JwG6lHhU5wNSi2" : {
+      "description" : "",
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "Admin",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6D8pUGpA2YbXZWWW" : {
+          "role" : "leader",
+          "teamid" : "-KWmUDkd-9nOSCjXAaAm"
+        },
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "admin"
+        },
+        "-KX02JSb-HVzKBL1g5jP" : {
+          "role" : "null"
+        },
+        "-KX6C8m7cA-fY-oClnRz" : {
+          "role" : "null"
+        }
+      },
+      "test" : "never change"
+    },
+    "Qx98LugdsueInRnWtAYcj4qTENq2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "d@d.com",
+      "team" : [ "null" ],
+      "test" : "never change"
+    },
+    "Snaz41ECONOwtBzOJRx1vZrCXlw1" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "hehe@connect.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "isJoin" : true,
+          "role" : "null"
+        }
+      },
+      "test" : "never change"
+    },
+    "b17Pk7I29HMiOBfBDHXdwxCkKtk2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "popular@connect.com",
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "member",
+          "team" : "-KWmn_bYS-a7Tjl8LrI0"
+        }
+      },
+      "test" : "never change"
+    },
+    "e0M0JfTmVWeHY1HKjyMqqysflAF3" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "member@connect.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6D8pUGpA2YbXZWWW" : {
+          "role" : "admin"
+        },
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "member",
+          "team" : "-KWmn_bYS-a7Tjl8LrI0"
+        },
+        "-KX02JSb-HVzKBL1g5jP" : {
+          "role" : "null"
+        },
+        "-KX6C8m7cA-fY-oClnRz" : {
+          "role" : "null"
+        }
+      },
+      "test" : "never change"
+    },
+    "f91EkL0cz1a02p1xJtPW1NVBU0b2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "member4@connect.ust.hk",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "member",
+          "teamid" : "-KX_k9wGlwr1OFvx6w80"
+        }
+      },
+      "test" : "never change"
+    },
+    "k4QfwQh7wlTOYQwbvtOvz0Vkfpc2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "leader2@connect.com",
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "leader",
+          "teamid" : "-KWmnjsBH0q-5PPgHtF3"
+        }
+      },
+      "test" : "never change"
+    },
+    "oSmOgr8PrbNFnIDiXkYSqL7ZYEd2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "lovesung@cse.ust.hk",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "leader",
+          "teamid" : "-KX_jLWLB5Myrkxtii5o"
+        }
+      },
+      "test" : "never change"
+    },
+    "rhIeLlmx4IPU25kLETp0xGOQ7eH2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "a@a.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KX6C8m7cA-fY-oClnRz" : {
+          "role" : "admin"
+        }
+      },
+      "test" : "never change"
+    },
+    "rzmSsh0e9tdWGmUje4d7oOv1oX82" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "member3@connect.ust.hk",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "isJoin" : true,
+          "role" : "null"
+        }
+      },
+      "test" : "never change"
+    },
+    "sOu3RCUPhDONpBAW1sOwV9xxOT13" : {
+      "description" : "",
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "first leader",
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "leader",
+          "teamid" : "-KWmn_bYS-a7Tjl8LrI0"
+        }
+      },
+      "test" : "never change"
+    },
+    "tbhORCVtG4Mz2kzyotBABEKOeqf1" : {
+      "description" : "",
+      "gpa" : 4.3,
+      "language" : [ "C++" ],
+      "name" : "nerd@connect.ust.hk",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWi6NBl87_jFJKa4rbU" : {
+          "role" : "leader",
+          "teamid" : "-KX_k9wGlwr1OFvx6w80"
+        }
+      },
+      "test" : "never change"
+    },
+    "xCuSurKdUDY5T6eyaClfN08EmMl2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "c@c.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KX6C8m7cA-fY-oClnRz" : {
+          "role" : "member",
+          "teamid" : "-KX6DzqZxoNZ8jHxvWYK"
+        }
+      },
+      "test" : "never change"
+    }
+  }
+}

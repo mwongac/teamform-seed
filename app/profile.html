@@ -50,6 +50,7 @@
   			<h2 class="text-center ">Your Profile</h2>
               <br>-->
 		<!--</div>-->
+        <div class="row">
         <div class="col-md-3">
         </div>
         <div class="custom_center_box row col-md-6">
@@ -69,9 +70,9 @@
                                 &nbsp;<button class="" ng-click="removeLanguage(lan)" ng-hide="othersProfile">Remove</button></li>
                         </ol>
                         <div class="col-md-10">
-                    <input class="form-control" type="text" name="lan" ng-model="txtLanguage" ng-disabled="othersProfile"></div>
+                    <input class="form-control" type="text" name="lan" ng-model="txtLanguage" ng-disabled="othersProfile" ng-hide="othersProfile"></div>
                     <div class="col-md-2"><button class="btn btn-primary "  ng-click="addLanguage()" ng-hide="othersProfile">Add</button>
-                    <br></div>
+                    </div><br>
                 </div>
 
                 <div class="form-group">
@@ -105,18 +106,21 @@
           <div class="col-md-3">
              
         </div>
-        
-       <h2>list of all users</h2>
-       <div ng-repeat="u in users">
-           <ul>
-               <li>Name:{{u.name}}</li>
-               <li>Gpa:{{u.gpa}}</li>
-               <li>Language:{{u.language}}</li>
-               <li>Team:{{u.team}}</li>
-               <li>Description:{{u.description}}</li>
-               <li>User Id: {{u.$id}}</li>
-            </ul>
-        </div>    
+        </div>
+        <div class="row">
+            <h2>list of all users</h2>
+            <div ng-repeat="u in users">
+                <ul>
+                    <li>Name:{{u.name}}</li>
+                    <li>Gpa:{{u.gpa}}</li>
+                    <li>Language:{{u.language}}</li>
+                    <li>Team:{{u.team}}</li>
+                    <li>Description:{{u.description}}</li>
+                    <li>User Id: {{u.$id}}</li>
+                    </ul>
+                </div>
+        </div>
+            
         <div class="col-md-12">  
          <!-- FOOTER -->
          <hr>

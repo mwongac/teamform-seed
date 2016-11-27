@@ -22,6 +22,8 @@ angular.module('leader-app', ['firebase'])
         $scope.requestMemberList = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/requestMemberList'))
         $scope.requestMemberList.$loaded()
             .then(function (data) {
+                var load_screen = document.getElementById("load_screen");
+                document.body.removeChild(load_screen);
                 // console.log("data: ");
                 // console.log(data);
                 angular.forEach(data, function (oneMember, key) {
@@ -116,20 +118,14 @@ angular.module('leader-app', ['firebase'])
         }
 
         //kick member
-        $scope.kickMember = function (memberId) {
+        $scope.kickMember = function (member, memberId) {
             //delete from memberlist
-
             var db = firebase.database();
             var teamRef = db.ref('events/' + $scope.eventid + '/teams/' + $scope.teamid);
             var teamData = $firebaseObject(teamRef);
             teamData.$loaded()
                 .then(function (data) {
-                    for (var i = $scope.members.length - 1; i >= 0; i--) {
-                        if (memberId == $scope.members[i].memberID) {
-                            $scope.members.splice(i, 1);
-                            break;
-                        }
-                    }
+                    $scope.members.splice($scope.members.indexOf(member), 1);
                     teamData.members = $scope.members;
                     teamData.$save();
                 });
@@ -147,7 +143,7 @@ angular.module('leader-app', ['firebase'])
                     }
                     console.log(userNewTeamObject);
                 });
-                location.reload();
+            location.reload();
         }
 
 
