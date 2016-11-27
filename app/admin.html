@@ -76,7 +76,9 @@
       <h1 class="pull-left banner_title">Administrative Page</h1>
     </section>
   </div>
-  <div id="load_screen"> <div id="loading" class="text-center"> <img src="img/loading.gif">loading......</div></div>
+  <div id="load_screen">
+    <div id="loading" class="text-center"> <img src="img/loading.gif">loading......</div>
+  </div>
   <div class="container">
     <div id="admin_page" class="text-center">
       <div id="admin_event_div">
@@ -85,7 +87,10 @@
         <!--</div>-->
         <!--smart generator-->
         <div class="col-md-12" id="admin_action_buttons" ng-hide="editable">
-          <button id="btn_smart_generator" type="button" class="btn  btn-primary" ng-click="generate_click()" ng-hide="(deadline-today)>0">
+          <button id="btn_invite_join" type="button" class="btn btn-primary" ng-click="inviteJoin_click()" ng-hide="(deadline-today)>0">
+            Invite people to join
+          </button>
+          <button id="btn_smart_generator" type="button" class="btn btn-primary" ng-click="generate_click()" ng-hide="(deadline-today)>0">
             Generate Teams
           </button>
           <!--show generator if achieve deadline-->
@@ -263,7 +268,38 @@
         </div>
       </div>
       <!--end of teams & member list-->
-
+      <div class="col-md-12" id="inviteJoinDiv">
+        <center>
+          <h2>Invite List</h2>
+        </center>
+        <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <table id="inviteUserList" class="table table-hover text-left">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Preference</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="member in users" ng-init="getRole(member)" ng-if="member.role == null">
+              <tr>
+                <td><a href="profile.html?q={{member.$id}}">{{member.name}}</a></td>
+                <td>
+                  <span ng-repeat="p in member.language">{{p}}{{$last ? '' : ', '}}
+                  </span>
+                </td>
+                <td><button class="btn btn-primary" ng-click="inviteToJoin(member)" ng-disabled="member.isJoin">
+                  Invite to waitlist
+                  </button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-12"><button ng-click="inviteJoinDone()">Done</button></div>
+      </div>
 
     </div>
     <!--end of admin_page_controller-->
