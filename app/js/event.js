@@ -8,6 +8,7 @@ $(document).ready(function () {
 	}
 	$('#create_team_page_visibility').hide();
 	$('#create_team_page_btn_visibility').show();
+	$('#noFiltedTeam_visibility').show();
 });
 
 angular.module('teamform-event-app', ['firebase'])
@@ -21,6 +22,7 @@ angular.module('teamform-event-app', ['firebase'])
 
 		//filterName is the context of filter which will check whether it contains in teamName
 		$scope.filterName = '';
+		$scope.noFiltedTeam_visibility = true;
 
 		// Call Firebase initialization code defined in site.js
 		initalizeFirebase();
@@ -306,20 +308,20 @@ angular.module('teamform-event-app', ['firebase'])
 		// 	});
 		// }
 		$scope.filterByName = function () {
+			$scope.filtedUsers = [];
 			angular.forEach($scope.teams, function (oneTeam, key) {
 				console.log(oneTeam);
 //				$scope.getTeamNameByID(oneTeam, function (teamNameResultFromCallback){
 					$scope.filteringResultByTeamName(oneTeam.teamName, function (resultFromCallback){
 					oneTeam.filterResult = resultFromCallback;
-					console.log("resultFromCallback: "+ resultFromCallback);
-					if(!resultFromCallback){
-						$("oneTeam").hide();
-					}else{
-						$('oneTeam').show();
+					console.log("resultFromCallback: "+ oneTeam.filterResult);
+					if(resultFromCallback){
+					$scope.filtedUsers.push(oneTeam);
 					}
 					});
 //				});
 			});
+			$scope.noFiltedTeam_visibility = false;
 		}
 
 		refPath = "events/" + eventid + "/member";

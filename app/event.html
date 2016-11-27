@@ -197,8 +197,8 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
-              <div ng-hide="t.filterResult"> <!--ng-show="{{t.filterResult}}"-->
+
+            <tbody ng-show="noFiltedTeam_visibility" ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
                 <tr>
                   <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
                   <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
@@ -215,7 +215,26 @@
                   <td><button id="btnJoinTeam" ng-show="(deadline-today)>0" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team directly (this will be removed)</button></td> <!--this will remove after we finish request to join team properly-->
                   <td><button id="btnRequestJoinTeam" ng-show="(deadline-today)>0" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join this team</button></td>
                   </tr>
-              </div>
+            </tbody>
+
+             <!-- this table is used to show filtered result since ng-hide cannot use in the previous table -->
+            <tbody ng-show="!FiltedTeam_visibility" ng-repeat="t in filtedUsers" >
+                <tr>
+                  <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
+                  <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                  <td>
+                    <span ng-repeat="member in t.members">
+                              <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                    </span>
+                  </td>
+                  <td>{{t.preference}}</td>
+
+
+                  <!-- enter the team button moved to table-->
+                  <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
+                  <td><button id="btnJoinTeam" ng-show="(deadline-today)>0" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team directly (this will be removed)</button></td> <!--this will remove after we finish request to join team properly-->
+                  <td><button id="btnRequestJoinTeam" ng-show="(deadline-today)>0" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join this team</button></td>
+                  </tr>
             </tbody>
           </table>
         </div>
