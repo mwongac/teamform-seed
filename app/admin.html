@@ -76,6 +76,7 @@
       <h1 class="pull-left banner_title">Administrative Page</h1>
     </section>
   </div>
+    <div class="container">
   <div id="admin_page" class="text-center">
 
     <div id="admin_event_div">
@@ -89,13 +90,13 @@
           </button>
         <!--show generator if achieve deadline-->
         <button id="btn_event_edit" class="btn btn-primary" ng-click="edit_click()">
-              <span class="glyphicon glyphicon-pencil" aria-label="edit">Edit</span>
+              <span class="glyphicon glyphicon-pencil" aria-label="edit"></span>&nbsp;Edit Event
           </button>
         <button id="btn_event_edit" class="btn btn-primary" ng-click="close_event_click()" ng-show="(deadline-today)>0">
-              <span class="glyphicon glyphicon-folder-close" aria-label="close event"> Close Event</span>
+              <span class="glyphicon glyphicon-folder-close" aria-label="close event"></span>&nbsp;Close Event
           </button>
         <button id="btn_event_edit" class="btn btn-default" ng-click="reopen_event_click()" ng-hide="(deadline-today)>0">
-              <span class="glyphicon glyphicon-calendar" aria-label="reopen event"> Reopen Event</span>
+              <span class="glyphicon glyphicon-calendar" aria-label="reopen event"></span>&nbsp;Reopen Event
           </button>
       </div>
       <br>
@@ -152,27 +153,32 @@
                 </th>
               </tr>
             </table>
+            <br>
           </form>
         </div>
         <div class="col-md-3 col-xs-3"></div>
       </div>
       <!--end of edit panel-->
-      <br>
+      <br><br><br>
 
       <!--announcement div-->
       <div class="col-md-12">
         <div class="announcement_div">
-          <br>
-          <h2 class="text-center">Announcements</h2>
+          <br><br><br><br>
+          <h2 style="display:inline;vertical-align: middle;" class="text-center">Announcements</h2>       
+           <button id="btn_new_announcement" type="button" class="btn btn-primary" style="vertical-align: middle;" ng-click="new_announcement_click()" ng-disabled="writingAnnouncement">
+              <span class="glyphicon glyphicon-plus" aria-label="new announcement"></span>
+            </button>
           <!--new announcement-->
           <div id="new_announcement_div">
-            <button id="btn_new_announcement" type="button" class="btn btn-primary" ng-click="new_announcement_click()" ng-disabled="writingAnnouncement">
-              <span class="glyphicon glyphicon-plus" aria-label="new announcement"></span>
-            </button><br>
+   <br>
             <!--after click new new announcement button, it will show input text box and send button-->
-            <div id="input_announcement" ng-show="writingAnnouncement">
-              <br>Type here: <input ng-model="announcement_text">
-              <button id="btn_make_announcement" type="button" class="btn btn-success" ng-click="make_announcement(announcement_text)">Post</button>
+            <div  class="col-md-12" id="input_announcement" ng-show="writingAnnouncement">
+              <br>
+              <div class="col-md-2"></div>
+              <div class="col-md-7"><textarea class="form-control " ng-model="announcement_text"></textarea></div><br>
+              <div class="col-md-1"><button id="btn_make_announcement" type="button" class="btn btn-success" ng-click="make_announcement(announcement_text)">Post</button></div>
+            <br><br>
             </div>
           </div>
           <br>
@@ -185,7 +191,7 @@
       <hr>
       <div class="col-md-12">
         <center>
-          <h3>All teams</h3>
+          <h2>All teams</h2>
         </center>
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
         <div class="col-md-2"></div>
@@ -210,7 +216,7 @@
                   </span>
                 </td>
                 <td>{{t.preference}}</td>
-                <td><button><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="dismissTeam(t, false)"></span></button></td>
+                <td><button class="btn btn-default" ng-click="dismissTeam(t, false)"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button></td>
               </tr>
             </tbody>
           </table>
@@ -222,7 +228,7 @@
       <hr>
       <div class="col-md-12">
         <center>
-          <h3>Waitlist</h3>
+          <h2>Waitlist</h2>
         </center>
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
         <div class="col-md-2"></div>
@@ -256,6 +262,10 @@
       </div>
     </div>
     <!--end of teams & member list-->
+
+
+  </div>
+  <!--end of admin_page_controller-->
             <div class="col-md-12">
                 <!-- FOOTER -->
                 <hr>
@@ -265,11 +275,7 @@
                     <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
                 </footer>
             </div>
-
-  </div>
-  <!--end of admin_page_controller-->
-
-
+ </div> <!--container /div-->
 
   <!-- JavaScript of this page -->
 
