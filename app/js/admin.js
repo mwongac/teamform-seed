@@ -339,6 +339,7 @@ angular.module('teamform-admin-app', ['firebase'])
                         console.log("Event " + $scope.param.eventName + " already exist.");
                         $window.alert("Event " + $scope.param.eventName + " already exist.");
                     } else {
+                        console.log("type of $scope.deadline : "+typeof $scope.deadline);
                         $scope.param.deadline = $scope.deadline.toISOString();
                         $scope.param.$save();
                         $('#text_event_name').text("Event Name: " + $scope.param.eventName);
