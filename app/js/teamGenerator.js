@@ -454,7 +454,7 @@ angular.module('teamform-admin-app', ['firebase'])
 
         $scope.putMemberToTeams = function (ppl, team, teamid) {
             console.log("put member " + ppl.uid + " to team " + team.teamName + "\nteamid: " + teamid);
-            team.members.push({ "memberID": ppl.uid, "gpa": ppl.gpa, "memberName": ppl.name });
+            team.members.push({ "memberID": ppl.uid, "gpa": ppl.gpa, "memberName": ppl.name , "newAdded" :true});
 
             ppl.role = "member";
             ppl.team = teamid;
@@ -486,6 +486,7 @@ angular.module('teamform-admin-app', ['firebase'])
                         delete member.gpa;
                         delete member.name;
                         delete member.preference;
+                        delete member.newAdded;
                     })
                     $scope.teams[teamid] = team;
                     $scope.teams[teamid].members = team.members;
@@ -501,6 +502,7 @@ angular.module('teamform-admin-app', ['firebase'])
                         delete member.gpa;
                         delete member.name;
                         delete member.preference;
+                        delete member.newAdded;
                     })
                     $scope.teams[teamid] = team;
                     $scope.teams[teamid].members = team.members;
