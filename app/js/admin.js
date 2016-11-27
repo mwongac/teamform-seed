@@ -12,7 +12,7 @@ angular.module('teamform-admin-app', ['firebase'])
     .controller('AdminCtrl', ['$scope', '$firebaseObject', '$firebaseArray', '$window', function ($scope, $firebaseObject, $firebaseArray, $window) {
 
         // TODO: implementation of AdminCtrl
-
+        var load_screen = document.getElementById("load_screen");
         // Initialize $scope.param as an empty JSON object
         $scope.param = {}; //event.{eventid}.admin.param
         $scope.editable = false;
@@ -68,6 +68,8 @@ angular.module('teamform-admin-app', ['firebase'])
                 // Enable the UI when the data is successfully loaded and synchornized
                 $('#text_event_name').text("Event Name: " + $scope.param.eventName);
                 $('#admin_page').show();
+                var load_screen = document.getElementById("load_screen");
+                document.body.removeChild(load_screen);
             })
             .catch(function (error) {
                 // Database connection error handling...
@@ -339,7 +341,7 @@ angular.module('teamform-admin-app', ['firebase'])
                         console.log("Event " + $scope.param.eventName + " already exist.");
                         $window.alert("Event " + $scope.param.eventName + " already exist.");
                     } else {
-                        console.log("type of $scope.deadline : "+typeof $scope.deadline);
+                        console.log("type of $scope.deadline : " + typeof $scope.deadline);
                         $scope.param.deadline = $scope.deadline.toISOString();
                         $scope.param.$save();
                         $('#text_event_name').text("Event Name: " + $scope.param.eventName);
@@ -410,7 +412,7 @@ angular.module('teamform-admin-app', ['firebase'])
                         $window.location.href = '/index.html';
                     }
                 })
-
+                load_screen.hide();
             } else {
                 console.log('not log in');
                 $window.location.href = '/index.html';

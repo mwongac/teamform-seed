@@ -434,6 +434,8 @@ angular.module('teamform-admin-app', ['firebase'])
                     //state 4: be filled to enough
                     //state 5: combine
                     $('#fail').hide();
+                    var load_screen = document.getElementById("load_screen");
+                    document.body.removeChild(load_screen);
                     // admin can view the list and confirm
                 }//end of possible to generate team
             })
@@ -567,7 +569,7 @@ angular.module('teamform-admin-app', ['firebase'])
         }
 
         $scope.isTeamObjectEmpty = function (teams) {
-            if (typeof teams == "undefined"){
+            if (typeof teams == "undefined") {
                 return true;
             }
             if (Object.keys(teams).length == 0) {
