@@ -31,16 +31,11 @@
 
 </head>
 
-<style>
-  h1 {
-    font-weight: bold;
-    font-size: 40px;
-  }
-</style>
+
 
 <body ng-controller="EventCtrl">
   <div ng-include="'navbar.html'" id='navbarMenu'></div>
-    <div>
+  <div>
     <section style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive">
       <br><br><br><br><br>
       <h1 class="pull-left banner_title">Event Page</h1>
@@ -49,9 +44,6 @@
   <br>
 
   <div class="text-center">
-    <h1>
-      <u>Event Page</u>
-    </h1>
     <div id="event_description_div" class = "row">
       <div ng-include="'description.html'"></div>
     </div>
@@ -60,10 +52,8 @@
 
     <div id="event_page_controller">
       <div class=" col-md-12">
-      <u>
-        <font size="6px" align="middle"><b>Announcements</b></font>
-      </u>&nbsp;&nbsp;
-      <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#announcement_div">
+        <h2 style="display:inline;vertical-align: middle;" class="text-center">Announcements</h2>  &nbsp;&nbsp;
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#announcement_div">
             <span class="glyphicon glyphicon-collapse-up"></span>
         </button>
       </div>
@@ -78,13 +68,13 @@
       
       <span class ="row" ng-show="(deadline-today)>0">
       <!--join event: You will be on the waiting list of member. If cannot join a team before deadline, admin will assign you to a team according your preference.-->
-      <button id="btn_join" type="button" class="btn btn-primary" ng-click="joinEvent()" ng-hide="isJoin">Join Event</button>
-      <button id="btn_join" type="button" class="btn btn-default" ng-click="quitEvent()" ng-show="isJoin">Quit Event</button>
+        <button id="btn_join" type="button" class="btn btn-primary" ng-click="joinEvent()" ng-hide="isJoin">Join Event</button>
+        <button id="btn_join" type="button" class="btn btn-default" ng-click="quitEvent()" ng-show="isJoin">Quit Event</button>
       
       <!-- create team button -->
     <!--  <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam('default')">Create teams</button>
     -->
-      <button ng-show="(deadline-today)>0" id="create_team_page_btn_visibility" type="button" class="btn btn-primary" ng-click="showTeamForm()">Create teams</button>
+        <button ng-show="(deadline-today)>0" id="create_team_page_btn_visibility" type="button" class="btn btn-primary" ng-click="showTeamForm()">Create teams</button>
       </span>
       <div id="create_team_page_visibility">
         <div class="row">
