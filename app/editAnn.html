@@ -7,7 +7,7 @@
         <tr>
           <th>
            
-              <center>Announcement</center>
+              <center>Past Announcements</center>
             
           </th>
           <th width="1%" white-space="nowrap">
@@ -27,7 +27,7 @@
           </th>
         </tr>
       </thead>
-      <tbody ng-repeat="a in announcements">
+      <tbody ng-repeat="a in announcements | orderBy : '-date'">
         <tr>
           <td>
             {{a.text}}
@@ -45,7 +45,7 @@
         </tr>
       </tbody>
     </table>
-    <label ng-show="announcements.length == 0">There is no announcement. You can write a new announcement.</label>
+    <label ng-show="announcements.length == 0">There is no announcement. You can post a new one.</label>
   </div>
   <br><br>
 </div>
