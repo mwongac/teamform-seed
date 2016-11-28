@@ -199,9 +199,9 @@
           <h2>Teams</h2>
         </center>
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-          <table id="teamsList" class="table table-hover text-left" ng-hide="teams.length == 0" style="font-size:16px;">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+          <table id="teamsList" class="table table-hover text-left" ng-hide="teams.length == 0" style="font-size:16px;width:50%">
             <thead>
               <tr>
                 <th>Team Name</th>
@@ -225,24 +225,28 @@
                 </tr>
               </tbody>
             </table>
-          </div>
+            </div>
+            <div class="col-md-3"></div>
+           
           <label ng-show="teams.length ==0">This event do not have any team. Ask students/ members to form team now!</label>
         </div>
         <!--end of teams list-->
 
-        
-        <div class="col-md-12">
+
+
+       
+        <div class="col-md-12 text-center">
           <center>
-            <h2>Waitlist</h2>
+            <h2>Members Without Groups</h2>
           </center>
           <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
-          <div class="col-md-2"></div>
-          <div class="col-md-8" ng-hide="teamsList.length == 0">
+          <div class="text-center" ng-hide="teamsList.length == 0">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
             <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0" style="font-size:16px;">
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>uid</th>
                   <th>Preference</th>
                   <th>Action</th>
                 </tr>
@@ -250,7 +254,7 @@
               <tbody ng-repeat="member in waitList" ng-init="getUserDatabyID(member)">
                 <tr>
                   <td><a href="profile.html?q={{member.uid}}">{{member.name}}</a></td>
-                  <td>{{member.uid}}</td>
+                  <!--<td>{{member.uid}}</td>-->
                   <td>
                     <span ng-repeat="p in member.preference">{{p}}{{$last ? '' : ', '}}
                   </span>
@@ -259,12 +263,14 @@
                 </tr>
               </tbody>
             </table>
+            </div>
+            <div class="col-md-3"></div>
           </div>
-          <div class="col-md-2"></div>
           <center>
             <p ng-show="waitList.length ==0">No one on the waitlist.</p>
           </center>
         </div>
+        
       </div>
       <!--end of teams & member list-->
       <div class="col-md-12" id="inviteJoinDiv">
