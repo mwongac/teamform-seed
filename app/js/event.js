@@ -23,6 +23,7 @@ angular.module('teamform-event-app', ['firebase'])
 		//filterName is the context of filter which will check whether it contains in teamName
 		$scope.filterName = '';
 		$scope.noFiltedTeam_visibility = true;
+		$scope.suggested_team_visibility= true;
 
 		// Call Firebase initialization code defined in site.js
 		initalizeFirebase();
@@ -105,7 +106,7 @@ angular.module('teamform-event-app', ['firebase'])
 		$scope.addpreference = '';
 		$scope.preferredTeamSize = 1;
 		$scope.members = [];
-		// $scope.filtedUsers = [];
+		$scope.filtedUsers = [];
 		// $scope.displayName = '';
 		// $scope.nameToInvite = '';
 		// $scope.invitelist =
@@ -307,11 +308,11 @@ angular.module('teamform-event-app', ['firebase'])
 			// console.log(teamNameForFilter);
 			var rulename = "";
 			var matchtest = false;
-			rulename = String($scope.filterName);
+			rulename = String($scope.filterName).toLowerCase();
 			if (rulename == "C++" || rulename == "c++") {
 				matchtest = false;
 			} else {
-				matchtest = new RegExp(rulename).test(String(teamNameForFilter));
+				matchtest = new RegExp(rulename).test(String(teamNameForFilter).toLowerCase());
 			}
 			callback(matchtest);
 		}
@@ -319,8 +320,8 @@ angular.module('teamform-event-app', ['firebase'])
 		$scope.filteringAllMatchFunction = function (teamNameForFilter, callback) {
 			// console.log(teamNameForFilter);
 			var matchtest = false;
-			var rulename = String($scope.filterName);
-			var filteringname = String(teamNameForFilter);
+			var rulename = String($scope.filterName).toLowerCase();
+			var filteringname = String(teamNameForFilter).toLowerCase();
 			if (rulename == filteringname) {
 				matchtest = true;
 			}
@@ -363,7 +364,7 @@ angular.module('teamform-event-app', ['firebase'])
 				}
 			});
 			$scope.noFiltedTeam_visibility = false;
-		}
+		}		
 
 
 		refPath = "events/" + eventid + "/member";
@@ -686,5 +687,25 @@ angular.module('teamform-event-app', ['firebase'])
 				document.body.removeChild(load_screen);
 			});
 
+			var usersRef = firebase.database().ref('users/' + user.uid);
+			var currentUserData = $firebaseObject(usersRef);
+			currentUserData.$loaded()
+				.then(function (data) {	
+					angular.forEach(currentUserData.language, function (oneLanguage, key) {
+						angular.forEach($scope.teams, function (oneTeam, key) {
+						var filtedResultBool = false;
+						console.log(oneTeam);
+							angular.forEach(oneTeam.preference, function (oneTeamPreference, key) {
+								console.log(oneTeamPreference);
+									if ( String(oneTeamPreference).toLowerCase() == String(oneLanguage).toLowerCase()) {
+										filtedResultBool = true;
+									}
+							});
+							if (filtedResultBool) {
+								$scope.filtedUsers.push(oneTeam);
+							}
+						});
+					});
+				})
 		})
 	}]);
