@@ -104,8 +104,9 @@
                             </div>
                             <br>
                             <div>
-                              <font size="4">Search Event by keywords: </font>
-                              <input ng-model="keywordfilter" type="text">
+                              <h4>Real-time Search Event : </h4>
+                            
+                              <div><input type="text" ng-model="keywordfilter" class="input-lg" type="text"></div>
                             </div>
                             <section id="event_list">
                               <div ng-repeat="event in events | orderBy : 'admin.param.deadline'" ng-init="getUserRoleInEvent(event)" ng-show="filter(event.admin.param.eventName)" class="col-md-4">
