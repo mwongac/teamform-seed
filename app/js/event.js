@@ -64,7 +64,7 @@ angular.module('teamform-event-app', ['firebase'])
 				}
 				$scope.today = new Date();
 				// if($scope.deadline.getTime()>$scope.today.getTime()){
-		
+
 				// 	console.log("$scope.deadline.getTime(): "+$scope.deadline.getTime());
 				// 	$('#create_team_page_btn_visibility').hide();
 				// }
@@ -167,30 +167,30 @@ angular.module('teamform-event-app', ['firebase'])
 				return false;
 			} else {
 				//console.log(currentTeamid);
-				var newteamRef = firebase.database().ref('events/'+$scope.eventid+'/teams/'+ currentTeamid);
+				var newteamRef = firebase.database().ref('events/' + $scope.eventid + '/teams/' + currentTeamid);
 				var teamobject = $firebaseObject(newteamRef);
 				teamobject.$loaded()
-					.then(function(data){
-							$scope.requestMemberList = teamobject.requestMemberList;
-							if(typeof $scope.requestMemberList == "undefined"){
-								$scope.requestMemberList = [];
-							}
-							var filtedResultBool = true;
-							angular.forEach($scope.requestMemberList,function (oneMember, key) {
-								// console.log(oneMember);
-								// console.log(oneMember.memberID);
-								if(oneMember.memberID == $scope.uid){
+					.then(function (data) {
+						$scope.requestMemberList = teamobject.requestMemberList;
+						if (typeof $scope.requestMemberList == "undefined") {
+							$scope.requestMemberList = [];
+						}
+						var filtedResultBool = true;
+						angular.forEach($scope.requestMemberList, function (oneMember, key) {
+							// console.log(oneMember);
+							// console.log(oneMember.memberID);
+							if (oneMember.memberID == $scope.uid) {
 								filtedResultBool = false;
-								}
-							});
-							if(filtedResultBool){
-								$scope.requestMemberList.push( {"memberID":$scope.uid});
-								console.log("successfully request to join team"+ $scope.uid);
 							}
-							teamobject.requestMemberList = $scope.requestMemberList; 
-							teamobject.$save();
-							// console.log(teamobject);
-					});		
+						});
+						if (filtedResultBool) {
+							$scope.requestMemberList.push({ "memberID": $scope.uid });
+							console.log("successfully request to join team" + $scope.uid);
+						}
+						teamobject.requestMemberList = $scope.requestMemberList;
+						teamobject.$save();
+						// console.log(teamobject);
+					});
 			}
 		}
 
@@ -234,8 +234,9 @@ angular.module('teamform-event-app', ['firebase'])
 		//create team function 
 		$scope.eventid = eventid;
 		$scope.createTeam = function (teamName) {
-
-
+			if ($scope.isJoin) {
+				$scope.quitEvent();
+			}
 			var teamNameVal = "";
 			if (teamName == "default") {
 				teamNameVal = teamName;
@@ -290,37 +291,37 @@ angular.module('teamform-event-app', ['firebase'])
 
 
 
-	// //filter for *.rule and rule.*
-	// $scope.matchRule = function (str, rule) {
-	// 	var matchtest = new RegExp(rule).test(str);
-	// 	// console.log("rule: " + rule);
-	// 	// console.log("str: ");
-	// 	// console.log(str);
-	// 	// console.log("match: " + matchtest);
-	// 	return matchtest;
-	// }
+		// //filter for *.rule and rule.*
+		// $scope.matchRule = function (str, rule) {
+		// 	var matchtest = new RegExp(rule).test(str);
+		// 	// console.log("rule: " + rule);
+		// 	// console.log("str: ");
+		// 	// console.log(str);
+		// 	// console.log("match: " + matchtest);
+		// 	return matchtest;
+		// }
 
 		// var refPath = "events/" + eventid + "/teams/"+ teamidForFilter+"/teamName";
 		// $scope.filteringTeamName = $firebaseObject(firebase.database().ref(refPath));
-		$scope.filteringFunction = function (teamNameForFilter, callback){
+		$scope.filteringFunction = function (teamNameForFilter, callback) {
 			// console.log(teamNameForFilter);
 			var rulename = "";
-			var matchtest =false;
+			var matchtest = false;
 			rulename = String($scope.filterName);
-			if(rulename =="C++" || rulename =="c++"){
-				matchtest =false;
-			}else{
-			matchtest = new RegExp(rulename).test(String(teamNameForFilter));
+			if (rulename == "C++" || rulename == "c++") {
+				matchtest = false;
+			} else {
+				matchtest = new RegExp(rulename).test(String(teamNameForFilter));
 			}
 			callback(matchtest);
 		}
 
-		$scope.filteringAllMatchFunction = function (teamNameForFilter, callback){
+		$scope.filteringAllMatchFunction = function (teamNameForFilter, callback) {
 			// console.log(teamNameForFilter);
-			var matchtest =false;
+			var matchtest = false;
 			var rulename = String($scope.filterName);
 			var filteringname = String(teamNameForFilter);
-			if(rulename == filteringname){
+			if (rulename == filteringname) {
 				matchtest = true;
 			}
 			callback(matchtest);
@@ -340,26 +341,26 @@ angular.module('teamform-event-app', ['firebase'])
 			angular.forEach($scope.teams, function (oneTeam, key) {
 				var filtedResultBool = false;
 				console.log(oneTeam);
-					angular.forEach(oneTeam.preference,function (oneTeamPreference, key) {
-						console.log(oneTeamPreference);
-						$scope.filteringAllMatchFunction(oneTeamPreference, function (resultFromCallback){
-							if(resultFromCallback){
-							filtedResultBool = true;
-							}
-						});
-					});
-
-					$scope.filteringFunction(oneTeam.teamName, function (resultFromCallback){
-						oneTeam.filterResult = resultFromCallback;
-						console.log("resultFromCallback: "+ oneTeam.filterResult);
-						if(resultFromCallback){
+				angular.forEach(oneTeam.preference, function (oneTeamPreference, key) {
+					console.log(oneTeamPreference);
+					$scope.filteringAllMatchFunction(oneTeamPreference, function (resultFromCallback) {
+						if (resultFromCallback) {
 							filtedResultBool = true;
 						}
 					});
+				});
 
-					if(filtedResultBool){
-						$scope.filtedUsers.push(oneTeam);
+				$scope.filteringFunction(oneTeam.teamName, function (resultFromCallback) {
+					oneTeam.filterResult = resultFromCallback;
+					console.log("resultFromCallback: " + oneTeam.filterResult);
+					if (resultFromCallback) {
+						filtedResultBool = true;
 					}
+				});
+
+				if (filtedResultBool) {
+					$scope.filtedUsers.push(oneTeam);
+				}
 			});
 			$scope.noFiltedTeam_visibility = false;
 		}
@@ -373,9 +374,9 @@ angular.module('teamform-event-app', ['firebase'])
 		$scope.announcements = [];
 		$scope.announcements = $firebaseArray(firebase.database().ref(refPath));
 
-        refPath = "events/" + eventid + "/waitlist";
-        $scope.waitList = [];
-        $scope.waitList = $firebaseArray(firebase.database().ref(refPath));
+		refPath = "events/" + eventid + "/waitlist";
+		$scope.waitList = [];
+		$scope.waitList = $firebaseArray(firebase.database().ref(refPath));
 
 		//$scope.users is an array of users in firebase
 		var usersRef = firebase.database().ref('users');
@@ -486,24 +487,24 @@ angular.module('teamform-event-app', ['firebase'])
 			console.log("leader name: " + TeamObject.teamLeaderName + "\ndone get team info by ID \n*************end************\n\n");
 			// });
 		}
-		
-        $scope.getUserDatabyID = function (user) {
-            var resultName;
-            console.log("getUserDatabyID for " + user);
-            $scope.getUserNameByID(user.uid, function (resultFromCallback) {
-                user.name = resultFromCallback;
-                console.log("Leader: getMemberNameByID: " + user.name);
-            })
-            var userPreference = $firebaseObject(firebase.database().ref('users/' + user.uid + '/language'));
-            userPreference.$loaded()
-                .then(function (data) {
-                    user.preference = userPreference;
-                    console.log("user.preference" + user.preference);
-                    angular.forEach(user.preference, function (p) {
-                        console.log("preference?" + p);
-                    })
-                })
-        }
+
+		$scope.getUserDatabyID = function (user) {
+			var resultName;
+			console.log("getUserDatabyID for " + user);
+			$scope.getUserNameByID(user.uid, function (resultFromCallback) {
+				user.name = resultFromCallback;
+				console.log("Leader: getMemberNameByID: " + user.name);
+			})
+			var userPreference = $firebaseObject(firebase.database().ref('users/' + user.uid + '/language'));
+			userPreference.$loaded()
+				.then(function (data) {
+					user.preference = userPreference;
+					console.log("user.preference" + user.preference);
+					angular.forEach(user.preference, function (p) {
+						console.log("preference?" + p);
+					})
+				})
+		}
 
 		$scope.getUserNameByID = function (userid, callback) {
 			var foundName;
