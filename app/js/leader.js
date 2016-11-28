@@ -396,7 +396,7 @@ angular.module('leader-app', ['firebase'])
                     .then(function (data) {
                         console.log(data);
                         console.log('teamData loaded');
-                        console.log(teamData.description);
+                        console.log(teamData.teamDescription);
                         if (teamData.preference == null) {
                             $scope.preference = [];
                         } else {
