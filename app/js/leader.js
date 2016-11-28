@@ -13,6 +13,7 @@ angular.module('leader-app', ['firebase'])
 
         //function for display edit
         $scope.edit_leader_visibility = false;
+        $scope.filtered_result_visibility = false;
         $scope.currentTeamSize = 1;
 
         //team description, preference
@@ -331,7 +332,7 @@ angular.module('leader-app', ['firebase'])
                     });
                 });
 
-
+                $scope.filtered_result_visibility =true;
         }
 
         // filter by name
@@ -369,7 +370,7 @@ angular.module('leader-app', ['firebase'])
                         }
                     });
                 });
-
+                $scope.filtered_result_visibility =true;
         }
 
 
