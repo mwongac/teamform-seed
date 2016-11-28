@@ -169,10 +169,9 @@
         <!--skip below line since action buttons is too long-->
           <!--<div class="col-md-2"></div>-->
           <!--<div class="col-md-12">-->
-              <!--<h3 ng-show="noFiltedTeam_visibility">All teams:</h3>-->
-              <h3 ng-hide="noFiltedTeam_visibility">Search Result:</h3>
+              <h3 >All teams:</h3>
               <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
-              <table id="teamsList" class="table table-hover" style="text-align:left;width:60%;font-size:16px;">
+              <table ng-show="noFiltedTeam_visibility" id="teamsList" class="table table-hover" style="text-align:left;width:60%;font-size:16px;">
                 <thead>
                   <tr>
                     <th style="min-width:30%;">Team Name</th>
@@ -182,8 +181,7 @@
                     <th style="min-width:30%;" ng-show="(deadline-today)>0">Action</th>
                   </tr>
                 </thead>
-                <tbody ng-show="noFiltedTeam_visibility"  ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
-                  <div> <!--ng-show="filter(t)">-->
+                <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">                  <div> <!--ng-show="filter(t)">-->
                     <tr >
 
                       <td ><a  style="cursor: pointer" ng-click="enterTeam(t.$id)">{{t.teamName}}</a></td>
@@ -206,7 +204,22 @@
                 </tbody>
 
                 <!-- this table is used to show filtered result since ng-hide cannot use in the previous table -->
-                <tbody ng-show="!FiltedTeam_visibility" ng-repeat="t in filtedUsers" >
+              </table>
+
+              <h3 ng-hide="noFiltedTeam_visibility">Search Result:</h3>
+              <h3 ng-show="suggested_team_visibility">Suggested Team by your Perference:</h3>
+              <table id="teamsList" class="table table-hover" style="text-align:left;width:60%;font-size:16px;">
+                <thead>
+                  <tr>
+                    <th style="min-width:30%;">Team Name</th>
+                    <th style="min-width:10%;">Team Leader</th>
+                    <th style="min-width:20%;">Team members</th>
+                    <th style="min-width:10%;">Preference</th>
+                    <th style="min-width:30%;" ng-show="(deadline-today)>0">Action</th>
+                  </tr>
+                </thead>
+                <!-- this table is used to show filtered result since ng-hide cannot use in the previous table -->
+                <tbody  ng-show="suggested_team_visibility" ng-repeat="t in filtedUsers" >
                   <div> <!--ng-show="filter(t)">-->
                     <tr>
                       <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
