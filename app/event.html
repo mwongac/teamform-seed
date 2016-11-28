@@ -43,7 +43,7 @@
     </section>
   </div>
   <br>
-
+  <div class="container">
   <div class="text-center">
     <div id="event_description_div" class = "row">
       <div ng-include="'description.html'"></div>
@@ -116,13 +116,13 @@
                 <label>Lauguage Preference:</label>
                 <div class="row">
                   <span class="col-md-3"></span>
-                  <span class="col-md-6"> <input class="form-control" type="text" ng-model='addpreference'></input>
+                  <span class="col-md-6"> <input class="form-control" type="text" ng-model='addpreference'>
                                       <ol>
                                           <li ng-repeat='pre in preference'>{{pre}}<a ng-click="removePre(pre)"><a> Remove</a></li>
                                       </ol>
-                                      </span>
+                  </span>
                   <span class="col-md-3"><button type="button" class="btn btn-primary" ng-click="addPre()">Add</button>
-                                      </span>
+                  </span>
                 </div>
               </div>
 
@@ -141,7 +141,8 @@
 
       <div class="row">
         <center>
-           <h4>Search by team name or preference :</h4>
+          <h2>Search Teams</h2>
+           <h4>by team name or preference :</h4>
             <input type="text" class="input-lg" ng-model="filterName">
            <button class="btn btn-primary" ng-click="filterByName()">Search</button>
         </center>
@@ -152,7 +153,7 @@
         <!--skip below line since action buttons is too long-->
           <!--<div class="col-md-2"></div>-->
           <div class="col-md-12">
-              <h3 ng-show="noFiltedTeam_visibility">All teams:</h3>
+              <!--<h3 ng-show="noFiltedTeam_visibility">All teams:</h3>-->
               <h3 ng-hide="noFiltedTeam_visibility">Search Result:</h3>
               <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
               <table id="teamsList" class="table table-hover">
@@ -286,8 +287,7 @@
     </div>
       <!--end of teams & member list-->
     </div>
-  </div>
-  <div class="container">
+
     <!-- FOOTER -->
     <hr>
     <footer>
