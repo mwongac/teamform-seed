@@ -34,7 +34,7 @@
 
 
 <body ng-controller="EventCtrl">
-  <div id="load_screen"> <div id="loading" class="text-center"> <img src="img/loading.gif">loading document </div></div>
+  <div id="load_screen"> <div id="loading" class="text-center"> <img src="img/loading.gif">loading ... </div></div>
   <div ng-include="'navbar.html'" id='navbarMenu'></div>
   <div>
     <section style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive">
@@ -75,7 +75,7 @@
       <!-- create team button -->
     <!--  <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam('default')">Create teams</button>
     -->
-        <button ng-show="(deadline-today)>0" id="create_team_page_btn_visibility" type="button" class="btn btn-primary" ng-click="showTeamForm()">Create teams</button>
+        <button ng-show="(deadline-today)>0" id="create_team_page_btn_visibility" type="button" class="btn btn-primary" ng-click="showTeamForm()">Create team</button>
       </span>
       <div id="create_team_page_visibility">
         <div class="row">
@@ -127,7 +127,7 @@
               </div>
 
               <button id="btn_createTeam" type="button" class="btn btn-default" ng-click="hideTeamForm()">Cancel</button>     
-              <button id="btn_createTeam" type="button" class="btn btn-primary" ng-click="createTeam()">Create teams</button>
+              <button id="btn_createTeam" type="button" class="btn btn-success" ng-click="createTeam()">Create</button>
             </form>
           </div>
           <div class="col-md-2 col-xs-2"></div>
@@ -152,24 +152,24 @@
       <div class="col-md-12">
         <!--skip below line since action buttons is too long-->
           <!--<div class="col-md-2"></div>-->
-          <div class="col-md-12">
+          <!--<div class="col-md-12">-->
               <!--<h3 ng-show="noFiltedTeam_visibility">All teams:</h3>-->
               <h3 ng-hide="noFiltedTeam_visibility">Search Result:</h3>
               <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
-              <table id="teamsList" class="table table-hover">
+              <table id="teamsList" class="table table-hover" style="text-align:left;width:60%;">
                 <thead>
                   <tr>
-                    <th>Team Name</th>
-                    <th>Team Leader</th>
-                    <th>Team members</th>
-                    <th>Preference</th>
-                    <th ng-show="(deadline-today)>0">Action</th>
+                    <th style="width:30%;">Team Name</th>
+                    <th style="width:10%;">Team Leader</th>
+                    <th style="width:20%;">Team members</th>
+                    <th style="width:10%;">Preference</th>
+                    <th style="width:30%;" ng-show="(deadline-today)>0">Action</th>
                   </tr>
                 </thead>
                 <tbody ng-show="noFiltedTeam_visibility"  ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
                   <div> <!--ng-show="filter(t)">-->
                     <tr>
-                      <td ng-click="enterTeam(t.$id)">{{t.teamName}}</td>
+                      <td ng-click="enterTeam(t.$id)"><a>{{t.teamName}}</a></td>
                       <td><a href="profile.html?q={{t.teamLeader}}">{{t.teamLeaderName}}</a></td>
                       <td>
                         <span ng-repeat="member in t.members">
@@ -180,7 +180,7 @@
                       <!-- enter the team button moved to table
                       <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
                       -->
-                      <td ng-show="(deadline-today)>0"><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team directly (this will be removed)</button></td>
+                      <td ng-show="(deadline-today)>0"><button id="btnJoinTeam" type="button" class="btn btn-danger" ng-click="joinTeam(t.$id)">Join directly</button></td>
                       <!--this will remove after we finish request to join team properly-->
                       <td ng-show="(deadline-today)>0"><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join</button></td>
                       </tr>
@@ -202,7 +202,7 @@
                       <!-- enter the team button moved to table
                       <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
                       -->
-                      <td ng-show="(deadline-today)>0"><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam(t.$id)">Join this team directly (this will be removed)</button></td>
+                      <td ng-show="(deadline-today)>0"><button id="btnJoinTeam" type="button" class="btn btn-danger" ng-click="joinTeam(t.$id)">Join directly</button></td>
                       <!--this will remove after we finish request to join team properly-->
                       <td ng-show="(deadline-today)>0"><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join this team</button></td>
                       </tr>
@@ -210,16 +210,16 @@
                 </tbody>
 
               </table>
-          </div>
+          <!--</div>-->
           <!--<div class="col-md-2"></div>-->
       </div>
       <!--end of teams list-->
       
       <div ng-show="(deadline-today)>0">
         <h2>Invite List</h2>
-        <div ng-hide="inviteTeams.length ==0">You have not been invited yet. You can request teams below.</div>
+        <div ng-hide="inviteTeams.length ==0"  style="font-size:16px;">You have not been invited yet. You can request teams below.</div>
         <div ng-show="inviteTeams.length ==0">
-          <table id="inviteList" class="table table-hover">
+          <table id="inviteList" class="table table-hover" style="font-size:16px;">
             <thead>
               <tr>
                 <th>Team Name</th>
@@ -253,12 +253,12 @@
       <hr>
       <div class="col-md-12">
         <center>
-          <h3>Waitlist</h3>
+          <h2>Waitlist</h2>
         </center>
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
         <div class="col-md-1"></div>
         <div class="col-md-10" ng-hide="teamsList.length == 0">
-          <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0">
+          <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0" style="font-size:16px;">
             <thead>
               <tr>
                 <th>Name</th>
@@ -281,12 +281,13 @@
         </div>
         <div class="col-md-1"></div>
         <center>
-          <label ng-show="waitList.length ==0">No one on the waitlist.</label>
+          <label ng-show="waitList.length ==0" style="font-size:16px;">No one on the waitlist.</label>
         </center>
       </div>
     </div>
       <!--end of teams & member list-->
     </div>
+  
 
     <!-- FOOTER -->
     <hr>
