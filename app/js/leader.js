@@ -157,27 +157,29 @@ angular.module('leader-app', ['firebase'])
                 });
 
             //update team members
-            $scope.local = $scope.members;
-            $scope.local.push({ "memberID": uid });
             teamData.$loaded()
                 .then(function (test) {
                     console.log("push" + uid);
-                    teamData.members = $scope.local;
-                    teamData.$save();
-                });
-            $scope.members.$loaded()
-                .then(function (data) {
-                    // console.log("data: ");
-                    // console.log(data);
-                    angular.forEach(data, function (oneMember, key) {
-                        console.log("oneMember: ");
-                        console.log(oneMember);
-                        $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
-                            oneMember.name = resultFromCallback;
-                            console.log("a member name: " + oneMember.name);
+                    if(teamData.members == null){
+                        teamData.members = [];
+                        teamData.members.push({memberID: uid });
+                    }else{
+                        teamData.members.push({memberID: uid });
+                    }
+                    teamData.$save()
+                        .then(function(eee){
+                            angular.forEach(teamData.members, function (oneMember, key) {
+                                console.log("oneMember: ");
+                                console.log(oneMember);
+                                $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
+                                oneMember.name = resultFromCallback;
+                                console.log("a member name: " + oneMember.name);
+                               });
+                             });
+                            $scope.members = teamData.members;
                         });
-                    });
                 });
+          
             //update user state
             var currentUser = uid;
             var currentUsersRef = firebase.database().ref('users/' + currentUser + '/teams/' + $scope.eventid);
@@ -202,6 +204,8 @@ angular.module('leader-app', ['firebase'])
                         }
                     }
                 })
+          //  location.reload();
+
         }
 
         //kick member
@@ -212,9 +216,20 @@ angular.module('leader-app', ['firebase'])
             var teamData = $firebaseObject(teamRef);
             teamData.$loaded()
                 .then(function (data) {
-                    $scope.members.splice($scope.members.indexOf(member), 1);
-                    teamData.members = $scope.members;
-                    teamData.$save();
+                     $scope.members.splice($scope.members.indexOf(member), 1);
+                     teamData.members = $scope.members;
+                     teamData.$save()
+                        .then(function(eee){
+                            angular.forEach(teamData.members, function (oneMember, key) {
+                                console.log("oneMember: ");
+                                console.log(oneMember);
+                                $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
+                                oneMember.name = resultFromCallback;
+                                console.log("a member name: " + oneMember.name);
+                               });
+                             });
+                            $scope.members = teamData.members;
+                        });
                 });
 
             //update user state
@@ -230,7 +245,7 @@ angular.module('leader-app', ['firebase'])
                     }
                     console.log(userNewTeamObject);
                 });
-            location.reload();
+            //location.reload();
         }
 
 
