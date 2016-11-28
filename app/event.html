@@ -184,9 +184,9 @@
                 </thead>
                 <tbody ng-show="noFiltedTeam_visibility"  ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
                   <div> <!--ng-show="filter(t)">-->
-                    <tr  style="cursor: pointer" ng-click="enterTeam(t.$id)">
+                    <tr >
 
-                      <td >{{t.teamName}}</td>
+                      <td ><a  style="cursor: pointer" ng-click="enterTeam(t.$id)">{{t.teamName}}</a></td>
 
                       <td><a href="profile.html?q={{t.teamLeader}}">{{t.teamLeaderName}}</a></td>
                       <td>

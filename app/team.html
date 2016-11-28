@@ -6,7 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="keywords" content="teamform, team">
       <!-- The meta tags *must* come first in the head; any other head content must come *after* these tags -->
-      <title>teamform - team page</title>
+      <title>teamform - Team page</title>
 	  
       <!-- libraries and CSS 	  
 		JQuery: Necessary for some bootstrap interactions (v1.12.4 is used)		
@@ -30,19 +30,19 @@
 	  	  
    </head>
    <body ng-controller="TeamCtrl"> 
-   <div id="load_screen"> <div id="loading" class="text-center"> <img src="img/loading.gif">loading document </div></div>
+   <div id="load_screen"> <div id="loading" class="text-center"> <img src="img/loading.gif">loading ... </div></div>
 
   <div ng-include="'navbar.html'" id='navbarMenu'></div>
    <br>
     <div>
      <section  style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive" >
           <br><br><br><br><br>
-          <h1 class="pull-left banner_title">Team Page</h1>
+          <h1 class="pull-left banner_title">{{param.eventName}} - {{teamName}}&nbsp;Team Page</h1>
       </section>
     </div>
    <div class="text-center">
       <div id="team_page_controller" >
-      <h1>Team Page</h1>
+      <!--<h1>Team Page</h1>-->
             <div id="event_description_div" class="row">
               <div ng-include="'description.html'"></div>
             </div>
@@ -83,7 +83,7 @@
                         </ul>
               </div>
            </div>
-           <div class="container">
+           <!--<div class="container">
                 
                   <h3><strong>Currrent Team Member:</strong></h3>
                     <ul ng-repeat="oneMember in members" class="custom_center_box">
@@ -98,10 +98,61 @@
                       </li>
                     </ul>
                   
-           </div>
+           </div>-->
+
+       <div class="col-md-12">
+          <center>
+            <h2>Team Leader</h2>
+          </center>
+          <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+          <div class="col-md-3"></div>
+          <div class="col-md-6" >
+            <table class="table table-hover text-left" style="font-size:16px;">
+              <thead>
+                <tr class="text-center">
+                  <th>Name</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr >
+                  <td><a href="profile.html?q={{teamLeader.$value}}">{{teamLeader.name}}</a></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+
+       <div class="col-md-12">
+          <center>
+            <h2>Team Members</h2>
+          </center>
+          <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+          <div class="col-md-3"></div>
+          <div class="col-md-6" >
+            <table class="table table-hover text-left" style="font-size:16px;">
+              <thead>
+                <tr class="text-center">
+                  <th>Name</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr ng-repeat="oneMember in members">
+                  <td><a href="profile.html?q={{oneMember.uid}}">{{oneMember.name}}</a></td>
+                  <td>{{oneMember.description}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+
            <tr>
-           <td><button id="btnJoinTeam" type="button" class="btn btn-primary" ng-click="joinTeam('')">Join this team directly (this will be removed)</button></td> <!--this will remove after we finish request to join team properly-->
-           <td><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam('')">Request to join this team</button></td>
+           <td><button id="btnJoinTeam" type="button" class="btn btn-danger" ng-click="joinTeam('')">Join Directly</button></td> <!--this will remove after we finish request to join team properly-->
+           <td><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam('')">Request to join</button></td>
            </tr>
     </div>           
   </div>
