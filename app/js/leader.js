@@ -205,7 +205,7 @@ angular.module('leader-app', ['firebase'])
             teamData.$loaded()
                 .then(function (data) {
                     console.log($scope.teamDescription);
-                    teamData.description = $scope.teamDescription;
+                    teamData.teamDescription = $scope.teamDescription;
                     teamData.$save()
                         .then(function (s) {
                             console.log('saved');
