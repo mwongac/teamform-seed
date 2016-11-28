@@ -170,7 +170,7 @@
               <span class="glyphicon glyphicon-plus" aria-label="new announcement"></span>
             </button>
           <!--new announcement-->
-          <div id="new_announcement_div">
+          
    <br>
             <!--after click new new announcement button, it will show input text box and send button-->
             <div  class="col-md-12" id="input_announcement" ng-show="writingAnnouncement">
@@ -180,7 +180,7 @@
               <div class="col-md-1"><button id="btn_make_announcement" type="button" class="btn btn-success" ng-click="make_announcement(announcement_text)">Post</button></div>
             <br><br>
             </div>
-          </div>
+          
           <br>
           <div ng-include="'editAnn.html'"></div>
         
@@ -188,6 +188,7 @@
       <!--end of announcement div-->
 
       <!--teams list-->
+      <br><br>
       <hr>
       <div class="col-md-12">
         <center>
@@ -196,7 +197,7 @@
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
         <div class="col-md-2"></div>
         <div class="col-md-8">
-          <table id="teamsList" class="table table-hover text-left" ng-hide="teams.length == 0">
+          <table id="teamsList" class="table table-hover text-left" ng-hide="teams.length == 0" style="font-size:16px;">
             <thead>
               <tr>
                 <th>Team Name</th>
@@ -233,7 +234,7 @@
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
         <div class="col-md-2"></div>
         <div class="col-md-8" ng-hide="teamsList.length == 0">
-          <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0">
+          <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0" style="font-size:16px;">
             <thead>
               <tr>
                 <th>Name</th>
@@ -257,7 +258,7 @@
         </div>
         <div class="col-md-2"></div>
         <center>
-          <label ng-show="waitList.length ==0">No one on the waitlist.</label>
+          <label ng-show="waitList.length ==0" style="font-size:16px;">No one on the waitlist.</label>
         </center>
       </div>
     </div>
