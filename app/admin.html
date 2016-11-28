@@ -213,8 +213,8 @@
             </thead>
             <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
               <tr>
-                <td>{{t.teamName}}</td>
-                <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                <td ng-click="enterTeam(t.$id)"><a>{{t.teamName}}</a></td>
+                <td><a href="profile.html?q={{t.teamLeader}}">{{t.teamLeaderName}}</a></td>
                 <td>
                   <span ng-repeat="member in t.members">
                        <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
