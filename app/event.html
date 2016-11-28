@@ -185,7 +185,11 @@
                 <tbody ng-show="noFiltedTeam_visibility"  ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
                   <div> <!--ng-show="filter(t)">-->
                     <tr>
+
                       <td ng-click="enterTeam(t.$id)" >{{t.teamName}}</td>
+
+                      <td ng-click="enterTeam(t.$id)"><a>{{t.teamName}}</a></td>
+
                       <td><a href="profile.html?q={{t.teamLeader}}">{{t.teamLeaderName}}</a></td>
                       <td>
                         <span ng-repeat="member in t.members">

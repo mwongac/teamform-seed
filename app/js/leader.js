@@ -11,6 +11,10 @@ angular.module('leader-app', ['firebase'])
         $scope.eventid = getURLParameter("eventid");
         $scope.teamid = getURLParameter("teamid");
 
+        //function for display edit
+        $scope.edit_leader_visibility = false;
+        $scope.currentTeamSize = 1;
+
         //team description, preference
         $scope.teamDescription = '';
         $scope.preference = [];
@@ -48,6 +52,7 @@ angular.module('leader-app', ['firebase'])
                     $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
                         oneMember.name = resultFromCallback;
                         $scope.$apply();
+                        $scope.currentTeamSize +=1;
                         console.log("a member name: " + oneMember.name);
                     });
                 });
@@ -367,6 +372,9 @@ angular.module('leader-app', ['firebase'])
 
         }
 
+        $scope.edit_click = function () {
+            $scope.edit_leader_visibility = true;
+        };
         //logout function
         $scope.logout = function () {
             firebase.auth().signOut();
@@ -408,6 +416,7 @@ angular.module('leader-app', ['firebase'])
                             $scope.teamDescription = teamData.teamDescription;
                         }
                         $scope.displayName = teamData.teamName;
+                        $scope.preferredTeamSize = teamData.preferredTeamSize;
                     });
             } else {
                 console.log('not log in');

@@ -435,6 +435,18 @@ angular.module('teamform-admin-app', ['firebase'])
             })
         }
 
+        //enter the team page
+		$scope.enterTeam = function (currentTeamid) {
+			if (currentTeamid == '') {
+				return false;
+				//user will enter team page which is created by user who become leader
+			} else {
+				console.log(currentTeamid);
+				var url = "team.html?teamid=" + currentTeamid + "&eventid=" + eventid;
+				window.location.href = url;
+				return true;
+			}
+		}
         //$scope.users is an array of users in firebase
         var usersRef = firebase.database().ref('users');
         $scope.users = $firebaseArray(usersRef);
