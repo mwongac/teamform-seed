@@ -1,10 +1,10 @@
-describe('Admin app', function() {
+describe('team app', function() {
 
     var $scope, $controller, $window, $firebaseArray, $firebaseObject;
 
     beforeEach(function(){
         // angular.mock.module('teamform-admin-app','firebase');
-        module('teamform-admin-app');
+        module('teamform-team-app');
     });
    
    describe('admin ctrl: only common function without firebase Coverage Test', function() {
@@ -20,16 +20,16 @@ describe('Admin app', function() {
         it('1', function(){
             $scope = {};
             controller = 
-                $controller('AdminCtrl',{$scope: $scope, $firebaseObject: $firebaseObject, $firebaseArray: $firebaseArray});
+                $controller('teamCtrl',{$scope: $scope, $firebaseObject: $firebaseObject, $firebaseArray: $firebaseArray});
                 
-            expect(typeof $scope.new_announcement_click).toBe('function');
-            expect(typeof $scope.getUserNameByID).toBe('function');
+            expect(typeof $scope.saveFunc).toBe('function');
+            expect(typeof $scope.changeCurrentTeamSize).toBe('function');
             
         })
 
         it('edit event info', function(){
             $scope.edit_click();
-            expect($scope.editable).toBe(true);
+            expect($scope.param).toBe(object);
         })
 
         it('maxTeamSize', function(){

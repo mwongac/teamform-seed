@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="teamform-admin-app">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="teamform, team">
+    <!-- The meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>teamform - admin page</title>
+
+    <!-- libraries and CSS 	  
+		JQuery: Necessary for some bootstrap interactions (v1.12.4 is used)		
+		Bootstrap: Library and CSS for bootstrap framework (v3.3.7 is used)
+		Font-awesome: More icons for the web development (v4.6.3 is used)		
+		site.css: A customized css for our web application. Not from any web framework. 
+	  -->
+
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="css/site.css" >-->
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Customized libraries shared by pages -->
+    <script src="js/site.js"></script>
+
+</head>
+
+<body ng-controller="teamformCtrl">
+    <div ng-include="'navbar.html'" id='navbarMenu'></div>
+    <br>
+    <div>
+        <section style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive">
+            <br><br><br><br><br>
+            <h1 class="pull-left banner_title">Smart Generator</h1>
+        </section>
+    </div>
+    <div id="load_screen"> <div id="loading" class="text-center"> <img src="img/loading.gif">loading......</div></div>
+    <div>
+        <div id="team_generator_controller">
+            <div class="row">
+                <div class="col-md-2 col-xs-2"></div>
+                <div class="custom_center_box row col-md-8" id="content">
+                    <div id="success">
+                        <h2>Event: {{param.eventName}}</h2>
+                        <!--show generated sugguest team in table-->
+                        <!--for testing-->
+                        <!--<h3>waitList</h3>
+                        <ul ng-repeat="user in waitList">
+                            uid = {{user.uid}}<br> name = {{user.name}}<br> role = {{user.role}}<br> team={{user.teamid}}
+                            <br>
+                            <br>
+                        </ul>-->
+                        <!--h3>Teams that were without enough member before generate</h3>
+                        <table id="teamsList" class="table table-hover text-left">
+                            <thead>
+                                <tr>
+                                    <th>Team id</th>
+                                    <th>Team Name</th>
+                                    <th>Team Leader</th>
+                                    <th>Team members</th>
+                                    <th>Preference</th>
+                                    <th>Change</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="(key,t) in teamsNotEnough" ng-init="getUserNameInTeam(t)">
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td>{{t.teamName}}</td>
+                                    <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                                    <td><span ng-repeat="member in t.members">
+                                        <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                                    </span>
+                                    </td>
+                                    <td>{{t.preference}}</td>
+                                    <th>{{t.change}}</th>
+                                </tr>
+                            </tbody>
+                        </table>-->
+                        <h3>Suggested Teams</h3>
+                        <!--<h3>Teams that have enough member before generate</h3>-->
+                        <table id="teamsEnoughList" class="table table-hover text-left">
+                            <thead>
+                                <tr>
+                                    <th>Team id</th>
+                                    <th>Team Name</th>
+                                    <th>Team Leader</th>
+                                    <th>Team members</th>
+                                    <th>Preference</th>
+                                    <th>Change</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="(key,t) in teamsEnough" ng-init="getUserNameInTeam(t)">
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td>{{t.teamName}}</td>
+                                    <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                                    <td><span ng-repeat="member in t.members">
+                                        <span ng-if="member.newAdded == true">
+                                            <a style="color: red" href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>
+                                        </span>
+                                        <span ng-if="member.newAdded != true">
+                                            <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>
+                                        </span>
+                                        {{$last ? '' : ', '}}
+                                    </span>
+                                    </td>
+                                    <td>{{t.preference}}</td>
+                                    <th>{{t.change}}</th>
+                                </tr>
+                            </tbody>
+                            <!--</table>
+                        <h3>Full Teams</h3>
+                        <table id="teamsFullList" class="table table-hover text-left">
+                            <thead>
+                                <tr>
+                                    <th>Team id</th>
+                                    <th>Team Name</th>
+                                    <th>Team Leader</th>
+                                    <th>Team members</th>
+                                    <th>Preference</th>
+                                    <th>Change</th>
+                                </tr>
+                            </thead>-->
+                            <!--merge two list into one-->
+                            <tbody ng-repeat="(key,t) in teamsFull" ng-init="getUserNameInTeam(t)">
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td>{{t.teamName}}</td>
+                                    <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                                    <td><span ng-repeat="member in t.members">
+                                        <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                                    </span>
+                                    </td>
+                                    <td>{{t.preference}}</td>
+                                    <th>
+                                        <span ng-show="t.change">{{t.change}}</span>
+                                        <span ng-hide="t.change">No change</span>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+                        </table>
+                        <div ng-hide="isTeamObjectEmpty(teamsDelete)">
+                            <h3>Dismissed Teams</h3>
+                            <table id="teamsDismiss" class="table table-hover text-left">
+                                <thead>
+                                    <tr>
+                                        <th>Team id</th>
+                                        <th>Team Name</th>
+                                        <th>Team Leader</th>
+                                        <th>Team members</th>
+                                        <th>Preference</th>
+                                        <th>Change</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="(key,t) in teamsDelete" ng-init="getUserNameInTeam(t)">
+                                    <tr>
+                                        <td>{{key}}</td>
+                                        <td>{{t.teamName}}</td>
+                                        <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                                        <td><span ng-repeat="member in t.members">
+                                            <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                                        </span>
+                                        </td>
+                                        <td>{{t.preference}}</td>
+                                        <th>
+                                            <span ng-show="t.change">{{t.change}}</span>
+                                            <span ng-hide="t.change">No change</span>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+
+                        <!--button for adin to comfire or cancel-->
+                        <div style="text-align: right">
+                            <button ng-click="return()">Cancel</button>
+                            <button class="btn btn-primary" ng-click="confirm()">Confirm</button>
+                        </div>
+                    </div>
+                    <div id="fail">
+                        <h2>Event: {{param.eventName}}</h2>
+                        It is not possible to generate team. You may need to modify team size or add/kick some member.<br>
+                        <div style="text-align: right">
+                            <button ng-click="return()">Return</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-xs-2"></div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12">
+            <!-- /END THE FEATURETTES -->
+            <!-- FOOTER -->
+            <hr>
+            <footer>
+                <p class="pull-right"><a style="cursor: pointer" ng-click="scrollToTop()">Back to top</a></p>
+                <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
+                <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+            </footer>
+        </div>
+    </div>
+    <!--end of container-->
+    <!-- JavaScript of this page -->
+
+    <!-- Angular and Angular-route libraries (v1.5.7) -->
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-route.min.js"></script>
+
+    <!-- Firebase (v3.0.3) and AngularFire (v2.0.0) (after angular library is loaded) -->
+    <script src="lib/firebase.js"></script>
+    <script src="lib/angularfire.min.js"></script>
+
+    <script src="js/teamGenerator.js"></script>
+
+</body>
+
+</html>

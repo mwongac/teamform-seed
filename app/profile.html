@@ -50,13 +50,14 @@
   			<h2 class="text-center ">Your Profile</h2>
               <br>-->
 		<!--</div>-->
+        <div class="row">
         <div class="col-md-3">
         </div>
         <div class="custom_center_box row col-md-6">
             <form name="ProfileForm" class="css-form "  novalidate>
                 <div class="form-group">
                     <label>Name*:</label>
-                    <div class="col-md-12"><input class="form-control ng-dirty ng-invalid ng-valid" type="text" name="userName" placeholder="Please enter Username" ng-model="userData.name" required>
+                    <div class="col-md-12"><input class="form-control ng-dirty ng-invalid ng-valid" type="text" name="userName" placeholder="Please enter Username" ng-model="userData.name" ng-disabled="othersProfile" required>
                     <br>
                     </div>
                     
@@ -66,17 +67,17 @@
                     <label>Language:</label>
                         <ol>
                             <li style="cursor: pointer" ng-repeat="lan in userData.language">{{lan}}
-                                &nbsp;<a class="" ng-click="removeLanguage(lan)">Remove</a></li>
+                                &nbsp;<button class="" ng-click="removeLanguage(lan)" ng-hide="othersProfile">Remove</button></li>
                         </ol>
                         <div class="col-md-10">
-                    <input class="form-control" type="text" name="lan" ng-model="txtLanguage"></div>
-                    <div class="col-md-2"><button class="btn btn-primary "  ng-click="addLanguage()">Add</button>
-                    <br></div>
+                    <input class="form-control" type="text" name="lan" ng-model="txtLanguage" ng-disabled="othersProfile" ng-hide="othersProfile"></div>
+                    <div class="col-md-2"><button class="btn btn-primary "  ng-click="addLanguage()" ng-hide="othersProfile">Add</button>
+                    </div><br>
                 </div>
 
                 <div class="form-group">
                     <label>GPA:</label>
-                    <div class="col-md-12"><input class="form-control ng-dirty ng-invalid ng-valid" type="number" name="gpa" ng-model="userData.gpa" placeholder="0 to 4.3" min=0 max=4.3 required>
+                    <div class="col-md-12"><input class="form-control ng-dirty ng-invalid ng-valid" type="number" name="gpa" ng-model="userData.gpa" placeholder="0 to 4.3" ng-disabled="othersProfile" min=0 max=4.3 required>
                     <br></div>
                     
                 </div>
@@ -84,16 +85,16 @@
                 <div class="form-group">
                     <label>Description:</label>
                     <div class="col-md-12">
-                    <textarea class="form-control" ng-model="userData.description"></textarea>
+                    <textarea class="form-control" ng-model="userData.description" ng-disabled="othersProfile"></textarea>
                     <br></div>
                 </div>
                 
                 <div class="form-group text-center">
-                    <input class="btn btn-primary" type="submit" value="Submit" ng-click='submitUserData()'>
+                    <input class="btn btn-primary" type="submit" value="Submit" ng-click='submitUserData()' ng-hide="othersProfile">
                 </div>
             
  
-                <div class="form-group">CurrentTeam:{{userData.team}}</div>
+                <div class="form-group">CurrentTeam:{{userData.teams}}</div>
                 <div class="form-group">Eventlist:{{userData.eventlist}}</div>
                 <div class="form-group">My User id: {{userData.userid}}</div>
                         
@@ -105,22 +106,26 @@
           <div class="col-md-3">
              
         </div>
-        
-       <h2>list of all users</h2>
-       <div ng-repeat="u in users">
-           <ul>
-               <li>Name:{{u.name}}</li>
-               <li>Gpa:{{u.gpa}}</li>
-               <li>Language:{{u.language}}</li>
-               <li>Team:{{u.team}}</li>
-               <li>Description:{{u.description}}</li>
-               <li>User Id: {{u.$id}}</li>
-            </ul>
-        </div>    
-        <div class="col-md-12">   
-        <hr>
+        </div>
+        <div class="row">
+            <h2>list of all users</h2>
+            <div ng-repeat="u in users">
+                <ul>
+                    <li>Name:{{u.name}}</li>
+                    <li>Gpa:{{u.gpa}}</li>
+                    <li>Language:{{u.language}}</li>
+                    <li>Team:{{u.team}}</li>
+                    <li>Description:{{u.description}}</li>
+                    <li>User Id: {{u.$id}}</li>
+                    </ul>
+                </div>
+        </div>
+            
+        <div class="col-md-12">  
+         <!-- FOOTER -->
+         <hr>
          <footer>
-            <p class="pull-right"><a style="cursor: pointer" href="#top">Back to top</a></p>
+            <p class="pull-right"><a style="cursor: pointer" ng-click="scrollToTop()">Back to top</a></p>
             <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
             <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
          </footer>

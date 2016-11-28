@@ -96,20 +96,20 @@
                         <!--create event and become admin-->
                         <div class="text-center">
                             <h2 style="display:inline;vertical-align: middle;" class="vertical-center">Create a New Event&nbsp;</h2> 
-							
-							  <button id="btn_createEvent" type="button" class="btn btn-primary" ng-click="createNewEvent('')">+ New</button>
-						
+                            <button id="btn_createEvent" type="button" class="btn btn-primary" ng-click="createNewEvent('')">
+                              <span class="glyphicon glyphicon-plus" aria-label="'create event'"></span>
+                            </button>
                             <div>
                               <font size="5">...or Choose an Existing Event Below:</font>
                             </div>
                             <section id="event_list">
-                              <div ng-repeat="event in events | orderBy : 'admin.param.deadline'" class="col-md-4">
+                              <div ng-repeat="event in events | orderBy : 'admin.param.deadline'" ng-init="getUserRoleInEvent(event)" class="col-md-4">
                                 <br>
                                 <div class="col-md-1">
                                 </div>
                                 <button class="event_item col-md-10" ng-click="enterEvent(event.$id)">
                                   <div class="col-md-2">
-                                    <div class="event_item_date pull-right">
+                                    <div class="event_item_date_{{checkDL(event.admin.param.deadline)}} pull-right">
                                       <div class="event_item_day">{{event.admin.param.deadline | date:'dd'}}</div>
                                       <div class="event_item_month">{{event.admin.param.deadline | date:'MMM'}}</div>
                                       <!--({{event.admin.param.deadline | date:'dd/MM/yyyy'}})-->
@@ -121,6 +121,9 @@
                                     </div>
                                     <div class="event_item_description row text-left">
                                       {{event.admin.param.description}}
+                                    </div>
+                                    <div class="event_item_role row text-left">
+                                      <p>{{event.Role}}</p>
                                     </div>
                                   </div>
                                   <!--<div class="row">
@@ -192,11 +195,13 @@
         -->
 
       <hr class="featurette-divider">
+
           <!-- START THE FEATURETTES -->
          <div class="row featurette">
             <div class="col-md-12">
-			   <br>
-			   <div id="pageTeam">
+            <br>
+            <div id="pageTeam">
+               <hr>
                <h2 class="featurette-heading">Development Team
                   </h2><h3>
                   <span class="text-muted">418 I'm a Teapot</span>
@@ -268,9 +273,9 @@
                  <div class="col-xs-6 col-md-3">
                   <div class="thumbnail text-center">
                     <img class="img-circle img-responsive rotate" src="img/dev_team/vivian.jpg" width="150" height="150">
-					<div class="caption">
-					 <h4>Vivian Lee</h4>
-                     <p><a href="mailto:htleeab@connect.ust.hk">htleeab@connect.ust.hk</a></p>
+                    <div class="caption">
+                      <h4>Vivian Lee</h4>
+                      <p><a href="mailto:htleeab@connect.ust.hk">htleeab@connect.ust.hk</a></p>
                     </div>
                   </div>
                  </div> 
@@ -279,10 +284,10 @@
 
              </div>
 			 
-			 </div>
+			    </div>
 
          </div>
-
+        <hr>
           <!--about teamform after login-->
         <div ng-show="loggedIn" > 
             <h2 class="featurette-heading ">What is teamform?</h2>    
@@ -311,6 +316,9 @@
 
       <!-- JavaScript of this page -->
       <script src="js/index.js"></script>
+
+      <!--loading-->
+      <!--<div id="load_screen"> <div id="loading" class="text-center"> <img src="img/loading.gif">loading document </div></div>-->
 
 
    </body>

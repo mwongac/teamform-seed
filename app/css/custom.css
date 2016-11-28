@@ -112,7 +112,17 @@ input[type=email],input[type=password], select {
     
 }
 
-.event_item_date{
+.event_item_date_true{
+    color:white;
+    background-color: #cc0000;
+    border: 2px solid #cc0000;
+    width: 55px;
+    height: 55px;
+    padding: 0px 5px;
+    box-shadow: 2px 2px 2px #ccc;
+}
+
+.event_item_date_false{
     color:white;
     background-color: #337ab7;
     border: 2px solid #2573a9;
@@ -132,6 +142,11 @@ event_item_month{
 .event_item_description{
     color: #777;
 }
+.event_item_role{
+    font-size: 15px;
+    font-weight: bold;
+}
+
 
 .custom_center_box{
     border: 3px solid #f1f1f1;
@@ -201,8 +216,60 @@ overflow:hidden;
 color:white;
 background-color: #337ab7;
 border: 2px solid #2573a9;
-width: 150px;
-height: 150px;
+margin:0px 10px 0px 0px;
+width: 136px;
+height: 139px;
 padding: 0px 5px;
 box-shadow: 2px 2px 2px #ccc;
+}
+
+.announcement_div{
+    /*background-color: rgb(240, 240, 245);*/
+}
+
+ .edit {
+    padding: 10px;
+    font-size: 15px;
+  }
+  
+  .editor {
+    padding: 5px;
+    font-size: 18px;
+    /*font-weight: bold;*/
+  }
+
+    div#load_screen {
+      background: white;
+      opacity: 1;
+      position: fixed;
+      z-index: 100;
+      top: 0px;
+      width: 100%;
+      height: 1600px;
+    }
+    
+    div#load_screen > div#loading {
+      color: black;
+      width: 200px;
+      height: 50px;
+      margin: 300px auto;
+       animation-duration: 1s;
+    animation-name: blink;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+}
+@keyframes blink {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+
+}
+
+td{
+    padding: 10px;
+    font-size: 15px;
 }

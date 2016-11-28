@@ -7,17 +7,18 @@
 	              }
 				  </style>
 				  
-				  <table class="table table-striped" border="1">
+				  <table class="table table-striped"  ng-hide="announcements.length == 0" style="font-size:16px;">
                     <thead>
                       <tr>
-                        <th><font size="4px"><center>Announcement</center></font></th>
-                        <th width="1%" white-space="nowrap"><font size="4px"><center>Date</center></font></th>
+                        <th><center>Past Announcements</center></th>
+                        <th width="1%" white-space="nowrap"><center>Date</center></th>
                       </tr>
                     </thead>
-                    <tbody ng-repeat="a in announcements">
+                    <tbody ng-repeat="a in announcements | orderBy : '-date' ">
                       <tr>
-                        <td><font size="4px">{{a.text}}</font></td>
-                        <td><font size="4px">{{a.date | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{a.text}}</td>
+                        <td>{{a.date | date: 'dd/MM/yyyy'}}</td>
                       </tr>
                     </tbody>
                   </table>
+    <label ng-show="announcements.length == 0">There is no announcement.</label>

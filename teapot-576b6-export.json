@@ -1,0 +1,232 @@
+{
+  "events" : {
+    "-KWZ1tizIgGQib2DphKg" : {
+      "admin" : {
+        "param" : {
+          "admin" : "TXjWNCX8GwZ2RMqMl8CFMeRcHPc2",
+          "deadline" : "2016-10-13T18:13:53.795Z",
+          "description" : "This is team form for undefined.",
+          "eventName" : "earew",
+          "maxTeamSize" : 10,
+          "minTeamSize" : 1
+        }
+      },
+      "announcements" : {
+        "-KWZ21lIzYcTylnKxGJI" : {
+          "date" : "2016-11-14T18:14:28.901Z",
+          "text" : "wrqrq"
+        }
+      },
+      "teams" : {
+        "-KWZ3W4krZDhI88OviSe" : {
+          "description" : "need tester",
+          "preference" : [ "C++", "GPA 4" ],
+          "teamLeader" : "85IKQcnbhxaGjCCn31olRVFggpo1",
+          "teamName" : "default"
+        },
+        "-KW_nxkAUkqEZwX8sebP" : {
+          "invitelist" : {
+            "e9NoJAzRmlXr6E9q4eg4q8Y43Xy2" : {
+              "name" : "nulltest@gmail.com",
+              "uid" : "e9NoJAzRmlXr6E9q4eg4q8Y43Xy2"
+            }
+          },
+          "preference" : [ "C++" ],
+          "teamLeader" : "GkRKYilfTRas58AJbDDhEOk59w63",
+          "teamName" : "New Order"
+        },
+        "-KWaiw51iuNneVVE_3pM" : {
+          "teamLeader" : "rrYFaBuoY5Q4Xi5SbfsCcw1f77w1",
+          "teamName" : "default"
+        }
+      }
+    },
+    "-KWa4OBo_0PYS6Rbv5cj" : {
+      "admin" : {
+        "param" : {
+          "admin" : "rrYFaBuoY5Q4Xi5SbfsCcw1f77w1",
+          "deadline" : "2017-01-04T03:44:00.879Z",
+          "description" : "This is team form for Tea party. This is a very long description for testing .......................................... ................... ........... ............. ............................... ...........",
+          "eventName" : "Tea party",
+          "maxTeamSize" : 5,
+          "minTeamSize" : 1
+        }
+      }
+    },
+    "-KWaGWJj6b87jF_wnMKD" : {
+      "admin" : {
+        "param" : {
+          "admin" : "TXjWNCX8GwZ2RMqMl8CFMeRcHPc2",
+          "deadline" : "2016-12-15T04:36:59.901Z",
+          "description" : "This is team form for sad.",
+          "eventName" : "sad",
+          "maxTeamSize" : 10,
+          "minTeamSize" : 1
+        }
+      }
+    },
+    "-KWaLS0i2Lk3wetX81YD" : {
+      "admin" : {
+        "param" : {
+          "admin" : "TXjWNCX8GwZ2RMqMl8CFMeRcHPc2",
+          "deadline" : "2016-12-15T04:58:32.997Z",
+          "description" : "This is team form for try again.",
+          "eventName" : "try again",
+          "maxTeamSize" : 10,
+          "minTeamSize" : 1
+        }
+      }
+    },
+    "-KWaLZH_9H1tF7sZu-7j" : {
+      "admin" : {
+        "param" : {
+          "admin" : "TXjWNCX8GwZ2RMqMl8CFMeRcHPc2",
+          "deadline" : "2016-12-15T04:59:02.857Z",
+          "description" : "This is team form for undefined.",
+          "eventName" : "undefined",
+          "maxTeamSize" : 10,
+          "minTeamSize" : 1
+        }
+      }
+    },
+    "-KWacksTKZiArE7COsKm" : {
+      "admin" : {
+        "param" : {
+          "admin" : "bMzWwlwtlmb7nGmeDD1GWXsBsel1",
+          "deadline" : "2016-11-15T06:18:32.880Z",
+          "description" : "This is team form for CT.",
+          "eventName" : "CT",
+          "maxTeamSize" : 10,
+          "minTeamSize" : 1
+        }
+      }
+    },
+    "-KWahV1avWjjnTdDIHt-" : {
+      "admin" : {
+        "param" : {
+          "admin" : "TXjWNCX8GwZ2RMqMl8CFMeRcHPc2",
+          "deadline" : "2016-12-15T06:39:14.706Z",
+          "description" : "This is team form for abc.",
+          "eventName" : "abc",
+          "maxTeamSize" : 10,
+          "minTeamSize" : 1
+        }
+      },
+      "announcements" : {
+        "-KWahtnc4jtJ77I5Dr09" : {
+          "date" : "2016-11-15T06:41:17.132Z",
+          "text" : "earwr"
+        }
+      }
+    }
+  },
+  "users" : {
+    "85IKQcnbhxaGjCCn31olRVFggpo1" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "leader@connect.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWZ1tizIgGQib2DphKg" : {
+          "role" : "leader",
+          "teamid" : "-KWZ3W4krZDhI88OviSe"
+        }
+      },
+      "test" : "never change"
+    },
+    "GkRKYilfTRas58AJbDDhEOk59w63" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "leadertester@gmail.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWZ1tizIgGQib2DphKg" : {
+          "role" : "leader",
+          "teamid" : "-KW_nxkAUkqEZwX8sebP"
+        }
+      },
+      "test" : "never change"
+    },
+    "TXjWNCX8GwZ2RMqMl8CFMeRcHPc2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "abcd@connect.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWZ1tizIgGQib2DphKg" : {
+          "role" : "admin"
+        },
+        "-KWa4OBo_0PYS6Rbv5cj" : {
+          "role" : "null"
+        },
+        "-KWaGWJj6b87jF_wnMKD" : {
+          "role" : "admin"
+        },
+        "-KWaLS0i2Lk3wetX81YD" : {
+          "role" : "admin"
+        },
+        "-KWaLZH_9H1tF7sZu-7j" : {
+          "role" : "admin"
+        },
+        "-KWahV1avWjjnTdDIHt-" : {
+          "role" : "admin"
+        }
+      },
+      "test" : "never change"
+    },
+    "bMzWwlwtlmb7nGmeDD1GWXsBsel1" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "christie@418.com",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWZ1tizIgGQib2DphKg" : {
+          "role" : "null"
+        },
+        "-KWaLZH_9H1tF7sZu-7j" : {
+          "role" : "null"
+        },
+        "-KWacksTKZiArE7COsKm" : {
+          "role" : "admin"
+        }
+      },
+      "test" : "never change"
+    },
+    "e9NoJAzRmlXr6E9q4eg4q8Y43Xy2" : {
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "nulltest@gmail.com",
+      "team" : [ "null" ],
+      "test" : "never change"
+    },
+    "rrYFaBuoY5Q4Xi5SbfsCcw1f77w1" : {
+      "description" : "",
+      "gpa" : 3,
+      "language" : [ "C++" ],
+      "name" : "Cindy",
+      "team" : [ "null" ],
+      "teams" : {
+        "-KWZ1tizIgGQib2DphKg" : {
+          "role" : "leader",
+          "teamid" : "-KWaiw51iuNneVVE_3pM"
+        },
+        "-KWa4OBo_0PYS6Rbv5cj" : {
+          "role" : "admin"
+        },
+        "-KWaGWJj6b87jF_wnMKD" : {
+          "role" : "null"
+        },
+        "-KWaLS0i2Lk3wetX81YD" : {
+          "role" : "null"
+        },
+        "-KWaLZH_9H1tF7sZu-7j" : {
+          "role" : "null"
+        },
+        "-KWacksTKZiArE7COsKm" : {
+          "role" : "null"
+        }
+      },
+      "test" : "never change"
+    }
+  }
+}
