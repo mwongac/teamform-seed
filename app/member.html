@@ -48,6 +48,28 @@
   <p>Description: {{teamDescription}}</p>
   <p>Leader: {{leaderName}}</p>
 
+  	<!-- please fix the UI below -->
+	<div id="to_be_fixed">
+	<div ng-include="'description.html'"></div>
+	<br>
+	      
+		<div class=" col-md-12">
+        <h2 style="display:inline;vertical-align: middle;" class="text-center">Announcements</h2>  &nbsp;&nbsp;
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#announcement_div">
+            <span class="glyphicon glyphicon-collapse-up"></span>
+        </button>
+      </div>
+      <br><br>
+      <!--announcement div-->
+      <div id="announcement_div">
+        <div ng-include="'readAnn.html'"></div>
+      </div>
+      <!--end of announcement div-->
+      <br>
+	</div>  
+	<!-- end of fixing -->
+  
+  
   <!--show current members and current requests-->
   <p>Current Team Member:</p>
   <div ng-repeat="oneMember in members">
