@@ -62,9 +62,7 @@ angular
 			teamList.$loaded()
 				.then(function (x) {
 
-					// loading screen
-					// var load_screen = document.getElementById("load_screen");
-					// document.body.removeChild(load_screen);
+					
 
 					console.log(teamList.$getRecord(eventid));
 					if (teamList.$getRecord(eventid) == null) {
@@ -260,6 +258,7 @@ angular
 				.then(user => {
 					console.log('promise is done');
 					// $window.alert("You have successfully logged in");
+					window.location.href = "index.html";
 				}).catch(e => {
 					console.log(e.message);
 					$window.alert(e.message);
@@ -288,6 +287,7 @@ angular
 		//logout function
 		$scope.logout = function () {
 			firebase.auth().signOut();
+			window.location.href = "index.html";
 		}
 
 		//Change LoggedIn
@@ -308,6 +308,9 @@ angular
 				var usersArray = $firebaseArray(usersRef);
 				usersArray.$loaded()
 					.then(function (x) {
+						// loading screen
+					var load_screen = document.getElementById("load_screen");
+					document.body.removeChild(load_screen);
 						console.log(usersArray.$getRecord(user.uid));
 						if (usersArray.$getRecord(user.uid) == null) {
 							console.log('it is null and i am setting new profile for it');
@@ -331,6 +334,10 @@ angular
 						console.log("Error:" + error);
 					});
 			} else {
+					// loading screen
+					var load_screen = document.getElementById("load_screen");
+					document.body.removeChild(load_screen);
+
 				console.log('not log in');
 				$scope.changeLoggedIn(false);
 				$scope.$apply();
