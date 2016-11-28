@@ -162,9 +162,9 @@ angular
 						//console.log("getUserRoleByEventID: " + currentUser.uid);
 						console.log("getUserRoleByEventID: "+ teamevent);
 						if (teamevent == null) {
-							callback('Not Yet Entered');
+							callback('');    								//Not Yet Entered
 						} else if (teamevent.role == "null") { 					//role is a STRING!!!!!
-							callback("You don't have a role yet");
+							callback(''); 									//You don't have a role yet
 						} else {
 							callback('Role: ' + teamevent.role);
 						}
