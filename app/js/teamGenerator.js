@@ -434,6 +434,8 @@ angular.module('teamform-admin-app', ['firebase'])
                     //state 4: be filled to enough
                     //state 5: combine
                     $('#fail').hide();
+                    var load_screen = document.getElementById("load_screen");
+                    document.body.removeChild(load_screen);
                     // admin can view the list and confirm
                 }//end of possible to generate team
             })
@@ -452,7 +454,7 @@ angular.module('teamform-admin-app', ['firebase'])
 
         $scope.putMemberToTeams = function (ppl, team, teamid) {
             console.log("put member " + ppl.uid + " to team " + team.teamName + "\nteamid: " + teamid);
-            team.members.push({ "memberID": ppl.uid, "gpa": ppl.gpa, "memberName": ppl.name });
+            team.members.push({ "memberID": ppl.uid, "gpa": ppl.gpa, "memberName": ppl.name , "newAdded" :true});
 
             ppl.role = "member";
             ppl.team = teamid;
@@ -484,6 +486,7 @@ angular.module('teamform-admin-app', ['firebase'])
                         delete member.gpa;
                         delete member.name;
                         delete member.preference;
+                        delete member.newAdded;
                     })
                     $scope.teams[teamid] = team;
                     $scope.teams[teamid].members = team.members;
@@ -499,6 +502,7 @@ angular.module('teamform-admin-app', ['firebase'])
                         delete member.gpa;
                         delete member.name;
                         delete member.preference;
+                        delete member.newAdded;
                     })
                     $scope.teams[teamid] = team;
                     $scope.teams[teamid].members = team.members;
@@ -567,7 +571,7 @@ angular.module('teamform-admin-app', ['firebase'])
         }
 
         $scope.isTeamObjectEmpty = function (teams) {
-            if (typeof teams == "undefined"){
+            if (typeof teams == "undefined") {
                 return true;
             }
             if (Object.keys(teams).length == 0) {

@@ -38,8 +38,6 @@ angular.module('create-event-app', ['firebase'])
 					eventName = "";
 				}
 				$scope.param.eventName = eventName;
-
-
 				if (typeof $scope.param.admin == "undefined") {
 					$scope.param.admin = $scope.uid;
 				}
@@ -155,7 +153,7 @@ angular.module('create-event-app', ['firebase'])
 		$scope.scrollToTop = function () {
 			$window.scrollTo(0, 0);
 		}
-		
+
 		//logout function
 		$scope.logout = function () {
 			firebase.auth().signOut();

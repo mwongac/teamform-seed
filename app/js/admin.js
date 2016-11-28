@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     $('#admin_page').hide();
+    $('#inviteJoinDiv').hide();
     $('#text_event_name').text("Error: Invalid event id ");
     var eventid = getURLParameter("q");
     if (eventid != null && eventid !== '') {
@@ -12,7 +13,7 @@ angular.module('teamform-admin-app', ['firebase'])
     .controller('AdminCtrl', ['$scope', '$firebaseObject', '$firebaseArray', '$window', function ($scope, $firebaseObject, $firebaseArray, $window) {
 
         // TODO: implementation of AdminCtrl
-
+        var load_screen = document.getElementById("load_screen");
         // Initialize $scope.param as an empty JSON object
         $scope.param = {}; //event.{eventid}.admin.param
         $scope.editable = false;
@@ -56,8 +57,9 @@ angular.module('teamform-admin-app', ['firebase'])
                 if (typeof $scope.param.deadline == "undefined") {
                     $scope.deadline = new Date(new Date().setDate(new Date().getDate() + 30));//outside new Date: change string to date object, 2nd Date: create date, 3rd Date: get today day
                 } else {
+
                     $scope.deadline = new Date($scope.param.deadline);
-                    console.log(new Date($scope.param.deadline));
+                    console.log("$scope.deadline\n$scope.deadline: " + new Date($scope.deadline) + "\ntypeof: " + typeof $scope.deadline);
                 }
                 $scope.today = new Date(new Date().setDate(new Date().getDate()));
                 $scope.getUserNameByID($scope.param.admin, function (resultFromCallback) {
@@ -68,6 +70,8 @@ angular.module('teamform-admin-app', ['firebase'])
                 // Enable the UI when the data is successfully loaded and synchornized
                 $('#text_event_name').text("Event Name: " + $scope.param.eventName);
                 $('#admin_page').show();
+                var load_screen = document.getElementById("load_screen");
+                document.body.removeChild(load_screen);
             })
             .catch(function (error) {
                 // Database connection error handling...
@@ -339,8 +343,11 @@ angular.module('teamform-admin-app', ['firebase'])
                         console.log("Event " + $scope.param.eventName + " already exist.");
                         $window.alert("Event " + $scope.param.eventName + " already exist.");
                     } else {
-                        console.log("type of $scope.deadline : "+typeof $scope.deadline);
-                        $scope.param.deadline = $scope.deadline.toISOString();
+                        console.log("type of $scope.deadline : " + typeof $scope.deadline);
+                        console.log("$scope.deadline : " + $scope.deadline);
+                        if (typeof $scope.deadline != "undefined") {
+                            $scope.param.deadline = $scope.deadline.toISOString();
+                        }
                         $scope.param.$save();
                         $('#text_event_name').text("Event Name: " + $scope.param.eventName);
                         $scope.editable = false;
@@ -367,6 +374,67 @@ angular.module('teamform-admin-app', ['firebase'])
             });
         }
 
+        $scope.getRole = function (member) {
+            // console.log("getRole\nmember: " + member.name);
+            if (typeof member.teams != "undefined" && typeof member.teams[eventid] != "undefined") {
+                // console.log("getRole\nrole: " + member.teams[eventid]);
+                if (typeof member.teams[eventid].role != "undefined") {
+                    if (member.teams[eventid].role == "member") member.role = "member";
+                    else if (member.teams[eventid].role == "leader") member.role = "leader";
+                    else if (member.teams[eventid].role == "admin") member.role = "admin";
+                    else {
+                        if (member.teams[eventid].isJoin == true) member.role = "waiting";
+                        else {
+                            member.role = null;
+                        }
+                    }
+                } else {
+                    if (member.teams[eventid].isJoin == true) member.role = "waiting";
+                    else {
+                        member.role = null;
+                    }
+                }
+            } else {
+                return null;
+            }
+        }
+
+        $scope.inviteJoin_click = function () {
+            $('#inviteJoinDiv').show();
+            document.getElementById("inviteJoinDiv").scrollIntoView();
+            document.getElementById("btn_invite_join").className = "btn btn-primary active";
+        }
+
+        $scope.inviteJoinDone = function () {
+            $scope.scrollToTop();
+            $('#inviteJoinDiv').hide();
+            document.getElementById("btn_invite_join").className = "btn btn-primary";
+        }
+
+        $scope.inviteToJoin = function (member) {
+            setTimeout(function () {
+                //any code in here will automatically have an apply run afterwards
+                member.isJoin = true;
+            },0);
+            console.log("inviteToJoin\n" + member.isJoin);
+            // member.$apply();
+            //set isJoin in user ref to true
+            console.log("invite to join\n" + $scope.users.$getRecord(member.$id));
+            userNewTeamObject = $firebaseObject(firebase.database().ref("users/" + member.$id + "/teams/" + eventid));
+            console.log("users/" + member.$id + "/teams/" + eventid);
+            userNewTeamObject.$loaded().then(function () {
+                userNewTeamObject.isJoin = true;
+                userNewTeamObject.$save();
+            })
+
+            //add to waitlist
+            waitListArray = $firebaseArray(firebase.database().ref('events/' + eventid + '/waitlist'));
+            waitListArray.$loaded().then(function () {
+                if (typeof waitListArray == "undefined") { waitListArray = []; }
+                waitListArray.$add({ "uid": member.$id });
+            })
+        }
+
         //$scope.users is an array of users in firebase
         var usersRef = firebase.database().ref('users');
         $scope.users = $firebaseArray(usersRef);
@@ -379,8 +447,6 @@ angular.module('teamform-admin-app', ['firebase'])
         $scope.logout = function () {
             firebase.auth().signOut();
         }
-
-
 
         //monitor if the user is logged in or not
         firebase.auth().onAuthStateChanged(user => {
@@ -410,7 +476,7 @@ angular.module('teamform-admin-app', ['firebase'])
                         $window.location.href = '/index.html';
                     }
                 })
-
+                load_screen.hide();
             } else {
                 console.log('not log in');
                 $window.location.href = '/index.html';

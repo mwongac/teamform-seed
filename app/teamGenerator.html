@@ -39,6 +39,7 @@
             <h1 class="pull-left banner_title">Smart Generator</h1>
         </section>
     </div>
+    <div id="load_screen"> <div id="loading" class="text-center"> <img src="img/loading.gif">loading......</div></div>
     <div>
         <div id="team_generator_controller">
             <div class="row">
@@ -99,7 +100,13 @@
                                     <td>{{t.teamName}}</td>
                                     <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
                                     <td><span ng-repeat="member in t.members">
-                                        <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                                        <span ng-if="member.newAdded == true">
+                                            <a style="color: red" href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>
+                                        </span>
+                                        <span ng-if="member.newAdded != true">
+                                            <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>
+                                        </span>
+                                        {{$last ? '' : ', '}}
                                     </span>
                                     </td>
                                     <td>{{t.preference}}</td>
