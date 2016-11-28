@@ -40,6 +40,7 @@ angular
 		$scope.loggedIn = false;
 		$scope.displayEmail = '';
 		$scope.username = '';
+		$scope.keywordfilter = '';
 
 		$scope.eventName = '';
 		$scope.userID = '';
@@ -62,9 +63,7 @@ angular
 			teamList.$loaded()
 				.then(function (x) {
 
-					// loading screen
-					// var load_screen = document.getElementById("load_screen");
-					// document.body.removeChild(load_screen);
+					
 
 					console.log(teamList.$getRecord(eventid));
 					if (teamList.$getRecord(eventid) == null) {
@@ -131,7 +130,7 @@ angular
 		$scope.filter = function (eventname) {
 			//	var rulename = $scope.eventName + "*";
 			//	var reultRight=$scope.matchRuleShort(eventname, rulename);
-			var rulename = $scope.eventName;
+			var rulename = $scope.keywordfilter;
 			var reultLeft = $scope.matchRule(eventname, rulename);
 			return (reultLeft);
 		}
@@ -164,9 +163,9 @@ angular
 						//console.log("getUserRoleByEventID: " + currentUser.uid);
 						console.log("getUserRoleByEventID: "+ teamevent);
 						if (teamevent == null) {
-							callback('Not Yet Entered');
+							callback('');    								//Not Yet Entered
 						} else if (teamevent.role == "null") { 					//role is a STRING!!!!!
-							callback("You don't have a role yet");
+							callback(''); 									//You don't have a role yet
 						} else {
 							callback('Role: ' + teamevent.role);
 						}
@@ -260,6 +259,7 @@ angular
 				.then(user => {
 					console.log('promise is done');
 					// $window.alert("You have successfully logged in");
+					window.location.href = "index.html";
 				}).catch(e => {
 					console.log(e.message);
 					$window.alert(e.message);
@@ -288,6 +288,7 @@ angular
 		//logout function
 		$scope.logout = function () {
 			firebase.auth().signOut();
+			window.location.href = "index.html";
 		}
 
 		//Change LoggedIn
@@ -308,6 +309,9 @@ angular
 				var usersArray = $firebaseArray(usersRef);
 				usersArray.$loaded()
 					.then(function (x) {
+						// loading screen
+					var load_screen = document.getElementById("load_screen");
+					document.body.removeChild(load_screen);
 						console.log(usersArray.$getRecord(user.uid));
 						if (usersArray.$getRecord(user.uid) == null) {
 							console.log('it is null and i am setting new profile for it');
@@ -331,6 +335,10 @@ angular
 						console.log("Error:" + error);
 					});
 			} else {
+					// loading screen
+					var load_screen = document.getElementById("load_screen");
+					document.body.removeChild(load_screen);
+
 				console.log('not log in');
 				$scope.changeLoggedIn(false);
 				$scope.$apply();
