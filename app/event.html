@@ -273,24 +273,24 @@
     <div class="col-md-12"><br><br><br></div>
       <div class="col-md-12">
         <center>
-          <h2>Waitlist</h2>
+          <h2>Members Without Groups</h2>
         </center>
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
         <div class="col-md-1"></div>
         <div class="col-md-10" ng-hide="teamsList.length == 0">
-          <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0" style="font-size:16px;">
+          <table id="teamsList" class="table table-hover text-center" ng-hide="waitList.length == 0" style="font-size:16px;">
             <thead>
-              <tr>
-                <th>Name</th>
-                <th>uid</th>
-                <th>Preference</th>
+              <tr >
+                <th class="text-center">Name</th>
+                <!--<th>uid</th>-->
+                <th class="text-center">Preference</th>
               </tr>
             </thead>
 
             <tbody ng-repeat="member in waitList" ng-init="getUserDatabyID(member)">
               <tr>
                 <td><a href="profile.html?q={{member.uid}}">{{member.name}}</a></td>
-                <td>{{member.uid}}</td>
+                <!--<td>{{member.uid}}</td>-->
                 <td>
                   <span ng-repeat="p in member.preference">{{p}}{{$last ? '' : ', '}}
                   </span>
