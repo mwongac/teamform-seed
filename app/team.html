@@ -49,7 +49,7 @@
         <div class="container">
           
             <!--<div class="col-md-3"></div>-->
-            <div class="text-center custom_center_box" style="font-size:16px;">       
+            <!--<div class="text-center custom_center_box" style="font-size:16px;">       
                <div class="row">
                   <p class="imp text-center custom_center_box_title"> {{teamName}}</p>
                   <p >{{teamDescription}}</p>
@@ -64,11 +64,11 @@
                     <div style="margin: auto;" class="event_info_box text-center"><strong>Current Team Size: </strong><div style="font-size:30px;padding:30px;" >{{currentTeamSize}}</div></div>
                   </div>
                </div>
-             </div>
+             </div>-->
              <!--<div class="col-md-3">
              </div>-->
              
-           </div>
+           <!--</div>
            <div class="container">
               <div class="row custom_center_box">
                       <h3><strong>Team Leader:</strong></h3>
@@ -82,7 +82,7 @@
                           </li>
                         </ul>
               </div>
-           </div>
+           </div>-->
            <!--<div class="container">
                 
                   <h3><strong>Currrent Team Member:</strong></h3>
@@ -99,25 +99,34 @@
                     </ul>
                   
            </div>-->
-
+       <div class="col-md-12">
+           <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <h2>{{teamName}}</h2>
+              <p style="font-size:20px;">{{teamDescription}}</p>
+              <p style="font-size:16px;">Preferred Team Size: {{preferredTeamSize}}</p>
+               <p style="font-size:16px;">Current Team Size: {{currentTeamSize}}</p>
+            </div>
+           <div class="col-md-3"></div>
+       </div>
        <div class="col-md-12">
           <center>
-            <h2>Team Leader</h2>
+            <h3>Team Leader</h3>
           </center>
           <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
           <div class="col-md-3"></div>
           <div class="col-md-6" >
-            <table class="table table-hover text-left" style="font-size:16px;">
+            <table class="table table-hover text-center" style="font-size:16px;">
               <thead>
                 <tr class="text-center">
-                  <th>Name</th>
-                  <th>Description</th>
+                  <th class="text-center">Name</th>
+                  <th class="text-center">Description</th>
                 </tr>
               </thead>
               <tbody >
                 <tr >
-                  <td><a href="profile.html?q={{teamLeader.$value}}">{{teamLeader.name}}</a></td>
-                  <td></td>
+                  <td class="text-center"<a href="profile.html?q={{teamLeader.$value}}">{{teamLeader.name}}</a></td>
+                  <td class="text-center"></td>
                 </tr>
               </tbody>
             </table>
@@ -127,21 +136,21 @@
 
        <div class="col-md-12">
           <center>
-            <h2>Team Members</h2>
+            <h3>Team Members</h3>
           </center>
           <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
           <div class="col-md-3"></div>
           <div class="col-md-6" >
-            <table class="table table-hover text-left" style="font-size:16px;">
+            <table class="table table-hover text-center" style="font-size:16px;">
               <thead>
                 <tr class="text-center">
-                  <th>Name</th>
-                  <th>Description</th>
+                  <th class="text-center">Name</th>
+                  <th class="text-center">Description</th>
                 </tr>
               </thead>
               <tbody >
                 <tr ng-repeat="oneMember in members">
-                  <td><a href="profile.html?q={{oneMember.uid}}">{{oneMember.name}}</a></td>
+                  <td><a href="profile.html?q={{oneMember.memberID}}">{{oneMember.name}}</a></td>
                   <td>{{oneMember.description}}</td>
                 </tr>
               </tbody>
@@ -149,7 +158,7 @@
           </div>
           <div class="col-md-3"></div>
         </div>
-
+        <div class="col-md-12"><br></div>
            <tr>
            <td><button id="btnJoinTeam" type="button" class="btn btn-danger" ng-click="joinTeam('')">Join Directly</button></td> <!--this will remove after we finish request to join team properly-->
            <td><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam('')">Request to join</button></td>
@@ -161,8 +170,8 @@
     <hr>
     <footer>
       <p class="pull-right"><a style="cursor: pointer" ng-click="scrollToTop()">Back to top</a></p>
-      <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
-      <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+      <p class="text-left">&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
+      <p class="text-left">Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
     </footer>
   </div>
 
