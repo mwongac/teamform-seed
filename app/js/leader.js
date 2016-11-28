@@ -40,6 +40,29 @@ angular.module('leader-app', ['firebase'])
                     });
                 });
             });
+        
+            var refPath = "events/" + $scope.eventid + "/admin";
+			retrieveOnceFirebase(firebase, refPath, function (data) {
+				console.log(data.child("param").val());
+				if (data.child("param").val() != null) {
+					$scope.param = data.child("param").val();
+					//console.log($scope.param.minTeamSize);
+					$scope.deadline = Date.parse($scope.param.deadline);
+					$scope.today = new Date();
+					//console.log($scope.today);
+					$scope.param.admin = $scope.param.admin;
+					adminRefPath = "users/" + $scope.param.admin;
+					retrieveOnceFirebase(firebase, adminRefPath, function (adminData) {
+					//	console.log(adminData.child("name").val());
+						if (adminData.child("name").val() != null) {
+							$scope.adminName = adminData.child("name").val();
+							//$scope.adminName = $scope.adminData.name;
+							$scope.$apply(); // force to refresh
+						}
+					});
+					$scope.$apply(); // force to refresh
+				}
+			});
 
         $scope.members = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/members'))
         $scope.members.$loaded()
@@ -326,6 +349,7 @@ angular.module('leader-app', ['firebase'])
             u.$loaded()
                 .then(function (data) {
                     console.log(u);
+                    console.log($scope.nameToInvite);
                     angular.forEach(u, function (user) {
                         if ($scope.nameToInvite == user.name) {
                             var userR = firebase.database().ref('users/' + user.$id + '/teams/' + $scope.eventid);

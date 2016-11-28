@@ -62,7 +62,7 @@
             <p>{{teamDescription}}</p>
             <br>
           </div>
-          <div class="row"> 
+          <div class="row">
             <div class="col-md-4">
               <div style="margin: auto;" class="event_info_box text-center"> <strong>Preferred Team Size: </strong>
                 <div style="font-size:30px;padding:30px;">{{preferredTeamSize}}</div>
@@ -76,9 +76,9 @@
             <div class="col-md-4" ng-repeat='pre in preference'>
               <div style="margin: auto;" class="event_info_box text-center"><strong>Perferred Language: </strong>
                 <div style="font-size:30px;padding:30px;">
-                    <p>
-                      {{pre}} 
-                    </p>
+                  <p>
+                    {{pre}}
+                  </p>
                 </div>
                 <br>
               </div>
@@ -122,7 +122,7 @@
             <!--show preference list-->
             <tr align="left">
               <td>
-              <p>Preference list:</p>
+                <p>Preference list:</p>
               </td>
               <td>
                 <ol>
@@ -161,114 +161,108 @@
               <li class="col-md-4">
                 <strong>member name:</strong><br> {{oneMember.name}}
                 <button><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="kickMember(oneMember, oneMember.memberID)"></span></button>
-              </li>
-              <li class="col-md-4">
-                <strong>member description:</strong><br> {{oneMember.description}} <br>
-              </li>
-            </ul>
-          </div>
-        </span>
-      </div>
-      <div class="container">
-        <div class="row">
-          <!--invite list-->
-          <h3><strong>InviteList:</strong></h3>
-          <span ng-repeat="user in invitelist">
-                  <div class="row custom_center_box">
-                    <ul>
-                      <li class="col-md-4">
-                      <strong>Name:</strong><br> {{user.name}}  <br>
-                      </li>
-                      <li class="col-md-4">
-                      <strong>Gpa:</strong><br> {{user.gpa}} 
-                      </li >
-                      <li class="col-md-4">
-                      <strong>Language:</strong><br> {{user.language}} <br>
-                      </li>
-                      <li class="col-md-4">
-                      <strong>Team:</strong><br> {{user.teams}} <br>
-                      </li>
-                      <li class="col-md-4">
-                      <strong>Description:</strong><br> {{user.teamDescription}} <br>
-                      </li>
-                      <li class="col-md-4">
-                      <strong>User Id:</strong><br>{{user.$id}}<br>
-                      </li>
-                    </ul>
-                  </div>
-                  </span>
-        </div>
-      </div>
-      <div class="container">
-        <!--filt by preference-->
-        <button class='btn btn-primary' ng-click='filterPre()'>Filter by Preference</button>
-
-        <!--filt by name-->
-        <p>Person you want to invite: <input ng-model='nameToInvite'>
-        </p>
-        <p></p>
-        <button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button>
-
-      </div>
-
-      <div class="container">
-        <!--show current members and current requests-->
-        <h3><strong>Requests to be a Team Member:</strong></h3>
-        <span ng-repeat="member in requestMemberList">
-                    <div class="row custom_center_box">
-                      <ul>
-                        <li class="col-md-4">
-                        <strong>member ID:</strong><br> {{member.memberID}}  <br>
-                        </li>
-                        <li class="col-md-4">
-                        <strong>member name:</strong><br> {{member.name}} 
-                        <button><span class="glyphicon glyphicon-ok-circle" aria-hidden="true" ng-click="acceptRequest(member.memberID, member)"></span></button>
-        </li class="col-md-4">
-        <li>
+        </li>
+        <li class="col-md-4">
           <strong>member description:</strong><br> {{oneMember.description}} <br>
         </li>
         </ul>
-        </span>
       </div>
+      </span>
     </div>
     <div class="container">
-      <!--filt result and invite button-->
-      <h3><strong>Filtered Result list:</strong></h3>
-      <span ng-repeat="user in filtedUsers">
-                  <div class="row custom_center_box">
-                    <ul>
-                      <li class="col-md-4">
-                      <strong>Name:</strong><br> {{user.name}}  <br>
-                      </li>
-                      <li class="col-md-4">
-                      <strong>Gpa:</strong><br> {{user.gpa}} 
-                      </li >
-                      <li class="col-md-4">
-                      <strong>Language:</strong><br> {{user.language}} <br>
-                      </li>
-                        <li class="col-md-4">
-                      <strong>Team:</strong><br> {{user.teams}} <br>
-                      </li>
-                      <li class="col-md-4">
-                      <strong>Description:</strong><br> {{user.teamDescription}} <br>
-                      </li>
-                       <li class="col-md-4">
-                      <strong>User Id:</strong><br>{{user.$id}}<br>
-                      </li>
-                       <li><a ng-click='inviteUser(user.$id,user)'>invite</a></li>
-                    </ul>
-                  </div>
-                  </span>
+      <div class="row">
+        <!--invite list-->
+        <h3><strong>InviteList:</strong></h3>
+        <span ng-repeat="user in invitelist">
+          <div class="row custom_center_box">
+            <ul>
+              <li class="col-md-4">
+              <strong>Name:</strong><br> {{user.name}}  <br>
+              </li>
+              <li class="col-md-4">
+              <strong>Gpa:</strong><br> {{user.gpa}} 
+              </li >
+              <li class="col-md-4">
+              <strong>Language:</strong><br> {{user.language}} <br>
+              </li>
+              <li class="col-md-4">
+              <strong>Team:</strong><br> {{user.teams}} <br>
+              </li>
+              <li class="col-md-4">
+              <strong>Description:</strong><br> {{user.teamDescription}} <br>
+              </li>
+              <li class="col-md-4">
+              <strong>User Id:</strong><br>{{user.$id}}<br>
+              </li>
+            </ul>
+          </div>
+      </span>
+      </div>
     </div>
 
+
+
+    <div class="container">
+      <!--show current members and current requests-->
+      <h3><strong>Requests to be a Team Member:</strong></h3>
+      <span ng-repeat="member in requestMemberList">
+          <div class="row custom_center_box">
+            <ul>
+              <li class="col-md-4">
+              <strong>member ID:</strong><br> {{member.memberID}}  <br>
+              </li>
+              <li class="col-md-4">
+              <strong>member name:</strong><br> {{member.name}} 
+              <button><span class="glyphicon glyphicon-ok-circle" aria-hidden="true" ng-click="acceptRequest(member.memberID, member)"></span></button>
+      </li class="col-md-4">
+      <li>
+        <strong>member description:</strong><br> {{oneMember.description}} <br>
+      </li>
+      </ul>
+    </div>
+    </span>
+  </div>
+  <div class="container">
+    <!--filt by name-->
+    <h2>Search groupmates you want to invite:</h2> <input ng-model='nameToInvite'>
+    <p></p>
+    <button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button>
+    <!--filt by preference-->
+    <button class='btn btn-primary' ng-click='filterPre()'>Filter by Preference</button>
+  </div>
+
+  <div class="container" ng-hide="filtered_resul_visibility">
+    <!--filt result and invite button-->
+    <h3><strong>Filtered Result list:</strong></h3>
+    <span ng-repeat="user in filtedUsers">
+      <div class="row custom_center_box">
+        <ul>
+          <li class="col-md-4">
+          <strong>Name:</strong><br> {{user.name}}  <br>
+          </li>
+          <li class="col-md-4">
+          <strong>Gpa:</strong><br> {{user.gpa}} 
+          </li >
+          <li class="col-md-4">
+          <strong>Language:</strong><br> {{user.language}} <br>
+          </li>
+            <li class="col-md-4">
+          <strong>Team:</strong><br> {{user.teams}} <br>
+          </li>
+          <li class="col-md-4">
+          <strong>Description:</strong><br> {{user.teamDescription}} <br>
+          </li>
+            <li class="col-md-4">
+          <strong>User Id:</strong><br>{{user.$id}}<br>
+          </li>
+            <li><a ng-click='inviteUser(user.$id,user)'>invite</a></li>
+        </ul>
+      </div>
+    </span>
   </div>
 
   </div>
 
-
-
-
-  </div>
   <div class="container">
     <!-- FOOTER -->
     <hr>
@@ -278,8 +272,7 @@
       <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
     </footer>
   </div>
-
-
+  </div>
   <!-- /.container -->
 
   <!-- Angular and Angular-route libraries (v1.5.7) -->
