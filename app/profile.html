@@ -67,7 +67,7 @@
                     <label>Language:</label>
                         <ol>
                             <li style="cursor: pointer" ng-repeat="lan in userData.language">{{lan}}
-                                &nbsp;<button class="" ng-click="removeLanguage(lan)" ng-hide="othersProfile">Remove</button></li>
+                                &nbsp;&nbsp;<a class="" ng-click="removeLanguage(lan)" ng-hide="othersProfile"><span class="glyphicon glyphicon-trash"></span></a></li>
                         </ol>
                         <div class="col-md-10">
                     <input class="form-control" type="text" name="lan" ng-model="txtLanguage" ng-disabled="othersProfile" ng-hide="othersProfile"></div>
