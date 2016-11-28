@@ -102,8 +102,13 @@
                             <div>
                               <font size="5">...or Choose an Existing Event Below:</font>
                             </div>
+                            <br>
+                            <div>
+                              <font size="4">Search Event by keywords: </font>
+                              <input ng-model="keywordfilter" type="text">
+                            </div>
                             <section id="event_list">
-                              <div ng-repeat="event in events | orderBy : 'admin.param.deadline'" ng-init="getUserRoleInEvent(event)" class="col-md-4">
+                              <div ng-repeat="event in events | orderBy : 'admin.param.deadline'" ng-init="getUserRoleInEvent(event)" ng-show="filter(event.admin.param.eventName)" class="col-md-4">
                                 <br>
                                 <div class="col-md-1">
                                 </div>
@@ -194,7 +199,7 @@
             </div>
         -->
 
-      <hr class="featurette-divider">
+      <!--<hr class="featurette-divider">-->
 
           <!-- START THE FEATURETTES -->
          <div class="row featurette">

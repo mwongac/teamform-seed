@@ -40,6 +40,7 @@ angular
 		$scope.loggedIn = false;
 		$scope.displayEmail = '';
 		$scope.username = '';
+		$scope.keywordfilter = '';
 
 		$scope.eventName = '';
 		$scope.userID = '';
@@ -129,7 +130,7 @@ angular
 		$scope.filter = function (eventname) {
 			//	var rulename = $scope.eventName + "*";
 			//	var reultRight=$scope.matchRuleShort(eventname, rulename);
-			var rulename = $scope.eventName;
+			var rulename = $scope.keywordfilter;
 			var reultLeft = $scope.matchRule(eventname, rulename);
 			return (reultLeft);
 		}
