@@ -176,8 +176,8 @@
               <span class="glyphicon glyphicon-plus" aria-label="new announcement"></span>
             </button>
           <!--new announcement-->
-          <div id="new_announcement_div">
-            <br>
+          
+   <br>
             <!--after click new new announcement button, it will show input text box and send button-->
             <div class="col-md-12" id="input_announcement" ng-show="writingAnnouncement">
               <br>
@@ -186,38 +186,37 @@
               <div class="col-md-1"><button id="btn_make_announcement" type="button" class="btn btn-success" ng-click="make_announcement(announcement_text)">Post</button></div>
               <br><br>
             </div>
-          </div>
+          
           <br>
           <div ng-include="'editAnn.html'"></div>
 
-        </div>
-        <!--end of announcement div-->
 
-        <!--teams list-->
-        <hr>
-        <div class="col-md-12">
-          <center>
-            <h2>All teams</h2>
-          </center>
-          <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
-          <div class="col-md-2"></div>
-          <div class="col-md-8">
-            <table id="teamsList" class="table table-hover text-left" ng-hide="teams.length == 0">
-              <thead>
-                <tr>
-                  <th>Team Name</th>
-                  <th>Team Leader</th>
-                  <th>Team members</th>
-                  <th>Preference</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
-                <tr>
-                  <td>{{t.teamName}}</td>
-                  <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
-                  <td>
-                    <span ng-repeat="member in t.members">
+      <!--teams list-->
+      <br><br>
+      <hr>
+      <div class="col-md-12">
+        <center>
+          <h2>All teams</h2>
+        </center>
+        <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <table id="teamsList" class="table table-hover text-left" ng-hide="teams.length == 0" style="font-size:16px;">
+            <thead>
+              <tr>
+                <th>Team Name</th>
+                <th>Team Leader</th>
+                <th>Team members</th>
+                <th>Preference</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
+              <tr>
+                <td>{{t.teamName}}</td>
+                <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
+                <td>
+                  <span ng-repeat="member in t.members">
                        <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
                   </span>
                   </td>
@@ -239,7 +238,7 @@
           <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
           <div class="col-md-2"></div>
           <div class="col-md-8" ng-hide="teamsList.length == 0">
-            <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0">
+            <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0" style="font-size:16px;">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -298,7 +297,7 @@
           </table>
         </div>
         <div class="col-md-2"></div>
-        <div class="col-md-12"><button ng-click="inviteJoinDone()">Done</button></div>
+        <div class="col-md-12"><button class="btn btn-primary" ng-click="inviteJoinDone()">Done</button></div>
       </div>
 
     </div>
