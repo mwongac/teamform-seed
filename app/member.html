@@ -42,53 +42,127 @@
     </section>
   </div>
   <!--content-->
-  <h1>{{displayName}}</h1>
+  <!--<h1>{{displayName}}</h1>
   <p>eventid: {{eventid}}</p>
   <p>teamid: {{teamid}}</p>
   <p>Description: {{teamDescription}}</p>
-  <p>Leader: {{leaderName}}</p>
+  <p>Leader: {{leaderName}}</p>-->
 
   	<!-- please fix the UI below -->
 	<div id="to_be_fixed">
 	<div ng-include="'description.html'"></div>
 	<br>
-	      
-		<div class=" col-md-12">
+  <div class="text-center">
+      <div class=" col-md-12">
         <h2 style="display:inline;vertical-align: middle;" class="text-center">Announcements</h2>  &nbsp;&nbsp;
         <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#announcement_div">
             <span class="glyphicon glyphicon-collapse-up"></span>
         </button>
       </div>
-      <br><br>
-      <!--announcement div-->
-      <div id="announcement_div">
-        <div ng-include="'readAnn.html'"></div>
+  <br><br>
+  <!--announcement div-->
+  <div id="announcement_div">
+    <div ng-include="'readAnn.html'"></div>
+  </div>
+  <!--end of announcement div-->
+  <br><br>
+  <div class="col-md-12 text-center">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <h2>{{displayName}}</h2>
+          <p style="font-size:20px;">{{teamDescription}}</p>
+          <p style="font-size:16px;">Preferred Team Size: {{preferredTeamSize}}</p>
+            <p style="font-size:16px;">Current Team Size: {{currentTeamSize}}</p>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <div class="col-md-12">
+        <center>
+          <h3>Team Leader</h3>
+        </center>
+        <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+        <!--<div class="col-md-3"></div>
+        <div class="col-md-6" >-->
+          <table style="width: 50%;" class="table table-hover text-center" style="font-size:16px;">
+            <thead>
+              <tr class="text-center">
+                <th class="text-center">Name</th>
+                <th class="text-center">Description</th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr>
+                <td class="text-center"><a href="profile.html?q={{teamLeader.$value}}">{{leaderName}}</a></td>
+                <td class="text-center"></td>
+              </tr>
+            </tbody>
+          </table>
+        <!--</div>-->
+        <!--<div class="col-md-3"></div>-->
       </div>
-      <!--end of announcement div-->
+
+      <div class="col-md-12">
+        <center>
+          <h3>Team Members</h3>
+        </center>
+        <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+        <!--<div class="col-md-3"></div>
+        <div class="col-md-6" >-->
+          <table class="table table-hover text-center" style="font-size:16px;">
+            <thead>
+              <tr class="text-center">
+                <th class="text-center">Name</th>
+                <th class="text-center">Description</th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr ng-repeat="oneMember in members">
+                <td><a href="profile.html?q={{oneMember.memberID}}">{{oneMember.name}}</a></td>
+                <td>{{oneMember.description}}</td>
+              </tr>
+            </tbody>
+          </table>
+        <!--</div>
+        <div class="col-md-3"></div>-->
+      </div>
+  
+
+      </div>
       <br>
 	</div>  
 	<!-- end of fixing -->
   
   
   <!--show current members and current requests-->
-  <p>Current Team Member:</p>
+  <!--<p>Current Team Member:</p>
   <div ng-repeat="oneMember in members">
     <ul>
       <li> member ID: {{oneMember.memberID}} </li>
       <li> member Name: {{oneMember.name}} </li>
     </ul>
-  </div>
+  </div>-->
 
   <!--show preference list-->
-  <p>Preference list:</p>
+  <!--<p>Preference list:</p>
   <ol>
     <li ng-repeat='pre in preference'>{{pre}}</li>
-  </ol>
-
-  <button class='btn btn-primary' ng-click=quitTeam()>Quit this team</button>
-
+  </ol>-->
+   <div class="text-center">
+      <tr>
+      <td><button class='btn btn-primary block-center' ng-click=quitTeam()>Quit this team</button></td>
+      </tr>
+   </div>
   <!-- /.container -->
-
+  <div class="container">
+    <!-- FOOTER -->
+    <hr>
+    <footer>
+      <p class="pull-right"><a style="cursor: pointer" ng-click="scrollToTop()">Back to top</a></p>
+      <p class="text-left">&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
+      <p class="text-left">Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+    </footer>
+  </div>
   <!-- Angular and Angular-route libraries (v1.5.7) -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
   <script src="lib/angular-route.min.js"></script>
