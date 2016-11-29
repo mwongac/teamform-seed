@@ -128,7 +128,7 @@ angular.module('leader-app', ['firebase'])
                                 }
                             }
                         }
-                        $scope.currentTeamSize = $scope.members.length;
+                        $scope.currentTeamSize = $scope.members.length +1;
 
                         //update waitlist
                         var waitlist = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/waitlist/'))
