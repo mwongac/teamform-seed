@@ -32,6 +32,14 @@
 
 <!-- format the website below -->
 <style>
+        
+.table {
+          width: 50%;
+        margin-left:auto; 
+          margin-right:auto;
+          max-width: 60%;
+      }
+
   td.edit {
     padding: 10px;
     font-size: 15px;
@@ -188,8 +196,8 @@
             </div>
           
           <br>
-          <div ng-include="'editAnn.html'"></div>
-
+          <div class="text-center" ng-include="'editAnn.html'"></div>
+        </div>
 
       <!--teams list-->
       <br><br>
@@ -199,8 +207,8 @@
           <h2>Teams</h2>
         </center>
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
+            <!--<div class="col-md-3"></div>
+            <div class="col-md-6">-->
           <table id="teamsList" class="table table-hover text-left" ng-hide="teams.length == 0" style="font-size:16px;width:50%">
             <thead>
               <tr>
@@ -225,8 +233,8 @@
                 </tr>
               </tbody>
             </table>
-            </div>
-            <div class="col-md-3"></div>
+            <!--</div>
+            <div class="col-md-3"></div>-->
            
           <p ng-show="teams.length ==0">This event do not have any team. Ask students/ members to form team now!</p>
         </div>
@@ -241,9 +249,9 @@
           </center>
           <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
           <div class="text-center" ng-hide="teamsList.length == 0">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-            <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0" style="font-size:16px;">
+            <!--<div class="col-md-3"></div>
+            <div class="col-md-6">-->
+            <table id="teamsList" class="table table-hover text-left" ng-hide="waitList.length == 0" style="font-size:16px;width:50%;">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -263,15 +271,15 @@
                 </tr>
               </tbody>
             </table>
-            </div>
-            <div class="col-md-3"></div>
+            <!--</div>
+            <div class="col-md-3"></div>-->
           </div>
           <center>
             <p ng-show="waitList.length ==0">No one on the waitlist.</p>
           </center>
         </div>
         
-      </div>
+      <!--</divs>-->
       <!--end of teams & member list-->
       <div class="col-md-12" id="inviteJoinDiv">
         <center>
@@ -306,7 +314,7 @@
         <div class="col-md-12"><button class="btn btn-primary" ng-click="inviteJoinDone()">Done</button></div>
       </div>
 
-    </div>
+    <!--</div>-->
     <!--end of admin_page_controller-->
     <div class="col-md-12 pull-left">
       <!-- FOOTER -->
