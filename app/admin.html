@@ -78,18 +78,23 @@
 <body ng-controller="AdminCtrl">
   <div ng-include="'navbar.html'" id='navbarMenu'></div>
   <br>
+   <div class="col-md-12"><br></div>
   <div>
+   
     <section style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive">
       <br><br><br><br><br>
       <h1 class="pull-left banner_title">{{param.eventName}}&nbsp;Administrative Page</h1>
-    </section>
-  </div>
-  <div id="load_screen">
-    <div id="loading" class="text-center"> <img src="img/loading.gif">loading ...</div>
-  </div>
-  <div class="container">
-    <div id="admin_page" class="text-center">
+      <div class="col-md-12">
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+          <li><a data-toggle="tab" href="#menu1">Announcements</a></li>
+          <li><a data-toggle="tab" href="#menu2">Teams</a></li>
+          <li><a data-toggle="tab" href="#menu3">WaitList</a></li>
+        </ul>
+    <div class="tab-content text-center">
+    <div id="home" class="tab-pane fade in active">
       <div id="admin_event_div">
+          
         <!--<div class="col-lg-8">-->
         <div ng-include="'description.html'"></div>
         <!--</div>-->
@@ -171,12 +176,42 @@
           </div>
           <div class="col-md-3 col-xs-3"></div>
         </div>
-        <!--end of edit panel-->
-        <br><br><br>
-
-        <div class="col-md-12"><br><br></div>
-        <!--announcement div-->
-        <div class="col-md-12 announcement_div">
+    </div>
+          <div class="col-md-12" id="inviteJoinDiv">
+        <center>
+          <h2>Invite List</h2>
+        </center>
+        <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <table id="inviteUserList" class="table table-hover text-left">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Preference</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="member in users" ng-init="getRole(member)" ng-if="member.role == null">
+              <tr>
+                <td><a href="profile.html?q={{member.$id}}">{{member.name}}</a></td>
+                <td>
+                  <span ng-repeat="p in member.language">{{p}}{{$last ? '' : ', '}}
+                  </span>
+                </td>
+                <td><button class="btn btn-primary" ng-click="inviteToJoin(member)" ng-disabled="member.isJoin">
+                  Invite to waitlist
+                  </button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-12"><button class="btn btn-primary" ng-click="inviteJoinDone()">Done</button></div>
+      </div>
+    </div>
+    <div id="menu1" class="tab-pane fade">
+          <div class="col-md-12 announcement_div">
           <br><br>
           <h2 style="display:inline;vertical-align: middle;" class="text-center">Announcements</h2>
           <button id="btn_new_announcement" type="button" class="btn btn-primary" style="vertical-align: middle;" ng-click="new_announcement_click()"
@@ -185,7 +220,7 @@
             </button>
           <!--new announcement-->
           
-   <br>
+          <br>
             <!--after click new new announcement button, it will show input text box and send button-->
             <div class="col-md-12" id="input_announcement" ng-show="writingAnnouncement">
               <br>
@@ -201,11 +236,17 @@
         </div>
 
 
+
       <!--teams list-->
       <br><br>
       
+
+    </div>
+    <div id="menu2" class="tab-pane fade">
+
       <div class="col-md-12">
         <center>
+          <br>
           <h2>Teams</h2>
         </center>
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
@@ -241,12 +282,11 @@
           <p ng-show="teams.length ==0">This event do not have any team. Ask students/ members to form team now!</p>
         </div>
         <!--end of teams list-->
-
-
-
-       
+    </div>
+    <div id="menu3" class="tab-pane fade">
         <div class="col-md-12 text-center">
           <center>
+            <br>
             <h2>Members Without Groups</h2>
           </center>
           <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
@@ -280,6 +320,7 @@
             <p ng-show="waitList.length ==0">No one on the waitlist.</p>
           </center>
         </div>
+<<<<<<< HEAD
         
 
       <!--</divs>-->
@@ -316,10 +357,21 @@
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-12"><button class="btn btn-primary" ng-click="inviteJoinDone()">Done</button></div>
+=======
+    </div>
+  </div>
+>>>>>>> upstream/master
       </div>
-
-    <!--</div>-->
-    <!--end of admin_page_controller-->
+    </section>
+  </div>
+  <div id="load_screen">
+    <div id="loading" class="text-center"> <img src="img/loading.gif">loading ...</div>
+  </div>
+  <div class="container">
+ 
+    <div id="admin_page" class="text-center">
+ 
+   
     <div class="col-md-12 pull-left">
       <!-- FOOTER -->
       <hr>
@@ -329,6 +381,7 @@
         <p style="text-align:left;">Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
       </footer>
     </div>
+  </div>
   </div>
   </div>
   <!--container /div-->
