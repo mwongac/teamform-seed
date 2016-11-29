@@ -285,11 +285,44 @@
   </div>
   <div class="container">
     <!--filt by name-->
-    <h3>Search groupmates you want to invite:</h3> <input ng-model='nameToInvite'>
+     
+    <h3>Search groupmates you want to invite:</h3> 
+    <input ng-model='nameToInvite' ng-click='filtered_result_visibility = false'><button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button>
     <p></p>
-    <button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button>
+   
     <!--filt by preference-->
     <button class='btn btn-primary' ng-click='filterPre()'>Show Suggested Waiting Users</button>
+  </div>
+
+  <div class="container" ng-hide="filtered_result_visibility">
+    <!--filt result and invite button-->
+    <br><br>
+    <h3><strong>Member Wait List:</strong></h3>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+    
+      <span ng-repeat="user in waitListUsers" ng-show="realtimefilter(user.name)">
+      <div class="row custom_center_box_christie">
+          <span class="col-md-1">
+            <br><br><br>
+          </span>
+          <span class="col-md-3">
+          <h3><strong>Name:</strong></h3><br><h4> {{user.name}}  </h4><br>
+          </span>
+          <span class="col-md-2">
+          <h3><strong>GPA:</strong></h3><br><h4> {{user.gpa}} </h4><br>
+          </span >
+          <span class="col-md-2">
+          <h3><strong>Language:</strong></h3><br><h4> {{user.language}} </h4><br>
+          </span>
+          <span class="col-md-4">
+          <h3><strong>Description:</strong></h3><br><h4> {{user.teamDescription}} </h4><br>
+          </span>
+        
+      </div>
+    </span>
+
+    </div>
   </div>
 
   <div class="container" ng-show="filtered_result_visibility">
@@ -298,7 +331,8 @@
     <h3><strong>Suggested Member List:</strong></h3>
     <div class="col-md-2"></div>
     <div class="col-md-8">
-    <span ng-repeat="user in filtedUsers">
+      
+    <span ng-repeat="user in filtedUsers" >
       <div class="row custom_center_box_christie">
           <span class="col-md-1">
             <br><br><br>
