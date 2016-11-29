@@ -153,7 +153,6 @@
                             <table id="teamsDismiss" class="table table-hover text-left">
                                 <thead>
                                     <tr>
-                                        <th>Team id</th>
                                         <th>Team Name</th>
                                         <th>Team Leader</th>
                                         <th>Team members</th>
@@ -163,7 +162,6 @@
                                 </thead>
                                 <tbody ng-repeat="(key,t) in teamsDelete" ng-init="getUserNameInTeam(t)">
                                     <tr>
-                                        <td>{{key}}</td>
                                         <td>{{t.teamName}}</td>
                                         <td><a href="profile.html?q={{teamLeader}}">{{t.teamLeaderName}}</a></td>
                                         <td><span ng-repeat="member in t.members">
