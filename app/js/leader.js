@@ -264,13 +264,15 @@ angular.module('leader-app', ['firebase'])
             userNewTeamObject.$loaded()
                 .then(function (data) {
                     if (userNewTeamObject.role != 'admin' && userNewTeamObject.role != 'leader') {
-                        userNewTeamObject.role = null;
+                        userNewTeamObject.role = "null";
                         userNewTeamObject.teamid = null;
                         userNewTeamObject.$save();
                     }
                     console.log(userNewTeamObject);
                 });
             //location.reload();
+            
+            window.location.reload();
         }
 
 
