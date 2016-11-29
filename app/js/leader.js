@@ -53,7 +53,24 @@ angular.module('leader-app', ['firebase'])
         $scope.filtedUsers = [];
         $scope.displayName = '';
         $scope.nameToInvite = '';
-        $scope.invitelist = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/invitelist'))
+        var users2 = $firebaseArray(firebase.database().ref('users'));
+        $scope.invitelist = [];
+        $scope.inviteListId = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/invitelist'))
+        $scope.inviteListId.$loaded()
+            .then(function (data) {
+                users2.$loaded()
+                    .then(function (data2) {
+
+
+                        for (var i = $scope.inviteListId.length - 1; i >= 0; i--) {
+                            for (var j = users2.length - 1; j >= 0; j--) {
+                                if ($scope.inviteListId[i].$id == users2[j].$id) {
+                                    $scope.invitelist.push(users2[j]);
+                                }
+                            }
+                        }
+                    })
+            })
         $scope.requestMemberList = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/requestMemberList'))
         $scope.requestMemberList.$loaded()
             .then(function (data) {
@@ -116,13 +133,14 @@ angular.module('leader-app', ['firebase'])
                         //update waitlist
                         var waitlist = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/waitlist/'))
                         waitlist.$loaded()
-                            .then(function (data2){
-                                for (var i = waitlist.length - 1; i >= 0; i--){
-                                    for (var j = $scope.members.length - 1; j >=0; j--){
-                                        if ($scope.members[j].$id == waitlist[i].uid){
+                            .then(function (data2) {
+                                for (var i = waitlist.length - 1; i >= 0; i--) {
+                                    for (var j = $scope.members.length - 1; j >= 0; j--) {
+                                        if ($scope.members[j].$id == waitlist[i].uid) {
                                             console.log('update wait list: ' + waitlist[i].uid)
-                                            waitlist.splice(waitlist.indexOf(waitlist[i].uid), 1);
-                                            waitlist.$save();
+                                            //waitlist.splice(i, 1);
+                                            waitlist.$remove(i);
+                                            //waitlist.$save();
                                         }
                                     }
                                 }
@@ -390,14 +408,21 @@ angular.module('leader-app', ['firebase'])
                                 haveAllPre = false;
                             }
                         }
-                        if (haveAllPre && $scope.invitelist.$getRecord(u[k].$id) == null) {
-
-                            $scope.filtedUsers.push(u[k]);
 
 
-                            $scope.filtered_result_visibility = true;
-
+                        var bool2 = false;
+                        for (var p = $scope.invitelist.length - 1; p >= 0; p--) {
+                            console.log("$scope.invitelist[p] = "+ $scope.invitelist[p]);
+                            console.log("u[k].$id = " + u[k].$id);
+                            if ($scope.invitelist[p].$id == u[k].$id) {
+                                console.log("bool2 = true")
+                                bool2 = true;
+                            }
                         }
+                        if (bool2 == false && haveAllPre) { $scope.filtedUsers.push(u[k]) };
+
+
+                        $scope.filtered_result_visibility = true;
                     }
 
                 })
@@ -422,9 +447,13 @@ angular.module('leader-app', ['firebase'])
                 .then(function (data) {
                     for (var i = $scope.u.length - 1; i >= 0; i--) {
                         if ($scope.nameToInvite == $scope.u[i].name) {
-                            if ($scope.invitelist.$getRecord($scope.u[i].$id) == null) {
-                                $scope.filtedUsers.push($scope.u[i]);
+                            var bool = false;
+                            for (var j = $scope.invitelist.length - 1; j >= 0; j--) {
+                                if ($scope.invitelist[j].$id == $scope.u[i].$id) {
+                                    bool = true;
+                                }
                             }
+                            if (bool == false) { $scope.filtedUsers.push($scope.u[i]) };
                         }
                     }
                 })

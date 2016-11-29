@@ -177,8 +177,8 @@
           <div class="row custom_center_box">
             <ul id="memberList">
               <li class="col-md-4">
-                <button><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="kickMember(oneMember, oneMember.memberID)"></span></button>
-                <p></p>
+                <button><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="kickMember(oneMember, oneMember.memberID)"></span></button><p></p>
+                <strong>Name: </strong><p></p>
                 <td><a href="profile.html?q={{oneMember.memberID}}">{{oneMember.name}}</a></td>
               </li>
               <li class="col-md-4">
@@ -199,16 +199,14 @@
           <div class="row custom_center_box">
             <ul>
               <li class="col-md-4">
-              <strong>Name:</strong><br> {{user.name}}  <br>
+                <strong>Name:</strong><p></p>
+               <td><a href="profile.html?q={{user.$id}}">{{user.name}}</a></td>
               </li>
               <li class="col-md-4">
-              <strong>Gpa:</strong><br> {{user.gpa}} 
+              <strong>Gpa:</strong><br> {{user.gpa}} <br>
               </li >
               <li class="col-md-4">
               <strong>Language:</strong><br> {{user.language}} <br>
-              </li>
-              <li class="col-md-4">
-              <strong>Team:</strong><br> {{user.teams}} <br>
               </li>
               <li class="col-md-4">
               <strong>Description:</strong><br> {{user.teamDescription}} <br>
@@ -232,10 +230,10 @@
                <strong>member name:</strong><br> {{member.name}} 
               </li>
               <li class="col-md-4">
-                <strong>member description:</strong><br> {{oneMember.description}} <br>
+                <strong>member description:</strong><br> {{member.description}} <br>
               </li>
               <li class="col-md-4">
-                <strong>Language:</strong><br> {{oneMember.language}} <br>
+                <strong>Language:</strong><br> {{member.language}} <br>
               </li>
       </ul>
     </div>
@@ -258,19 +256,20 @@
           <span class="col-md-1">
           <a class='btn btn-primary ' ng-click='inviteUser(user.$id,user)'>invite</a>
           </span>
+          <p></p>
           <span class="col-md-1">
           </span>
           <span class="col-md-3">
-          <strong>Name:</strong><br> {{user.name}}  <br>
+           <td><strong>Name: </strong><a href="profile.html?q={{user.$id}}">{{user.name}}</a></td><p></p>
           </span>
           <span class="col-md-2">
-          <strong>Gpa:</strong><br> {{user.gpa}} 
+          <br> <strong>Gpa:</strong>{{user.gpa}} <br>
           </span >
           <span class="col-md-2">
-          <strong>Language:</strong><br> {{user.language}} <br>
+          <br> <strong>Language:</strong>{{user.language}} <br>
           </span>
           <span class="col-md-3">
-          <strong>Description:</strong><br> {{user.teamDescription}} <br>
+          <br><strong>Description:</strong> {{user.teamDescription}} <br>
           </span>
         
       </div>
