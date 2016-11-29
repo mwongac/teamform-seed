@@ -309,9 +309,7 @@ angular
 				var usersArray = $firebaseArray(usersRef);
 				usersArray.$loaded()
 					.then(function (x) {
-						// loading screen
-					var load_screen = document.getElementById("load_screen");
-					document.body.removeChild(load_screen);
+						
 						console.log(usersArray.$getRecord(user.uid));
 						if (usersArray.$getRecord(user.uid) == null) {
 							console.log('it is null and i am setting new profile for it');
@@ -323,8 +321,14 @@ angular
 								test: 'never change'
 							});
 							$scope.username = user.email;
+							// loading screen
+					var load_screen = document.getElementById("load_screen");
+					document.body.removeChild(load_screen);
 						} else {
 							$scope.username = usersArray.$getRecord(user.uid).name;
+							// loading screen
+					var load_screen = document.getElementById("load_screen");
+					document.body.removeChild(load_screen);
 						}
 
 						// $scope.username = usersArray.$getRecord(user.uid).name;
