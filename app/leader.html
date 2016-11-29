@@ -240,16 +240,56 @@
               </div>
                 <div class="container">
                   <!--filt by name-->
-                  <h3>Search users you want to invite:</h3> <input class="input-lg" ng-model='nameToInvite'>
+                  <h3>Search users you want to invite:</h3> 
+                  <div class="row">
+                  
+                    
+                  <input class="input-lg" ng-model='nameToInvite' ng-click='filtered_result_visibility = false'> &nbsp; <button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button>
+                  
+                  
+                  </div>
                   <p></p>
-                  <button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button>
+                 
                   <!--filt by preference-->
                   <button class='btn btn-primary' ng-click='filterPre()'>Show Suggested Waiting Users</button>
                 </div>
+
+                <div class="container" ng-hide="filtered_result_visibility">
+                <!--filt result and invite button-->
+                <br><br>
+                <h3>Member Wait List:</h3>
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                
+                  <span ng-repeat="user in waitListUsers" ng-show="realtimefilter(user.name)">
+                  <div class="row custom_center_box_christie">
+                      <span class="col-md-1">
+                        <br><br><br>
+                      </span>
+                      <span class="col-md-3">
+                      <h4>Name:</h4><br><p> {{user.name}}  </p><br>
+                      </span>
+                      <span class="col-md-2">
+                      <h4>GPA:</h4><br><p> {{user.gpa}} </p><br>
+                      </span >
+                      <span class="col-md-2">
+                      <h4>Language:</h4><br><p> {{user.language}} </p><br>
+                      </span>
+                      <span class="col-md-4">
+                      <h4>Description:</h4><br><p> {{user.teamDescription}} </p><br>
+                      </span>
+                    
+                  </div>
+                </span>
+
+                </div>
+              </div>
+
+
                   <div class="container" ng-show="filtered_result_visibility">
                     <!--filt result and invite button-->
                     <br><br>
-                    <h3><strong>Suggested Member List:</strong></h3>
+                    <h3>Suggested Member List:</h3>
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
                     <span ng-repeat="user in filtedUsers">
@@ -341,16 +381,6 @@
         </div>-->
           
       <!-- Current Team Member -->
-
-
-
-
-
-
-
-
-
-
 
 
 
