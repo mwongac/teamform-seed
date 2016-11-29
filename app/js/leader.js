@@ -506,6 +506,25 @@ angular.module('leader-app', ['firebase'])
         $scope.edit_click = function () {
             $scope.edit_leader_visibility = true;
         };
+
+
+
+        //real time filter
+        $scope.matchRule = function (str, rule) {
+			var matchtest = new RegExp(rule).test(str);
+			console.log("match: " + matchtest);
+			return matchtest;
+		}
+
+		$scope.realtimefilter = function (username) {
+			//	var rulename = $scope.eventName + "*";
+			//	var reultRight=$scope.matchRuleShort(eventname, rulename);
+			var rulename = $scope.nameToInvite;
+			var reultLeft = $scope.matchRule(username, rulename);
+			return (reultLeft);
+		}
+
+
         //logout function
         $scope.logout = function () {
             firebase.auth().signOut();
