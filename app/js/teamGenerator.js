@@ -599,6 +599,8 @@ angular.module('teamform-admin-app', ['firebase'])
                 currentUserData.$loaded()
                     .then(function (data) {
                         $scope.username = currentUserData.name;
+                        var load_screen = document.getElementById("load_screen");
+                        document.body.removeChild(load_screen);
                     })
                     .catch(function (error) {
                         console.error("Error: " + error);
