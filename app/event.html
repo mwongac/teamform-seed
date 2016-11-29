@@ -22,27 +22,28 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-<!--  <link rel="stylesheet" href="css/site.css"> -->
+  <!--  <link rel="stylesheet" href="css/site.css"> -->
 
 
   <!-- Customized libraries shared by pages -->
   <script src="js/site.js"></script>
-  <link rel="stylesheet" href="css/custom.css" >
-<style>
-.table {
-          width: 50%;
-        margin-left:auto; 
-          margin-right:auto;
-          max-width: 60%;
-      }
-
-</style>
+  <link rel="stylesheet" href="css/custom.css">
+  <style>
+    .table {
+      width: 50%;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 60%;
+    }
+  </style>
 </head>
 
 
 
 <body ng-controller="EventCtrl">
-  <div id="load_screen"> <div id="loading" class="text-center"> <img src="img/loading.gif">loading ... </div></div>
+  <div id="load_screen">
+    <div id="loading" class="text-center"> <img src="img/loading.gif">loading ... </div>
+  </div>
   <div ng-include="'navbar.html'" id='navbarMenu'></div>
   <div>
     <section style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive">
@@ -52,8 +53,8 @@
   </div>
   <br>
   <div class="container">
-  <div class="text-center">
-     <span class ="row" ng-show="(deadline-today)>0">
+    <div class="text-center">
+      <span class="row" ng-show="(deadline-today)>0">
         
           
             <h2 ng-hide="isJoin">Join this event now!</h2>
@@ -70,271 +71,280 @@
     -->
        
       </span>
-      <span class ="row" ng-hide="(deadline-today)>0">Registration is closed, you cannot join/quit this event now.</span>
-    <div id="event_description_div" class = "row">
-      <div ng-include="'description.html'"></div>
-    </div>
+      <span class="row" ng-hide="(deadline-today)>0">Registration is closed, you cannot join/quit this event now.</span>
+      <div id="event_description_div" class="row">
+        <div ng-include="'description.html'"></div>
+      </div>
 
-    <br><br>
+      <br><br>
 
-    <div id="event_page_controller">
-      <div class=" col-md-12">
-        <h2 style="display:inline;vertical-align: middle;" class="text-center">Announcements</h2>  &nbsp;&nbsp;
-        <button type="button" class="btn btn-basic" >
+      <div id="event_page_controller">
+        <div class=" col-md-12">
+          <h2 style="display:inline;vertical-align: middle;" class="text-center">Announcements</h2> &nbsp;&nbsp;
+          <button type="button" class="btn btn-basic">
             <span class="glyphicon glyphicon-collapse-up" data-toggle="collapse" data-target="#announcement_div"></span>
         </button>
-      </div>
-      <br><br>
-      <!--announcement div-->
-      <div id="announcement_div">
-        <div ng-include="'readAnn.html'"></div>
-      </div>
-      <!--end of announcement div-->
-      <br>
-      
-      
+        </div>
+        <br><br>
+        <!--announcement div-->
+        <div id="announcement_div">
+          <div ng-include="'readAnn.html'"></div>
+        </div>
+        <!--end of announcement div-->
+        <br>
 
 
 
-      
 
-      <br>
-      
-      <div class="row">
-        <center>
-          <h2>Teams</h2>
-          <span>
+
+
+
+        <br>
+
+        <div class="row">
+          <center>
+            <h2>Teams</h2>
+            <span>
           <h4 style="display:inline;vertical-align: middle;">Create your own team and be a leader</h4>
            <button ng-show="(deadline-today)>0" id="create_team_page_btn_visibility" type="button" class="btn btn-primary" ng-click="showTeamForm()"><span class="glyphicon glyphicon-plus" aria-label="new announcement"></span></button>
-          </span>
-                <div id="create_team_page_visibility">
-        <div class="row">
-          <div class="col-md-3 col-xs-2"></div>
-          <div class="custom_center_box row col-md-6 text-left">
-            <form name="teamForm" class="css-form " novalidate>
-              <div class="form-group">
-                <label>Admin: &nbsp;</label><a href="profile.html?q={{param.admin}}">{{adminName}}</a><br>
-                <label >Team Name*:</label>
-                <div class="col-md-12"><input class="form-control ng-dirty ng-invalid ng-valid" type="text" name="userName" placeholder="Please enter team name:"
-                    ng-model="nextTeamName" required>
-                  <br>
-                </div>
+            </span>
+            <div id="create_team_page_visibility">
+              <div class="row">
+                <div class="col-md-3 col-xs-2"></div>
+                <div class="custom_center_box row col-md-6 text-left">
+                  <form name="teamForm" class="css-form " novalidate>
+                    <div class="form-group">
+                      <label>Admin: &nbsp;</label><a href="profile.html?q={{param.admin}}">{{adminName}}</a><br>
+                      <label>Team Name*:</label>
+                      <div class="col-md-12"><input class="form-control ng-dirty ng-invalid ng-valid" type="text" name="userName" placeholder="Please enter team name:"
+                          ng-model="nextTeamName" required>
+                        <br>
+                      </div>
 
-              </div>
+                    </div>
 
-              <div class="form-group">
-                <br>
-                <label>Team Description:</label>
-                <div class="col-md-12"> <textarea class="form-control ng-dirty ng-invalid ng-valid" type="textarea" placeholder="Please enter team Description:"
-                    ng-model="teamDescription" required></textarea>
-                  <br>
-                </div>
-              </div>
+                    <div class="form-group">
+                      <br>
+                      <label>Team Description:</label>
+                      <div class="col-md-12"> <textarea class="form-control ng-dirty ng-invalid ng-valid" type="textarea" placeholder="Please enter team Description:"
+                          ng-model="teamDescription" required></textarea>
+                        <br>
+                      </div>
+                    </div>
 
-              <div class="form-group">
-                <br>
-                <label>Preferred Team Size:</label>
-                <span class="badge">{{preferredTeamSize}}</span>
-                <button ng-click="changePreferredTeamSize(-1);"><span class="glyphicon glyphicon-minus" ></span></button>
-                <button ng-click="changePreferredTeamSize(1);"><span class="glyphicon glyphicon-plus" ></span></button>
-              
+                    <div class="form-group">
+                      <br>
+                      <label>Preferred Team Size:</label>
+                      <span class="badge">{{preferredTeamSize}}</span>
+                      <button ng-click="changePreferredTeamSize(-1);"><span class="glyphicon glyphicon-minus" ></span></button>
+                      <button ng-click="changePreferredTeamSize(1);"><span class="glyphicon glyphicon-plus" ></span></button>
 
-              </div>
 
-              <div class="form-group">
-              
-                <label>Preferred Lauguage:</label>
-                   <ol>
-                     <li style="cursor: pointer" ng-repeat='pre in preference'>{{pre}}&nbsp;&nbsp;<a ng-click="removePre(pre)"><span class="glyphicon glyphicon-trash"></span></a></li>
-                   </ol>
-                <div class="row">
-                 <div class="col-md-12">
-                  <span class="col-md-10"> <input class="form-control" type="text" ng-model='addpreference'>
+                    </div>
+
+                    <div class="form-group">
+
+                      <label>Preferred Lauguage:</label>
+                      <ol>
+                        <li style="cursor: pointer" ng-repeat='pre in preference'>{{pre}}&nbsp;&nbsp;<a ng-click="removePre(pre)"><span class="glyphicon glyphicon-trash"></span></a></li>
+                      </ol>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span class="col-md-10"> <input class="form-control" type="text" ng-model='addpreference'>
       
                   </span>
-                  <span class="col-md-2"><button type="button" class="btn btn-primary" ng-click="addPre()">Add</button>
+                          <span class="col-md-2"><button type="button" class="btn btn-primary" ng-click="addPre()">Add</button>
                   </span>
-                 </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row text-center">
+                      <button id="btn_createTeam" type="button" class="btn btn-default" ng-click="hideTeamForm()">Cancel</button>
+                      <button id="btn_createTeam" type="button" class="btn btn-success" ng-click="createTeam()">Create</button>
+                    </div>
+                  </form>
                 </div>
+                <div class="col-md-2 col-xs-2"></div>
               </div>
-              <div class="row text-center">
-              <button id="btn_createTeam" type="button" class="btn btn-default"  ng-click="hideTeamForm()">Cancel</button>     
-              <button id="btn_createTeam" type="button" class="btn btn-success"  ng-click="createTeam()">Create</button>
-              </div>
-            </form>
-          </div>
-          <div class="col-md-2 col-xs-2"></div>
+            </div>
+            <!--<button class="btn btn-primary" ng-click="filterByName()">Search</button>-->
+          </center>
         </div>
-      </div>
-           <h4>Search team by team name :</h4>
-            <input type="text" class="input-lg" ng-model="filterName">
-           <!--<button class="btn btn-primary" ng-click="filterByName()">Search</button>-->
-        </center>
-      </div>
 
-      <!--teams list-->
-      <div class="col-md-12">
-        <!--not suggest list--><h3 ng-show="suggested_team_visibility">Suggested Team by your Perference:</h3>
-              <table id="teamsList" class="table table-hover" style="text-align:left;width:60%;font-size:16px;">
-                <thead>
-                  <tr>
-                    <th style="min-width:30%;">Team Name</th>
-                    <th style="min-width:10%;">Team Leader</th>
-                    <th style="min-width:20%;">Team members</th>
-                    <th style="min-width:10%;">Preference</th>
-                    <th style="min-width:30%;" ng-show="(deadline-today)>0">Action</th>
-                  </tr>
-                </thead>
-                <!-- this table is used to show filtered result since ng-hide cannot use in the previous table -->
-                <tbody  ng-show="suggested_team_visibility" ng-repeat="t in filtedUsers | filter: filterName" >
-                  <div> <!--ng-show="filter(t)">-->
-                    <tr>
-                      <td> <a  style="cursor: pointer" ng-click="enterTeam(t.$id)">{{t.teamName}}</a></td>
-                      <td><a href="profile.html?q={{t.teamLeader}}">{{t.teamLeaderName}}</a></td>
-                      <td>
-                        <span ng-repeat="member in t.members">
-                                  <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
-                        </span>
-                      </td>
-                      <td>{{t.preference}}</td>
-                      <!-- enter the team button moved to table
-                      <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
-                      -->
-                      <td ng-show="(deadline-today)>0"><button id="btnJoinTeam" type="button" class="btn btn-danger" ng-click="joinTeam(t.$id)">Join directly</button></td>
-                      <!--this will remove after we finish request to join team properly-->
-                      <td ng-show="(deadline-today)>0"><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join</button></td>
-                      </tr>
-                  </div>
-                </tbody>
-
-              </table>
-        <!--skip below line since action buttons is too long-->
+        <!--teams list-->
+        <div class="col-md-12">
+          <!--not suggest list-->
+          <!--skip below line since action buttons is too long-->
           <!--<div class="col-md-2"></div>-->
           <!--<div class="col-md-12">-->
-              <h3 >All teams:</h3>
-              <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
-              <table ng-show="noFiltedTeam_visibility" id="teamsList" class="table table-hover" style="text-align:left;width:60%;font-size:16px;">
-                <thead>
-                  <tr>
-                    <th style="min-width:30%;">Team Name</th>
-                    <th style="min-width:10%;">Team Leader</th>
-                    <th style="min-width:20%;">Team members</th>
-                    <th style="min-width:10%;">Preference</th>
-                    <th style="min-width:30%;" ng-show="(deadline-today)>0">Action</th>
-                  </tr>
-                </thead>
-                <tbody ng-repeat="t in teams | filter: filterName" ng-init="getUserNameInTeam(t)">                  <div> <!--ng-show="filter(t)">-->
-                    <tr >
-
-                      <td ><a  style="cursor: pointer" ng-click="enterTeam(t.$id)">{{t.teamName}}</a></td>
-
-                      <td><a href="profile.html?q={{t.teamLeader}}">{{t.teamLeaderName}}</a></td>
-                      <td>
-                        <span ng-repeat="member in t.members">
+          <h3 ng-show="suggested_team_visibility">Suggested Team by your Perference:</h3>
+          <table id="teamsList" class="table table-hover" style="text-align:left;width:60%;font-size:16px;">
+            <thead>
+              <tr>
+                <th style="min-width:30%;">Team Name</th>
+                <th style="min-width:10%;">Team Leader</th>
+                <th style="min-width:20%;">Team members</th>
+                <th style="min-width:10%;">Preference</th>
+                <th style="min-width:30%;" ng-show="(deadline-today)>0">Action</th>
+              </tr>
+            </thead>
+            <!-- this table is used to show filtered result since ng-hide cannot use in the previous table -->
+            <tbody ng-show="suggested_team_visibility" ng-repeat="t in filtedUsers">
+              <div>
+                <!--ng-show="filter(t)">-->
+                <tr>
+                  <td> <a style="cursor: pointer" ng-click="enterTeam(t.$id)">{{t.teamName}}</a></td>
+                  <td><a href="profile.html?q={{t.teamLeader}}">{{t.teamLeaderName}}</a></td>
+                  <td>
+                    <span ng-repeat="member in t.members">
                                   <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
                         </span>
-                      </td>
-                      <td>{{t.preference}}</td>
-                      <!-- enter the team button moved to table
+                  </td>
+                  <td>{{t.preference}}</td>
+                  <!-- enter the team button moved to table
                       <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
                       -->
-                      <td ng-show="(deadline-today)>0"><button id="btnJoinTeam" type="button" class="btn btn-danger" ng-click="joinTeam(t.$id)">Join directly</button></td>
-                      <!--this will remove after we finish request to join team properly-->
-                      <td ng-show="(deadline-today)>0"><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join</button></td>
-                      </tr>
-                  </div>
-                </tbody>
+                  <td ng-show="(deadline-today)>0"><button id="btnJoinTeam" type="button" class="btn btn-danger" ng-click="joinTeam(t.$id)">Join directly</button></td>
+                  <!--this will remove after we finish request to join team properly-->
+                  <td ng-show="(deadline-today)>0"><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join</button></td>
+                </tr>
+              </div>
+            </tbody>
 
-                <!-- this table is used to show filtered result since ng-hide cannot use in the previous table -->
-              </table>
+          </table>
+
+
+            <h4>Search team by team name :   <input type="text" class="input-lg" ng-model="filterName"></h4>
+            
+
+          <h3>All teams:</h3>
+          <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+          <table ng-show="noFiltedTeam_visibility" id="teamsList" class="table table-hover" style="text-align:left;width:60%;font-size:16px;">
+            <thead>
+              <tr>
+                <th style="min-width:30%;">Team Name</th>
+                <th style="min-width:10%;">Team Leader</th>
+                <th style="min-width:20%;">Team members</th>
+                <th style="min-width:10%;">Preference</th>
+                <th style="min-width:30%;" ng-show="(deadline-today)>0">Action</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="t in teams | filter: filterName" ng-init="getUserNameInTeam(t)">
+              <div>
+                <!--ng-show="filter(t)">-->
+                <tr>
+
+                  <td><a style="cursor: pointer" ng-click="enterTeam(t.$id)">{{t.teamName}}</a></td>
+
+                  <td><a href="profile.html?q={{t.teamLeader}}">{{t.teamLeaderName}}</a></td>
+                  <td>
+                    <span ng-repeat="member in t.members">
+                                  <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
+                        </span>
+                  </td>
+                  <td>{{t.preference}}</td>
+                  <!-- enter the team button moved to table
+                      <td><button id="btnEnterTeam" type="button" class="btn btn-primary" ng-click="enterTeam(t.$id)">Detail of this team</button></td>
+                      -->
+                  <td ng-show="(deadline-today)>0"><button id="btnJoinTeam" type="button" class="btn btn-danger" ng-click="joinTeam(t.$id)">Join directly</button></td>
+                  <!--this will remove after we finish request to join team properly-->
+                  <td ng-show="(deadline-today)>0"><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join</button></td>
+                </tr>
+              </div>
+            </tbody>
+
+            <!-- this table is used to show filtered result since ng-hide cannot use in the previous table -->
+          </table>
+
+          <h3 ng-hide="noFiltedTeam_visibility">Search Result:</h3>
 
           <!--</div>-->
           <!--<div class="col-md-2"></div>-->
-      </div>
-      <!--end of teams list-->
-      <div class="col-md-12"><br><br><br></div>
-      <div ng-show="(deadline-today)>0">
-        <h2>Invite List</h2>
-        <div ng-show="inviteTeamsLength ==4"  style="font-size:16px;">You have not been invited yet. You can request teams below.</div>
-        <div ng-hide="inviteTeamsLength ==4">
-          <table id="inviteList" class="table table-hover" style="font-size:16px;">
-            <thead>
-              <tr>
-                <th>Team Name</th>
-                <th>Team Leader</th>
-                <th>Team members</th>
-                <th>Preference</th>
-                <th ng-show="(deadline-today)>0">Action</th>
-              </tr>
-            </thead>
-            <!--<tbody ng-repeat="iT in inviteTeams">-->
-            <tbody ng-repeat="(teamid, iT) in inviteTeams">
-              <tr>
-                <td>{{iT.teamName}}</td>
-                <td><a href="profile.html?q={{iT.teamLeader}}">{{iT.teamLeaderName}}</a></td>
-                <td>
-                  <span ng-repeat="member in iT.members">
+        </div>
+        <!--end of teams list-->
+        <div class="col-md-12"><br><br><br></div>
+        <div ng-show="(deadline-today)>0">
+          <h2>Invite List</h2>
+          <div ng-show="inviteTeamsLength ==4" style="font-size:16px;">You have not been invited yet. You can request teams below.</div>
+          <div ng-hide="inviteTeamsLength ==4">
+            <table id="inviteList" class="table table-hover" style="font-size:16px;">
+              <thead>
+                <tr>
+                  <th>Team Name</th>
+                  <th>Team Leader</th>
+                  <th>Team members</th>
+                  <th>Preference</th>
+                  <th ng-show="(deadline-today)>0">Action</th>
+                </tr>
+              </thead>
+              <!--<tbody ng-repeat="iT in inviteTeams">-->
+              <tbody ng-repeat="(teamid, iT) in inviteTeams">
+                <tr>
+                  <td>{{iT.teamName}}</td>
+                  <td><a href="profile.html?q={{iT.teamLeader}}">{{iT.teamLeaderName}}</a></td>
+                  <td>
+                    <span ng-repeat="member in iT.members">
                       <a href="profile.html?q={{member.memberID}}">{{member.memberName}}</a>{{$last ? '' : ', '}}
                     </span>
-                </td>
-                <td>{{iT.preference}}</td>
-                <td ng-show="(deadline-today)>0">
-                  <button id="btn_acceptInvite" ng-click="acceptInvite(teamid)">Accept</button>
-                  <button id="btn_rejectInvite" ng-click="rejectInvite(teamid)">Reject</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                  <td>{{iT.preference}}</td>
+                  <td ng-show="(deadline-today)>0">
+                    <button id="btn_acceptInvite" ng-click="acceptInvite(teamid)">Accept</button>
+                    <button id="btn_rejectInvite" ng-click="rejectInvite(teamid)">Reject</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
-    <div class="col-md-12"><br><br><br></div>
-      <div class="col-md-12">
-        <center>
-          <h2>Members Without Groups</h2>
-        </center>
-        <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
-        
-        <div ng-hide="teamsList.length == 0">
-          <table id="teamsList" class="table table-hover text-center" ng-hide="waitList.length == 0" style="font-size:16px;">
-            <thead>
-              <tr >
-                <th class="text-center">Name</th>
-                <!--<th>uid</th>-->
-                <th class="text-center">Preference</th>
-              </tr>
-            </thead>
+        <div class="col-md-12"><br><br><br></div>
+        <div class="col-md-12">
+          <center>
+            <h2>Members Without Groups</h2>
+          </center>
+          <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
 
-            <tbody ng-repeat="member in waitList" ng-init="getUserDatabyID(member)">
-              <tr>
-                <td><a href="profile.html?q={{member.uid}}">{{member.name}}</a></td>
-                <!--<td>{{member.uid}}</td>-->
-                <td>
-                  <span ng-repeat="p in member.preference">{{p}}{{$last ? '' : ', '}}
+          <div ng-hide="teamsList.length == 0">
+            <table id="teamsList" class="table table-hover text-center" ng-hide="waitList.length == 0" style="font-size:16px;">
+              <thead>
+                <tr>
+                  <th class="text-center">Name</th>
+                  <!--<th>uid</th>-->
+                  <th class="text-center">Preference</th>
+                </tr>
+              </thead>
+
+              <tbody ng-repeat="member in waitList" ng-init="getUserDatabyID(member)">
+                <tr>
+                  <td><a href="profile.html?q={{member.uid}}">{{member.name}}</a></td>
+                  <!--<td>{{member.uid}}</td>-->
+                  <td>
+                    <span ng-repeat="p in member.preference">{{p}}{{$last ? '' : ', '}}
                   </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <center>
+            <p ng-show="waitList.length ==0" style="font-size:16px;">No one is on the waitlist.</p>
+          </center>
         </div>
-     
-        <center>
-          <p ng-show="waitList.length ==0" style="font-size:16px;">No one is on the waitlist.</p>
-        </center>
       </div>
-    </div>
       <!--end of teams & member list-->
     </div>
-  
+
 
     <!-- FOOTER -->
     <div class="col-md-12">
-    <hr>
-    <footer>
-      <p class="pull-right"><a style="cursor: pointer" ng-click="scrollToTop()">Back to top</a></p>
-      <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
-      <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
-    </footer>
+      <hr>
+      <footer>
+        <p class="pull-right"><a style="cursor: pointer" ng-click="scrollToTop()">Back to top</a></p>
+        <p>&copy; 2016 &nbsp;<i>418 I'm a Teapot </i></p>
+        <p>Powered by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p>
+      </footer>
     </div>
   </div>
   <!-- JavaScript of this page -->
