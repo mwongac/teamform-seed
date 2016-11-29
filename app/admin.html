@@ -232,10 +232,19 @@
             </div>
           
           <br>
+
           <div class="text-center" ng-include="'editAnn.html'"></div>
         </div>
+
+
+
+      <!--teams list-->
+      <br><br>
+      
+
     </div>
     <div id="menu2" class="tab-pane fade">
+
       <div class="col-md-12">
         <center>
           <br>
@@ -312,8 +321,46 @@
             <p ng-show="waitList.length ==0">No one on the waitlist.</p>
           </center>
         </div>
+
+        
+
+      <!--</divs>-->
+
+      <!--end of teams & member list-->
+      <div class="col-md-12" id="inviteJoinDiv">
+        <center>
+          <h2>Invite List</h2>
+        </center>
+        <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <table id="inviteUserList" class="table table-hover text-left">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Preference</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="member in users" ng-init="getRole(member)" ng-if="member.role == null">
+              <tr>
+                <td><a href="profile.html?q={{member.$id}}">{{member.name}}</a></td>
+                <td>
+                  <span ng-repeat="p in member.language">{{p}}{{$last ? '' : ', '}}
+                  </span>
+                </td>
+                <td><button class="btn btn-primary" ng-click="inviteToJoin(member)" ng-disabled="member.isJoin">
+                  Invite to waitlist
+                  </button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-12"><button class="btn btn-primary" ng-click="inviteJoinDone()">Done</button></div>
     </div>
   </div>
+
       </div>
     </section>
   </div>
