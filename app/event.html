@@ -28,7 +28,15 @@
   <!-- Customized libraries shared by pages -->
   <script src="js/site.js"></script>
   <link rel="stylesheet" href="css/custom.css" >
+<style>
+.table {
+          width: 50%;
+        margin-left:auto; 
+          margin-right:auto;
+          max-width: 60%;
+      }
 
+</style>
 </head>
 
 
@@ -235,7 +243,7 @@
                       -->
                       <td ng-show="(deadline-today)>0"><button id="btnJoinTeam" type="button" class="btn btn-danger" ng-click="joinTeam(t.$id)">Join directly</button></td>
                       <!--this will remove after we finish request to join team properly-->
-                      <td ng-show="(deadline-today)>0"><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join this team</button></td>
+                      <td ng-show="(deadline-today)>0"><button id="btnRequestJoinTeam" type="button" class="btn btn-primary" ng-click="requestJoinTeam(t.$id)">Request to join</button></td>
                       </tr>
                   </div>
                 </tbody>
@@ -287,8 +295,8 @@
           <h2>Members Without Groups</h2>
         </center>
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
-        <div class="col-md-1"></div>
-        <div class="col-md-10" ng-hide="teamsList.length == 0">
+        
+        <div ng-hide="teamsList.length == 0">
           <table id="teamsList" class="table table-hover text-center" ng-hide="waitList.length == 0" style="font-size:16px;">
             <thead>
               <tr >
@@ -310,7 +318,7 @@
             </tbody>
           </table>
         </div>
-        <div class="col-md-1"></div>
+     
         <center>
           <p ng-show="waitList.length ==0" style="font-size:16px;">No one is on the waitlist.</p>
         </center>
