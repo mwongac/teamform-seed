@@ -443,8 +443,12 @@ angular.module('teamform-event-app', ['firebase'])
 			refPath = "users/" + $scope.uid + "/invitelist/" + eventid + "/" + teamid;
 			inviteInUser = $firebaseObject(firebase.database().ref(refPath));
 			console.log("remove invites: " + inviteInUser.teamName)
-			inviteInUser.$remove();
+			inviteInUser.$remove().then(function () {
+				$scope.inviteTeamLength = Object.keys($scope.inviteTeams).length;
+
+			});
 			$scope.getInviteTeam($scope.uid);
+
 		}
 
 		$scope.getUserNameInTeam = function (team) {
@@ -649,7 +653,10 @@ angular.module('teamform-event-app', ['firebase'])
 
 			$scope.inviteTeams = $firebaseObject(firebase.database().ref(refPath));
 			$scope.teams.$loaded().then(function () {
-				$scope.inviteTeams.$loaded().then(function () {
+				$scope.inviteTeams.$loaded().then(function (data) {
+					console.log("=================\n\n\n" + $scope.inviteTeams + "\n" + Object.keys($scope.inviteTeams).length
+						+ "\n=======================");
+					$scope.inviteTeamLength = Object.keys($scope.inviteTeams).length;
 					angular.forEach($scope.inviteTeams, function (team, teamid) {//team=invite team
 						console.log("******start**********\ngetTeamInfoByTeamID\n\nteam id: " + teamid + "\n" + $scope.teams.$getRecord(teamid).teamName);
 						team = $scope.teams.$getRecord(teamid);
@@ -681,10 +688,20 @@ angular.module('teamform-event-app', ['firebase'])
 						})
 						console.log("leader name: " + team.teamLeaderName + "\ndone get team info by ID \n*************end************\n\n");
 					})
+
+					$scope.inviteTeamsLength = Object.keys(data).length;//exclude prority, etc firebase object info
+					console.log("=================\n\n\n" + data.length + "\n" + $scope.inviteTeams.length + "\n" + Object.keys($scope.inviteTeams).length
+						+ "\n=======================" + $scope.inviteTeamsLength + "\n=======================");
+					var load_screen = document.getElementById("load_screen");
+					document.body.removeChild(load_screen);
 				});
-				var load_screen = document.getElementById("load_screen");
-				document.body.removeChild(load_screen);
+
+
 			});
 
 		})
+
+		$scope.getInviteTeamLength = function () {
+		}
 	}]);
+
