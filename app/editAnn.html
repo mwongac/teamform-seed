@@ -1,8 +1,16 @@
-<div id="announcement_list">
+           <style>
+				  .table {
+                    width: 50%;
+	                margin-left:auto; 
+                    margin-right:auto;
+                    max-width: 60%;
+	              }
+				  </style>
+<div id="announcement_list" class="block-center">
   <!--current announcement list-->
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
-    <table class="table table-striped" ng-hide="announcements.length == 0" style="font-size:16px;">
+  <!--<div class="col-md-2"></div>
+  <div class="col-md-8">-->
+    <table class="table table-striped block-center" ng-hide="announcements.length == 0" style="font-size:16px; width:50%;">
       <thead>
         <tr>
           <th>
@@ -46,7 +54,7 @@
       </tbody>
     </table>
     <p ng-show="announcements.length == 0">There is no announcement. You can post a new one.</p>
-  </div>
+  <!--</div>-->
   <br><br>
 </div>
 
