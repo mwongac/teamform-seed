@@ -115,6 +115,9 @@
           <button id="btn_event_edit" class="btn btn-default" ng-click="reopen_event_click()" ng-hide="(deadline-today)>0">
               <span class="glyphicon glyphicon-calendar" aria-label="reopen event"></span>&nbsp;Reopen Event
           </button>
+          <button id="btn_smart_generator" type="button" class="btn btn-primary" ng-click="generate_click()" ng-hide="(deadline-today)>0">
+              Generate Teams
+              </button>
         </div>
         <br>
       </div>
@@ -320,9 +323,7 @@
           <center>
             <p ng-show="waitList.length ==0" >No one on the waitlist.</p>
             <br>
-             <button id="btn_smart_generator" type="button" class="btn btn-primary" ng-click="generate_click()" ng-hide="(deadline-today)>0">
-              Generate Teams
-              </button>
+             
           </center>
         </div>
 
