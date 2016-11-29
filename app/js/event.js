@@ -444,8 +444,9 @@ angular.module('teamform-event-app', ['firebase'])
 			inviteInUser = $firebaseObject(firebase.database().ref(refPath));
 			console.log("remove invites: " + inviteInUser.teamName)
 			inviteInUser.$remove().then(function () {
+				// setTimeout($scope.$apply(),0);
+				$scope.$apply();
 				$scope.inviteTeamLength = Object.keys($scope.inviteTeams).length;
-
 			});
 			$scope.getInviteTeam($scope.uid);
 

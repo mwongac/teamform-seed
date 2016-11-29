@@ -184,7 +184,7 @@
                 <th style="min-width:30%;" ng-show="(deadline-today)>0">Action</th>
               </tr>
             </thead>
-            <tbody ng-show="noFiltedTeam_visibility" ng-repeat="t in teams" ng-init="getUserNameInTeam(t)">
+            <tbody ng-show="noFiltedTeam_visibility" ng-repeat="t in teams | filter:filterName" ng-init="getUserNameInTeam(t)">
               <div>
                 <!--ng-show="filter(t)">-->
                 <tr>
