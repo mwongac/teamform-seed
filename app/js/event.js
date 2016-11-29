@@ -190,8 +190,12 @@ angular.module('teamform-event-app', ['firebase'])
 						}
 						teamobject.requestMemberList = $scope.requestMemberList;
 						teamobject.$save();
-						// console.log(teamobject);
+
+
 					});
+						var url = "event.html?q" + $scope.eventid +"#menu2";
+						window.location.href = url;
+						// console.log(teamobject);
 			}
 		}
 
