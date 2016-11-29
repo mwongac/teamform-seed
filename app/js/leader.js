@@ -230,6 +230,8 @@ angular.module('leader-app', ['firebase'])
 
             //  location.reload();
 
+            window.location.reload();
+
         }
 
         //kick member
