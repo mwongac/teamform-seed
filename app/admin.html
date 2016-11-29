@@ -87,7 +87,7 @@
       <div class="col-md-12">
          <div class="col-md-4"></div>
         <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+          <li class="active"><a data-toggle="tab" href="#home">Event description</a></li>
           <li><a data-toggle="tab" href="#menu1">Announcements</a></li>
           <li><a data-toggle="tab" href="#menu2">Teams</a></li>
           <li><a data-toggle="tab" href="#menu3">WaitList</a></li>
@@ -101,12 +101,10 @@
         <!--</div>-->
         <!--smart generator-->
         <div class="col-md-12" id="admin_action_buttons" ng-hide="editable">
-          <button id="btn_invite_join" type="button" class="btn btn-primary" ng-click="inviteJoin_click()" ng-hide="(deadline-today)>0">
+          <!--<button id="btn_invite_join" type="button" class="btn btn-primary" ng-click="inviteJoin_click()" ng-hide="(deadline-today)>0">
             Invite people to join
-          </button>
-          <button id="btn_smart_generator" type="button" class="btn btn-primary" ng-click="generate_click()" ng-hide="(deadline-today)>0">
-            Generate Teams
-          </button>
+          </button>-->
+
           <!--show generator if achieve deadline-->
           <button id="btn_event_edit" class="btn btn-primary" ng-click="edit_click()">
               <span class="glyphicon glyphicon-pencil" aria-label="edit"></span>&nbsp;Edit Event
@@ -178,12 +176,12 @@
           <div class="col-md-3 col-xs-3"></div>
         </div>
     </div>
-          <div class="col-md-12" id="inviteJoinDiv">
+          <!--<div class="col-md-12" id="inviteJoinDiv">
         <center>
           <br>
           <h2>Invite List</h2>
         </center>
-        <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
+        <div ng-include="'teamList.html'" id="teamList"></div>
         <div class="col-md-2"></div>
         <div class="col-md-8">
           <table id="inviteUserList" class="table table-hover text-left">
@@ -210,7 +208,7 @@
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-12"><button class="btn btn-primary" ng-click="inviteJoinDone()">Done</button></div>
-      </div>
+      </div>-->
     </div>
     <div id="menu1" class="tab-pane fade">
           <div class="col-md-12 announcement_div">
@@ -280,8 +278,8 @@
             </table>
             <!--</div>
             <div class="col-md-3"></div>-->
-           
-          <p ng-show="teams.length ==0">This event do not have any team. Ask students/ members to form team now!</p>
+
+          <p ng-show="teams.length ==0" >This event do not have any teams. Ask users to form team now!</p>
         </div>
         <!--end of teams list-->
     </div>
@@ -315,11 +313,16 @@
                 </tr>
               </tbody>
             </table>
+
             <!--</div>
             <div class="col-md-3"></div>-->
           </div>
           <center>
-            <p ng-show="waitList.length ==0">No one on the waitlist.</p>
+            <p ng-show="waitList.length ==0" >No one on the waitlist.</p>
+            <br>
+             <button id="btn_smart_generator" type="button" class="btn btn-primary" ng-click="generate_click()" ng-hide="(deadline-today)>0">
+              Generate Teams
+              </button>
           </center>
         </div>
 
@@ -330,7 +333,7 @@
       <!--end of teams & member list-->
       <div class="col-md-12" id="inviteJoinDiv">
         <center>
-          <h2>Invite List</h2>
+          <h2>Invite people to join this event</h2>
         </center>
         <!--<div ng-include="'teamList.html'" id="teamList"></div>-->
         <div class="col-md-2"></div>

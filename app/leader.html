@@ -31,6 +31,7 @@
     ul {
       list-style-type: none;
     }
+    
     </style>
 
 
@@ -47,6 +48,261 @@
     <section style="background-image: url('img/img1_thin.jpg');" class="banner img-responsive">
       <br><br><br><br><br>
       <h1 class="pull-left banner_title">{{displayName}} Leader Page</h1>
+        <div class="col-md-12">
+          <div class="col-md-3"></div>
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Event description</a></li>
+            <li><a data-toggle="tab" href="#menu1">Announcements</a></li>
+            <li><a data-toggle="tab" href="#menu2">About this team</a></li>
+            <li><a data-toggle="tab" href="#menu3">Invite</a></li>
+            <li><a data-toggle="tab" href="#menu4">Requests</a></li>
+          </ul>
+
+            <div  class="tab-content text-center" style="min-height:300px;">
+              <div id="home" class="tab-pane fade in active">
+                
+                <div class="container">
+                  <div id="admin_page" class="text-center">
+                    <div id="admin_event_div">
+                      <div ng-include="'description.html'"></div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div id="menu1" class="tab-pane fade">
+                <!-- Announcements and Description correct formatting -->
+                <div class=" col-md-12">
+                  <br><br>
+                  <h2 style="display:inline;vertical-align: middle;" class="text-center">Announcements</h2>  &nbsp;&nbsp;
+                  <button type="button" class="btn btn-basic" >
+                      <span class="glyphicon glyphicon-collapse-up" data-toggle="collapse" data-target="#announcement_div"></span>
+                  </button>
+                </div>
+                <br><br>
+                <!--announcement div-->
+                <div id="announcement_div">
+                  <div ng-include="'readAnn.html'"></div>
+                </div>
+                <!--end of announcement div-->
+              </div>
+              <div id="menu2" class="tab-pane fade">
+                <div class="row">
+                <div class="col-md-3"></div>
+                <div class="container col-md-6">
+                  <!--<div class="col-md-3"></div>-->
+                  <div class="text-center custom_center_box" style="font-size:16px;">
+                    <div class="row">
+                      <p class="imp text-center custom_center_box_title"> {{displayName}}</p>
+                      <p>{{teamDescription}}</p>
+                      <br> 
+                    </div>
+                    <div class="row">
+                      <div class="col-md-1"></div>
+                      <div class="col-md-3">
+                        <div style="margin: auto;" class="event_info_box text-center"> <strong>Preferred Team Size: </strong>
+                          <div style="font-size:30px;padding:30px;">{{preferredTeamSize}}</div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div style="margin: auto;" class="event_info_box text-center"><strong>Current Team Size: </strong>
+                          <div style="font-size:30px;padding:30px;">{{currentTeamSize}}</div>
+                        </div>
+                      </div>
+                      <div class="col-md-3" ng-repeat='pre in preference'>
+                        <div style="margin: auto;" class="event_info_box text-center"><strong>Preferred Language: </strong>
+                          <div style="font-size:30px;padding:10px;">
+                            <p>
+                              {{pre}}
+                            </p>
+                          </div>
+                          <br>
+                        </div>
+                      </div>
+                      <div class="col-md-1"></div>
+                    </div>
+                  </div>
+                  <!--<div class="col-md-3">
+                      </div>-->
+                <center>
+                <button id="btn_event_edit" class="btn btn-primary" ng-click="edit_click()">
+                  <span class="glyphicon glyphicon-pencil" aria-label="edit"></span>&nbsp;Edit Team
+                </button>
+                </center> 
+                </div>
+                </div>
+                    <div class="container" ng-show="edit_leader_visibility">
+                      <div class=" custom_center_box" style="width:50%;margin-left:auto; margin-right:auto; max-width: 60%;">
+                        <table align="center" class=" table-striped" >
+                          <!--change team name-->
+                          <tr align="left">
+                            <td class="edit">Team Name: </td>
+                            <td class="edit"><input class="form-control ng-dirty ng-invalid ng-valid" ng-model='displayName'></td>
+                            <td class="edit">
+                              <button type='button' class="btn btn-primary" ng-click='changeTeamName()'>Change</button>
+                              <!--button type="button" class="btn btn-primary" ng-click="createTeam();" >Create Team</button-->
+                            </td>
+                          </tr>
+                          <!--change description-->
+                          <tr align="left">
+                            <td class="edit">
+                              <p>Description:</p>
+                            </td>
+                            <td class="edit"><textarea class="form-control ng-dirty ng-invalid ng-valid" ng-model='teamDescription'></textarea></td>
+                            <td class="edit"><br><button class='btn btn-primary' ng-click='changeDescription()'>Change</button></td>
+                          </tr>
+                          <!--add preference-->
+                          <tr align="left">
+                            <td class="edit">
+                              <p>Preference: </p>
+                            </td>
+                            <td class="edit"><input ng-model='addpreference'></td>
+                            <td class="edit"><button class='btn btn-primary' ng-click='addPre()'>Add</button></td>
+                          </tr>
+                          <!--show preference list-->
+                          <tr align="left">
+                            <td>
+                              <p>Preference List:</p>
+                            </td>
+                            <td>
+                              <ol>
+                                <li ng-repeat='pre in preference'>
+                                  {{pre}}&nbsp;<a style="cursor: pointer" ng-click="removePre(pre)" ><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></a> 
+                                </li>
+                              </ol>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                          <div class="container" ng-hide="members.length == 0">
+                          <!--show current members and current requests-->
+                 
+                          <h2><strong>Current Team Members:</strong></h2>
+
+                          <div class="col-md-12">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                              <span ng-repeat="oneMember in members">
+                              <div class="row custom_center_box_christie">
+                                  <ul id="memberList">
+                                      <li class="col-md-4">
+                                        <button><span class="glyphicon glyphicon-trash btn-default" aria-hidden="true" ng-click="kickMember(oneMember, oneMember.memberID)"></span></button>
+                                        <h3 style="display:inline-block;"><strong>Name:</strong></h3><br><h4> {{oneMember.name}}</h4><br><br>
+                                      </li>
+                                      <li class="col-md-4">
+                                        <h3><strong>Description:</strong></h3><br><h4> {{oneMember.description}} </h4><br><br>
+                                      </li>
+                                      <li class="col-md-4">
+                                        <h3><strong>Language:</strong></h3><br><h4> {{oneMember.language}} </h4><br><br>
+                                      </li>
+                                  </ul>
+                              </div>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+              </div>
+              <div id="menu3" class="tab-pane fade">
+                  <!-- Invite List -->
+              <div class="container">
+              <!-- div class="container" ng-hide="invitelist.length == 0" -->
+                <div class="row">
+                  <br>
+                  <h2>People invited:</h2>
+                  <div class="col-md-2"></div>
+                  <div class="col-md-8">
+                    <span ng-repeat="user in invitelist">
+                      <div class="row custom_center_box_christie">
+                      <ul>
+                        <li class="col-md-2">
+                            <h4><strong>Name:</strong></h4><br> {{user.name}}  <br>
+                        </li>
+                        <li class="col-md-2">
+                            <h4><strong>GPA:</strong></h4><br> {{user.gpa}} 
+                        </li>
+                        <li class="col-md-2">
+                            <h4><strong>Language:</strong></h4><br> {{user.language}} <br>
+                        </li>
+                        <!--<li class="col-md-3">
+                            <h4><strong>Team:</strong></h4><br> {{user.teams}} <br>
+                        </li>-->
+                        <li class="col-md-3">
+                            <h4><strong>Description:</strong></h4><br> {{user.teamDescription}} <br>
+                        </li>
+                      </ul>
+                    </div>
+                  </span>
+                  <p ng-show="invitelist.length == 0" style="font-size:16px;">There is no Invite List.</p>
+                  <br>
+                </div>
+                </div>
+              </div>
+                <div class="container">
+                  <!--filt by name-->
+                  <h3>Search users you want to invite:</h3> <input class="input-lg" ng-model='nameToInvite'>
+                  <p></p>
+                  <button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button>
+                  <!--filt by preference-->
+                  <button class='btn btn-primary' ng-click='filterPre()'>Show Suggested Waiting Users</button>
+                </div>
+                  <div class="container" ng-show="filtered_result_visibility">
+                    <!--filt result and invite button-->
+                    <br><br>
+                    <h3><strong>Suggested Member List:</strong></h3>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                    <span ng-repeat="user in filtedUsers">
+                      <div class="row custom_center_box_christie">
+                          <span class="col-md-1">
+                            <br><br><br>
+                          <a class='btn btn-primary ' ng-click='inviteUser(user.$id,user)'>invite</a>
+                          </span>
+                          <span class="col-md-3">
+                          <h3><strong>Name:</strong></h3><br><h4> {{user.name}}  </h4><br>
+                          </span>
+                          <span class="col-md-2">
+                          <h3><strong>GPA:</strong></h3><br><h4> {{user.gpa}} </h4><br>
+                          </span >
+                          <span class="col-md-2">
+                          <h3><strong>Language:</strong></h3><br><h4> {{user.language}} </h4><br>
+                          </span>
+                          <span class="col-md-4">
+                          <h3><strong>Description:</strong></h3><br><h4> {{user.teamDescription}} </h4><br>
+                          </span>
+                        
+                      </div>
+                    </span>
+                    </div>
+                  </div>
+              </div>
+            
+              <div id="menu4" class="tab-pane fade">
+              <!-- Requests -->
+              <div class="container">
+                <!--show current members and current requests-->
+                <br>
+                <h2><strong>Requests</strong></h2>
+                <span ng-repeat="member in requestMemberList">
+                    <div class="row custom_center_box_christie">
+                      <ul>
+                        <li class="col-md-12">
+                        <button><span class="glyphicon glyphicon-ok-circle" aria-hidden="true" ng-click="acceptRequest(member.memberID, member)"></span></button>
+                        <strong>member name:</strong><br> {{member.name}} 
+                        </li>
+                        <!--<li class="col-md-4">
+                          <strong>member description:</strong><br> {{oneMember.description}} <br>
+                        </li>
+                        <li class="col-md-4">
+                          <strong>Language:</strong><br> {{oneMember.language}} <br>
+                        </li>-->
+                </ul>
+              </div>
+              </span>
+            </div>
+              </div>
+            </div>
+        </div>
     </section>
   </div>
 
@@ -54,118 +310,12 @@
 
 
 
-      <div class="container">
-        <div id="admin_page" class="text-center">
-          <div id="admin_event_div">
-            <div ng-include="'description.html'"></div>
-          </div>
 
-        </div>
-      </div>
 
-      <!-- Announcements and Description correct formatting -->
-      <div class=" col-md-12">
-        <h2 style="display:inline;vertical-align: middle;" class="text-center">Announcements</h2>  &nbsp;&nbsp;
-        <button type="button" class="btn btn-basic" >
-            <span class="glyphicon glyphicon-collapse-up" data-toggle="collapse" data-target="#announcement_div"></span>
-        </button>
-      </div>
-      <br><br>
-      <!--announcement div-->
-      <div id="announcement_div">
-        <div ng-include="'readAnn.html'"></div>
-      </div>
-      <!--end of announcement div-->
-      <br>
-      <div class="row">
-      <div class="col-md-3"></div>
-      <div class="container col-md-6">
-        <!--<div class="col-md-3"></div>-->
-        <div class="text-center custom_center_box" style="font-size:16px;">
-          <div class="row">
-            <p class="imp text-center custom_center_box_title"> {{displayName}}</p>
-            <p>{{teamDescription}}</p>
-            <br> 
-          </div>
-          <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
-              <div style="margin: auto;" class="event_info_box text-center"> <strong>Preferred Team Size: </strong>
-                <div style="font-size:30px;padding:30px;">{{preferredTeamSize}}</div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div style="margin: auto;" class="event_info_box text-center"><strong>Current Team Size: </strong>
-                <div style="font-size:30px;padding:30px;">{{currentTeamSize}}</div>
-              </div>
-            </div>
-            <div class="col-md-3" ng-repeat='pre in preference'>
-              <div style="margin: auto;" class="event_info_box text-center"><strong>Preferred Language: </strong>
-                <div style="font-size:30px;padding:10px;">
-                  <p>
-                    {{pre}}
-                  </p>
-                </div>
-                <br>
-              </div>
-            </div>
-            <div class="col-md-1"></div>
-          </div>
-        </div>
-        <!--<div class="col-md-3">
-             </div>-->
-      <center>
-      <button id="btn_event_edit" class="btn btn-primary" ng-click="edit_click()">
-        <span class="glyphicon glyphicon-pencil" aria-label="edit"></span>&nbsp;Edit Team
-      </button>
-      </center> 
-      </div>
-      </div>
 
-      <div class="container" ng-show="edit_leader_visibility">
-        <div class=" custom_center_box">
-          <table align="center" class=" table-striped">
-            <!--change team name-->
-            <tr align="left">
-              <td class="edit">teamName: </td>
-              <td class="edit"><input class="form-control ng-dirty ng-invalid ng-valid" ng-model='displayName'></td>
-              <td class="edit">
-                <button type='button' class="btn btn-primary" ng-click='changeTeamName()'>Change</button>
-                <!--button type="button" class="btn btn-primary" ng-click="createTeam();" >Create Team</button-->
-              </td>
-            </tr>
-            <!--change description-->
-            <tr align="left">
-              <td class="edit">
-                <p>Description:</p>
-              </td>
-              <td class="edit"><textarea class="form-control ng-dirty ng-invalid ng-valid" ng-model='teamDescription'></textarea></td>
-              <td class="edit"><br><button class='btn btn-primary' ng-click='changeDescription()'>Change</button></td>
-            </tr>
-            <!--add preference-->
-            <tr align="left">
-              <td class="edit">
-                <p>Preference: </p>
-              </td>
-              <td class="edit"><input ng-model='addpreference'></td>
-              <td class="edit"><button class='btn btn-primary' ng-click='addPre()'>Add</button></td>
-            </tr>
-            <!--show preference list-->
-            <tr align="left">
-              <td>
-                <p>Preference list:</p>
-              </td>
-              <td>
-                <ol>
-                  <li ng-repeat='pre in preference'>
-                    <button class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="removePre(pre)"></button> {{pre}}
-                  </li>
-                </ol>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
+
+
+
 
     <div class="row">
        <div class="container">
@@ -196,131 +346,16 @@
         </div>-->
           
       <!-- Current Team Member -->
-      <div class="container" ng-hide="members.length == 0">
-        <!--show current members and current requests-->
-        <hr>
-        <h2><strong>Current Team Members:</strong></h2>
-
-        <div class="col-md-12">
-          <div class="col-md-2"></div>
-          <div class="col-md-8">
-            <span ng-repeat="oneMember in members">
-            <div class="row custom_center_box_christie">
-                <ul id="memberList">
-                    <li class="col-md-4">
-                      <button><span class="glyphicon glyphicon-trash btn-default" aria-hidden="true" ng-click="kickMember(oneMember, oneMember.memberID)"></span></button>
-                      <h3 style="display:inline-block;"><strong>Name:</strong></h3><br><h4> {{oneMember.name}}</h4><br><br>
-                    </li>
-                    <li class="col-md-4">
-                      <h3><strong>Description:</strong></h3><br><h4> {{oneMember.description}} </h4><br><br>
-                    </li>
-                    <li class="col-md-4">
-                      <h3><strong>Language:</strong></h3><br><h4> {{oneMember.language}} </h4><br><br>
-                    </li>
-                </ul>
-            </div>
-            </span>
-          </div>
-        </div>
-      </div>
 
 
-    <!-- Invite List -->
-    <div class="container">
-    <!-- div class="container" ng-hide="invitelist.length == 0" -->
-      <div class="row">
-        <hr>
-        <h2><strong>Invite List:</strong></h2>
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-          <span ng-repeat="user in invitelist">
-            <div class="row custom_center_box_christie">
-             <ul>
-               <li class="col-md-2">
-                  <h4><strong>Name:</strong></h4><br> {{user.name}}  <br>
-               </li>
-               <li class="col-md-2">
-                   <h4><strong>GPA:</strong></h4><br> {{user.gpa}} 
-               </li>
-               <li class="col-md-2">
-                   <h4><strong>Language:</strong></h4><br> {{user.language}} <br>
-               </li>
-               <!--<li class="col-md-3">
-                   <h4><strong>Team:</strong></h4><br> {{user.teams}} <br>
-               </li>-->
-               <li class="col-md-3">
-                  <h4><strong>Description:</strong></h4><br> {{user.teamDescription}} <br>
-              </li>
-            </ul>
-          </div>
-        </span>
-        <p ng-show="invitelist.length == 0" style="font-size:16px;">There is no Invite List.</p>
-        <br>
-       </div>
-      </div>
-    </div>
 
 
-    <!-- Requests -->
-    <div class="container">
-      <!--show current members and current requests-->
-      <br><hr>
-      <h2><strong>Requests to be a Team Member:</strong></h2>
-      <span ng-repeat="member in requestMemberList">
-          <div class="row custom_center_box_christie">
-            <ul>
-              <li class="col-md-12">
-              <button><span class="glyphicon glyphicon-ok-circle" aria-hidden="true" ng-click="acceptRequest(member.memberID, member)"></span></button>
-               <strong>member name:</strong><br> {{member.name}} 
-              </li>
-              <!--<li class="col-md-4">
-                <strong>member description:</strong><br> {{oneMember.description}} <br>
-              </li>
-              <li class="col-md-4">
-                <strong>Language:</strong><br> {{oneMember.language}} <br>
-              </li>-->
-      </ul>
-    </div>
-    </span>
-  </div>
-  <div class="container">
-    <!--filt by name-->
-    <h3>Search groupmates you want to invite:</h3> <input ng-model='nameToInvite'>
-    <p></p>
-    <button class='btn btn-primary' ng-click='filterName()'>Filter by Name</button>
-    <!--filt by preference-->
-    <button class='btn btn-primary' ng-click='filterPre()'>Show Suggested Waiting Users</button>
-  </div>
 
-  <div class="container" ng-show="filtered_result_visibility">
-    <!--filt result and invite button-->
-    <br><br>
-    <h3><strong>Suggested Member List:</strong></h3>
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-    <span ng-repeat="user in filtedUsers">
-      <div class="row custom_center_box_christie">
-          <span class="col-md-1">
-            <br><br><br>
-          <a class='btn btn-primary ' ng-click='inviteUser(user.$id,user)'>invite</a>
-          </span>
-          <span class="col-md-3">
-          <h3><strong>Name:</strong></h3><br><h4> {{user.name}}  </h4><br>
-          </span>
-          <span class="col-md-2">
-          <h3><strong>GPA:</strong></h3><br><h4> {{user.gpa}} </h4><br>
-          </span >
-          <span class="col-md-2">
-          <h3><strong>Language:</strong></h3><br><h4> {{user.language}} </h4><br>
-          </span>
-          <span class="col-md-4">
-          <h3><strong>Description:</strong></h3><br><h4> {{user.teamDescription}} </h4><br>
-          </span>
-        
-      </div>
-    </span>
-    </div>
-  </div>
+
+
+
+
+
 
   </div>
  
