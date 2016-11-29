@@ -17,9 +17,9 @@ angular.module('leader-app', ['firebase'])
         $scope.currentTeamSize = 1;
 
         // this part is for announcements (readAnn.html)
-		var refPath = "events/" + $scope.eventid + "/announcements";
-		$scope.announcements = [];
-		$scope.announcements = $firebaseArray(firebase.database().ref(refPath));
+        var refPath = "events/" + $scope.eventid + "/announcements";
+        $scope.announcements = [];
+        $scope.announcements = $firebaseArray(firebase.database().ref(refPath));
 
         // this part is for Evet description (description.html)
         var refPath = "events/" + $scope.eventid + "/admin";
@@ -34,7 +34,7 @@ angular.module('leader-app', ['firebase'])
                 $scope.param.admin = $scope.param.admin;
                 adminRefPath = "users/" + $scope.param.admin;
                 retrieveOnceFirebase(firebase, adminRefPath, function (adminData) {
-                //	console.log(adminData.child("name").val());
+                    //	console.log(adminData.child("name").val());
                     if (adminData.child("name").val() != null) {
                         $scope.adminName = adminData.child("name").val();
                         //$scope.adminName = $scope.adminData.name;
@@ -96,23 +96,39 @@ angular.module('leader-app', ['firebase'])
             }
         });
 
-        $scope.members = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/members'));
-
-        $scope.members.$loaded()
+        $scope.members = [];
+        var users = $firebaseArray(firebase.database().ref('users'));
+        $scope.memberIds = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/members/'));
+        $scope.memberIds.$loaded()
             .then(function (data) {
-                // console.log("data: ");
-                // console.log(data);
-                angular.forEach(data, function (oneMember, key) {
-                    console.log("oneMember: ");
-                    console.log(oneMember);
-                    $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
-                        oneMember.name = resultFromCallback;
-                        $scope.$apply();
-                        $scope.currentTeamSize += 1;
-                        console.log("a member name: " + oneMember.name);
-                    });
-                });
-            });
+                users.$loaded()
+                    .then(function (data2) {
+                        for (var i = $scope.memberIds.length - 1; i >= 0; i--) {
+                            for (var j = users.length - 1; j >= 0; j--) {
+                                if ($scope.memberIds[i].memberID == users[j].$id) {
+                                    $scope.members.push(users[j]);
+                                    console.log(j);
+                                }
+                            }
+                        }
+                        $scope.currentTeamSize = $scope.members.length;
+
+                        //update waitlist
+                        var waitlist = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/waitlist/'))
+                        waitlist.$loaded()
+                            .then(function (data2){
+                                for (var i = waitlist.length - 1; i >= 0; i--){
+                                    for (var j = $scope.members.length - 1; j >=0; j--){
+                                        if ($scope.members[j].$id == waitlist[i].uid){
+                                            console.log('update wait list: ' + waitlist[i].uid)
+                                            waitlist.splice(waitlist.indexOf(waitlist[i].uid), 1);
+                                            waitlist.$save();
+                                        }
+                                    }
+                                }
+                            })
+                    })
+            })
 
         $scope.getUserNameByID = function (currentUserId, callback) {
             var RefPath = "users/" + currentUserId;
@@ -123,6 +139,7 @@ angular.module('leader-app', ['firebase'])
                 }
             });
         }
+
 
         $scope.waitListUsers = [];
         var users = $firebaseArray(firebase.database().ref('users'));
@@ -160,26 +177,25 @@ angular.module('leader-app', ['firebase'])
             teamData.$loaded()
                 .then(function (test) {
                     console.log("push" + uid);
-                    if(teamData.members == null){
+                    if (teamData.members == null) {
                         teamData.members = [];
-                        teamData.members.push({memberID: uid });
-                    }else{
-                        teamData.members.push({memberID: uid });
+                        teamData.members.push({ memberID: uid });
+                    } else {
+                        teamData.members.push({ memberID: uid });
                     }
                     teamData.$save()
-                        .then(function(eee){
+                        .then(function (eee) {
                             angular.forEach(teamData.members, function (oneMember, key) {
                                 console.log("oneMember: ");
                                 console.log(oneMember);
                                 $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
-                                oneMember.name = resultFromCallback;
-                                console.log("a member name: " + oneMember.name);
-                               });
-                             });
-                            $scope.members = teamData.members;
+                                    oneMember.name = resultFromCallback;
+                                    console.log("a member name: " + oneMember.name);
+                                });
+                            });
                         });
                 });
-          
+
             //update user state
             var currentUser = uid;
             var currentUsersRef = firebase.database().ref('users/' + currentUser + '/teams/' + $scope.eventid);
@@ -193,18 +209,8 @@ angular.module('leader-app', ['firebase'])
                     }
                     console.log(userNewTeamObject);
                 });
-            $scope.waitList.$loaded()
-                .then(function (data2) {
-                    console.log('here?');
-                    for (var i = $scope.waitList.length - 1; i >= 0; i--) {
-                        if ( $scope.waitList[i].uid == uid){
-                            $scope.waitList.splice(i, 1);
-                            teamData.waitlist = $scope.waitList;
-                            teamData.$save();
-                        }
-                    }
-                })
-          //  location.reload();
+
+            //  location.reload();
 
         }
 
@@ -216,19 +222,18 @@ angular.module('leader-app', ['firebase'])
             var teamData = $firebaseObject(teamRef);
             teamData.$loaded()
                 .then(function (data) {
-                     $scope.members.splice($scope.members.indexOf(member), 1);
-                     teamData.members = $scope.members;
-                     teamData.$save()
-                        .then(function(eee){
+                    $scope.members.splice($scope.members.indexOf(member), 1);
+                    teamData.members = $scope.members;
+                    teamData.$save()
+                        .then(function (eee) {
                             angular.forEach(teamData.members, function (oneMember, key) {
                                 console.log("oneMember: ");
                                 console.log(oneMember);
                                 $scope.getUserNameByID(oneMember.memberID, function (resultFromCallback) {
-                                oneMember.name = resultFromCallback;
-                                console.log("a member name: " + oneMember.name);
-                               });
-                             });
-                            $scope.members = teamData.members;
+                                    oneMember.name = resultFromCallback;
+                                    console.log("a member name: " + oneMember.name);
+                                });
+                            });
                         });
                 });
 
@@ -390,7 +395,7 @@ angular.module('leader-app', ['firebase'])
                             $scope.filtedUsers.push(u[k]);
 
 
-                $scope.filtered_result_visibility =true;
+                            $scope.filtered_result_visibility = true;
 
                         }
                     }
@@ -423,7 +428,7 @@ angular.module('leader-app', ['firebase'])
                         }
                     }
                 })
-                $scope.filtered_result_visibility =true;
+            $scope.filtered_result_visibility = true;
         }
 
 

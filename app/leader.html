@@ -178,7 +178,8 @@
             <ul id="memberList">
               <li class="col-md-4">
                 <button><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="kickMember(oneMember, oneMember.memberID)"></span></button>
-                <strong>member name:</strong><br> {{oneMember.name}}
+                <p></p>
+                <td><a href="profile.html?q={{oneMember.memberID}}">{{oneMember.name}}</a></td>
               </li>
               <li class="col-md-4">
                 <strong>member description:</strong><br> {{oneMember.description}} <br>
