@@ -159,6 +159,13 @@ event_item_month{
     margin: 40px 0px;
 }
 
+.custom_center_box_christie{
+    border: 3px solid #f1f1f1;
+    box-shadow: 3px 3px 5px #ccc;
+    padding: 10px 10px;
+    margin: 40px 0px;
+}
+
 .custom_center_box_title{
     font-size: 26px;
 }

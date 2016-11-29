@@ -314,7 +314,22 @@ angular.module('leader-app', ['firebase'])
                         .then(function (data) {
                             console.log(data);
                             userInviteList.teamName = $scope.displayName;
-                            userInviteList.$save();
+                            userInviteList.$save()
+                                .then(function(data22222){
+                                    var users3 = $firebaseArray(firebase.database().ref('users'));
+                                    users3.$loaded()
+                                        .then(function(daddddeeee){
+                                            $scope.invitelist=[];
+                                                  for (var i = $scope.inviteListId.length - 1; i >= 0; i--) {
+                                                    for (var j = users3.length - 1; j >= 0; j--) {
+                                                        if ($scope.inviteListId[i].$id == users3[j].$id) {
+                                    $scope.invitelist.push(users3[j]);
+                                }
+                            }
+                        }
+                                        });
+                              
+                                });
                         });
 
                 })
@@ -438,7 +453,7 @@ angular.module('leader-app', ['firebase'])
             var teamData = $firebaseObject(teamRef);
 
             $scope.u = $scope.waitListUsers;
-            console.log($scope.u[1].$id)
+           // console.log($scope.u[1].$id)
             console.log($scope.nameToInvite);
 
 
