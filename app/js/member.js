@@ -79,21 +79,21 @@ angular.module('member-app', ['firebase'])
         var users = $firebaseArray(firebase.database().ref('users'));
         $scope.memberIds = $firebaseArray(firebase.database().ref('events/' + $scope.eventid + '/teams/' + $scope.teamid + '/members/'));
         $scope.memberIds.$loaded()
-            .then(function(data){
+            .then(function (data) {
                 users.$loaded()
-                    .then(function(data2){
-                        for( var i = $scope.memberIds.length - 1; i >= 0; i--){
-                            for ( var j = users.length - 1; j >= 0; j--){
-                                if ($scope.memberIds[i].memberID == users[j].$id){
+                    .then(function (data2) {
+                        for (var i = $scope.memberIds.length - 1; i >= 0; i--) {
+                            for (var j = users.length - 1; j >= 0; j--) {
+                                if ($scope.memberIds[i].memberID == users[j].$id) {
                                     $scope.members.push(users[j]);
                                     console.log(j);
                                 }
                             }
                         }
-                         $scope.currentTeamSize = $scope.members.length;
+                        $scope.currentTeamSize = $scope.members.length + 1;
                     })
             })
-            
+
         $scope.getUserNameByID = function (currentUserId, callback) {
             var RefPath = "users/" + currentUserId;
             retrieveOnceFirebase(firebase, RefPath, function (currentUserData) {
