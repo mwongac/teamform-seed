@@ -222,7 +222,7 @@
                             <h4><strong>GPA:</strong></h4><br> {{user.gpa}} 
                         </li>
                         <li class="col-md-2">
-                            <h4><strong>Preference:</strong></h4><br> <span ng-repeat="p in user.language">{{p}}{{$last ? '' : ', '}} </span<br>
+                            <h4><strong>Preference:</strong></h4><br> <span ng-repeat="p in user.language">{{p}}{{$last ? '' : ', '}} </span><br>
                         </li>
                         <!--<li class="col-md-3">
                             <h4><strong>Team:</strong></h4><br> {{user.teams}} <br>
@@ -251,13 +251,13 @@
                   <p></p>
                  
                   <!--filt by preference-->
-                  <button class='btn btn-primary' ng-click='filterPre()'>Show Suggested Waiting Users</button>
+                  <button class='btn btn-primary' ng-click='filterPre()'>Show Suggested Users</button>
                 </div>
 
                 <div class="container" ng-hide="filtered_result_visibility">
                 <!--filt result and invite button-->
                 <br><br>
-                <h3>Member Wait List:</h3>
+                <h3>Users without group in this event:</h3>
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                 
@@ -273,7 +273,7 @@
                       <h4>GPA:</h4><br><p> {{user.gpa}} </p><br>
                       </span >
                       <span class="col-md-2">
-                      <h4>Language:</h4><br><p> {{user.language}} </p><br>
+                      <h4>Language:</h4><br><p> <span ng-repeat="p in user.language">{{p}}{{$last ? '' : ', '}} </span></p><br>
                       </span>
                       <span class="col-md-4">
                       <h4>Description:</h4><br><p> {{user.teamDescription}} </p><br>
